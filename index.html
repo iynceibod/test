@@ -2,67 +2,66 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Тестовая форма</title>
+    <title>Тестовая фор1231312ма</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
-            background: #f5f5f5;
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        input, select, button {
-            width: 100%;
-            padding: 10px;
-            margin-top: 5px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-        button {
-            background: #0088cc;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
+        body { font-family: Arial; padding: 20px; }
+        input, button { width: 100%; padding: 10px; margin: 5px 0; }
+        button { background: #0088cc; color: white; border: none; }
+        #debug { margin-top: 20px; color: red; }
     </style>
 </head>
 <body>
     <h2>Тестовая форма</h2>
-    
-    <div class="form-group">
-        <label>Текстовое поле:</label>
-        <input type="text" id="text-field" placeholder="Введите текст">
-    </div>
-    
-    <div class="form-group">
-        <label>Числовое поле:</label>
-        <input type="number" id="number-field" placeholder="Введите число">
-    </div>
-    
-    <div class="form-group">
-        <label>Выпадающий список:</label>
-        <select id="choice-field">
-            <option value="option1">Вариант 1</option>
-            <option value="option2">Вариант 2</option>
-        </select>
-    </div>
-    
+    <input type="text" id="test-input" placeholder="Введите текст">
     <button onclick="sendData()">Отправить</button>
+    
+    <div id="debug"></div>
 
     <script>
         function sendData() {
-            const data = {
-                text: document.getElementById("text-field").value,
-                number: document.getElementById("number-field").value,
-                choice: document.getElementById("choice-field").value
-            };
+            const inputValue = document.getElementById("test-input").value;
+            const debugDiv = document.getElementById("debug");
             
-            Telegram.WebApp.sendData(JSON.stringify(data));
-            Telegram.WebApp.close();
+            try {
+                debugDiv.innerHTML = "Пытаемся отправить данные...";
+                
+                if (!inputValue) {
+                    debugDiv.innerHTML = "Ошибка: поле пустое!";
+                    return;
+                }
+                
+                // Проверяем инициализацию WebApp
+                if (!window.Telegram || !Telegram.WebApp) {
+                    debugDiv.innerHTML = "Telegram.WebApp не доступен!";
+                    return;
+                }
+                
+                Telegram.WebApp.sendData(JSON.stringify({
+                    text: inputValue
+                }));
+                
+                debugDiv.innerHTML = "Данные отправлены! Закрываем через 1 сек...";
+                
+                setTimeout(() => {
+                    Telegram.WebApp.close();
+                }, 1000);
+                
+            } catch (e) {
+                debugDiv.innerHTML = "Ошибка: " + e.message;
+            }
         }
+        
+        // Проверяем загрузку Telegram.WebApp при старте
+        document.addEventListener("DOMContentLoaded", () => {
+            const debugDiv = document.getElementById("debug");
+            if (window.Telegram && Telegram.WebApp) {
+                debugDiv.innerHTML = "Telegram.WebApp готов к работе!";
+                Telegram.WebApp.expand(); // Раскрываем на весь экран
+            } else {
+                debugDiv.innerHTML = "Telegram.WebApp НЕ обнаружен!";
+            }
+        });
     </script>
 </body>
 </html>
