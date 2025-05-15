@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация | Secure Chief</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2C3E50;
+            --secondary: #3498DB;
+            --accent: #E74C3C;
+            --light: #ECF0F1;
+            --dark: #1A1A1A;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, #1A2A3A, #2C3E50);
+            color: var(--light);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 500px;
+            width: 100%;
+            background: rgba(26, 42, 58, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, #3498DB, #E74C3C);
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header p {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--light);
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus {
+            border-color: var(--secondary);
+            outline: none;
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+
+        .form-group .error {
+            color: var(--accent);
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(to right, #3498DB, #E74C3C);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .logo img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--secondary);
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 12px;
+            opacity: 0.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <img src="https://i.imgur.com/4HluZKV.jpeg" alt="Secure Chief Logo"> 
+        </div>
+        
+        <div class="header">
+            <h1>Регистрация в Secure Chief</h1>
+            <p>Заполните форму, чтобы присоединиться к нашей команде</p>
+        </div>
+
+        <div class="form-group">
+            <label for="nick">Игровой ник (например, Ivan_Prosto)</label>
+            <input type="text" id="nick" placeholder="Введите ваш ник" required>
+            <div class="error" id="nick-error">Ник должен содержать хотя бы один символ</div>
+        </div>
+
+        <div class="form-group">
+            <label for="fa">Ссылка на форумный аккаунт</label>
+            <input type="url" id="fa" placeholder="https://forum.arizona-guard.com/user123" required>
+            <div class="error" id="fa-error">Введите корректную ссылку</div>
+        </div>
+
+        <div class="form-group">
+            <label for="discord">Discord ID (например, user#1234)</label>
+            <input type="text" id="discord" placeholder="Ваш Discord ID" required>
+            <div class="error" id="discord-error">Введите корректный Discord ID</div>
+        </div>
+
+        <div class="form-group">
+            <label for="age">Ваш возраст</label>
+            <input type="number" id="age" placeholder="18" required>
+        </div>
+
+        <div class="form-group">
+            <label for="city">Город и страна проживания</label>
+            <input type="text" id="city" placeholder="Москва, Россия" required>
+            <div class="error" id="city-error">Введите ваш город</div>
+        </div>
+
+        <button class="submit-btn" id="submit-btn">Отправить заявку</button>
+
+        <div class="footer">
+            Secure Chief Moderation System © 2025
+        </div>
+    </div>
+
+    <script>
+        const submitBtn = document.getElementById('submit-btn');
+        const inputs = document.querySelectorAll('input');
+        
+        // Валидация при вводе
+        inputs.forEach(input => {
+            input.addEventListener('input', () => {
+                validateInput(input);
+            });
+        });
+
+        // Основная функция валидации
+        function validateInput(input) {
+            const errorElement = document.getElementById(`${input.id}-error`);
+            
+            if (input.value.trim() === '') {
+                errorElement.style.display = 'block';
+                return false;
+            }
+            
+            // Специфичные проверки
+            if (input.id === 'age') {
+                const age = parseInt(input.value);
+                if (age < 16 || age > 99) {
+                    errorElement.style.display = 'block';
+                    return false;
+                }
+            }
+            
+            if (input.id === 'discord' && !input.value.includes('#')) {
+                errorElement.style.display = 'block';
+                return false;
+            }
+            
+            errorElement.style.display = 'none';
+            return true;
+        }
+
+        // Отправка данных
+        submitBtn.addEventListener('click', () => {
+            let isValid = true;
+            
+            inputs.forEach(input => {
+                if (!validateInput(input)) {
+                    isValid = false;
+                }
+            });
+            
+            if (isValid) {
+                const formData = {
+                    nick: document.getElementById('nick').value,
+                    fa: document.getElementById('fa').value,
+                    discord_id: document.getElementById('discord').value,
+                    age: document.getElementById('age').value,
+                    city: document.getElementById('city').value
+                };
+                
+                // Показываем анимацию загрузки
+                submitBtn.innerHTML = '<span class="loader"></span> Отправка...';
+                submitBtn.disabled = true;
+                
+                // Отправляем данные в Telegram
+                Telegram.WebApp.sendData(JSON.stringify(formData));
+                
+                // Закрываем WebApp через 1 секунду (для плавности)
+                setTimeout(() => {
+                    Telegram.WebApp.close();
+                }, 1000);
+            }
+        });
+    </script>
+</body>
+</html>
