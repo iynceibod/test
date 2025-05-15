@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Регистрация | Secure Chief</title>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -193,77 +192,5 @@
             Secure Chief Moderation System © 2025
         </div>
     </div>
-
-    <script>
-        const submitBtn = document.getElementById('submit-btn');
-        const inputs = document.querySelectorAll('input');
-        
-        // Валидация при вводе
-        inputs.forEach(input => {
-            input.addEventListener('input', () => {
-                validateInput(input);
-            });
-        });
-
-        // Основная функция валидации
-        function validateInput(input) {
-            const errorElement = document.getElementById(`${input.id}-error`);
-            
-            if (input.value.trim() === '') {
-                errorElement.style.display = 'block';
-                return false;
-            }
-            
-            // Специфичные проверки
-            if (input.id === 'age') {
-                const age = parseInt(input.value);
-                if (age < 16 || age > 99) {
-                    errorElement.style.display = 'block';
-                    return false;
-                }
-            }
-            
-            if (input.id === 'discord' && !input.value.includes('#')) {
-                errorElement.style.display = 'block';
-                return false;
-            }
-            
-            errorElement.style.display = 'none';
-            return true;
-        }
-
-        // Отправка данных
-        submitBtn.addEventListener('click', () => {
-            let isValid = true;
-            
-            inputs.forEach(input => {
-                if (!validateInput(input)) {
-                    isValid = false;
-                }
-            });
-            
-            if (isValid) {
-                const formData = {
-                    nick: document.getElementById('nick').value,
-                    fa: document.getElementById('fa').value,
-                    discord_id: document.getElementById('discord').value,
-                    age: document.getElementById('age').value,
-                    city: document.getElementById('city').value
-                };
-                
-                // Показываем анимацию загрузки
-                submitBtn.innerHTML = '<span class="loader"></span> Отправка...';
-                submitBtn.disabled = true;
-                
-                // Отправляем данные в Telegram
-                Telegram.WebApp.sendData(JSON.stringify(formData));
-                
-                // Закрываем WebApp через 1 секунду (для плавности)
-                setTimeout(() => {
-                    Telegram.WebApp.close();
-                }, 1000);
-            }
-        });
-    </script>
 </body>
 </html>
