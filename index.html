@@ -20,166 +20,11 @@
       position: relative;
     }
 
-    /* Простые листики */
-    .leaf {
-      position: absolute;
-      opacity: 0.3;
-      animation: sway 4s ease-in-out infinite;
-    }
-
-    .leaf1 {
-      top: 15%;
-      left: 10%;
-      font-size: 30px;
-      animation-delay: 0s;
-    }
-
-    .leaf2 {
-      top: 25%;
-      right: 15%;
-      font-size: 25px;
-      animation-delay: 1s;
-    }
-
-    .leaf3 {
-      bottom: 20%;
-      left: 5%;
-      font-size: 28px;
-      animation-delay: 2s;
-    }
-
-    .leaf4 {
-      bottom: 30%;
-      right: 10%;
-      font-size: 32px;
-      animation-delay: 3s;
-    }
-
-    @keyframes sway {
-      0%, 100% { transform: rotate(0deg); }
-      50% { transform: rotate(10deg); }
-    }
-
     .container {
       max-width: 400px;
       margin: 40px auto;
       position: relative;
       z-index: 10;
-    }
-
-    /* Юрская пальма */
-    .jurassic-palm {
-      position: absolute;
-      top: -30px;
-      right: -60px;
-      z-index: 5;
-      transform: rotate(15deg);
-    }
-
-    .palm-trunk {
-      width: 12px;
-      height: 80px;
-      background: linear-gradient(to bottom, #8B4513, #A0522D);
-      border-radius: 6px;
-      position: relative;
-      margin: 0 auto;
-    }
-
-    .palm-trunk::before {
-      content: '';
-      position: absolute;
-      width: 8px;
-      height: 8px;
-      background: #654321;
-      border-radius: 50%;
-      left: 2px;
-      top: 20px;
-    }
-
-    .palm-trunk::after {
-      content: '';
-      position: absolute;
-      width: 6px;
-      height: 6px;
-      background: #654321;
-      border-radius: 50%;
-      right: 2px;
-      top: 45px;
-    }
-
-    .palm-leaves {
-      position: relative;
-      top: -10px;
-    }
-
-    .palm-leaf {
-      position: absolute;
-      width: 60px;
-      height: 8px;
-      background: linear-gradient(to right, #228B22, #32CD32, #228B22);
-      border-radius: 50px;
-      transform-origin: 10px center;
-    }
-
-    .palm-leaf:nth-child(1) {
-      transform: rotate(-60deg);
-      top: -5px;
-      left: -25px;
-    }
-
-    .palm-leaf:nth-child(2) {
-      transform: rotate(-30deg);
-      top: -8px;
-      left: -20px;
-    }
-
-    .palm-leaf:nth-child(3) {
-      transform: rotate(0deg);
-      top: -10px;
-      left: -25px;
-    }
-
-    .palm-leaf:nth-child(4) {
-      transform: rotate(30deg);
-      top: -8px;
-      left: -20px;
-    }
-
-    .palm-leaf:nth-child(5) {
-      transform: rotate(60deg);
-      top: -5px;
-      left: -25px;
-    }
-
-    .palm-leaf:nth-child(6) {
-      transform: rotate(90deg);
-      top: 0px;
-      left: -15px;
-    }
-
-    /* Анимация покачивания пальмы */
-    .jurassic-palm {
-      animation: palmSway 6s ease-in-out infinite;
-    }
-
-    @keyframes palmSway {
-      0%, 100% { transform: rotate(15deg); }
-      50% { transform: rotate(20deg); }
-    }
-
-    /* Левая пальма */
-    .jurassic-palm-left {
-      position: absolute;
-      top: -20px;
-      left: -50px;
-      z-index: 5;
-      transform: rotate(-10deg) scale(0.8);
-      animation: palmSwayLeft 7s ease-in-out infinite;
-    }
-
-    @keyframes palmSwayLeft {
-      0%, 100% { transform: rotate(-10deg) scale(0.8); }
-      50% { transform: rotate(-15deg) scale(0.8); }
     }
 
     .form-wrapper {
@@ -205,9 +50,17 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 24px;
+      font-size: 28px;
       color: white;
       font-weight: bold;
+      position: relative;
+      animation: bounce 2s ease-in-out infinite;
+    }
+
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+      40% { transform: translateY(-10px); }
+      60% { transform: translateY(-5px); }
     }
 
     .title {
@@ -349,61 +202,14 @@
       .title {
         font-size: 22px;
       }
-      
-      .leaf {
-        font-size: 20px !important;
-      }
-
-      .jurassic-palm {
-        right: -40px;
-        top: -20px;
-        transform: rotate(15deg) scale(0.7);
-      }
-
-      .jurassic-palm-left {
-        left: -35px;
-        top: -15px;
-        transform: rotate(-10deg) scale(0.6);
-      }
     }
   </style>
 </head>
 <body>
-  <!-- Простые листики джунглей -->
-  <div class="leaf leaf1">🌿</div>
-  <div class="leaf leaf2">🍃</div>
-  <div class="leaf leaf3">🌱</div>
-  <div class="leaf leaf4">🌿</div>
-
   <div class="container">
-    <!-- Юрские пальмы -->
-    <div class="jurassic-palm">
-      <div class="palm-trunk"></div>
-      <div class="palm-leaves">
-        <div class="palm-leaf"></div>
-        <div class="palm-leaf"></div>
-        <div class="palm-leaf"></div>
-        <div class="palm-leaf"></div>
-        <div class="palm-leaf"></div>
-        <div class="palm-leaf"></div>
-      </div>
-    </div>
-
-    <div class="jurassic-palm-left">
-      <div class="palm-trunk"></div>
-      <div class="palm-leaves">
-        <div class="palm-leaf"></div>
-        <div class="palm-leaf"></div>
-        <div class="palm-leaf"></div>
-        <div class="palm-leaf"></div>
-        <div class="palm-leaf"></div>
-        <div class="palm-leaf"></div>
-      </div>
-    </div>
-
     <div class="form-wrapper">
       <div class="header">
-        <div class="dino-icon">YM</div>
+        <div class="dino-icon">🦕</div>
         <h1 class="title">YAVA MODERATION</h1>
         <p class="subtitle">Форма регистрации</p>
       </div>
