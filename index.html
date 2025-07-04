@@ -14,10 +14,50 @@
 
     body {
       font-family: 'Nunito', sans-serif;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: linear-gradient(180deg, #87CEEB 0%, #98FB98 40%, #228B22 100%);
       min-height: 100vh;
       padding: 20px;
       position: relative;
+    }
+
+    /* Простые листики */
+    .leaf {
+      position: absolute;
+      opacity: 0.3;
+      animation: sway 4s ease-in-out infinite;
+    }
+
+    .leaf1 {
+      top: 15%;
+      left: 10%;
+      font-size: 30px;
+      animation-delay: 0s;
+    }
+
+    .leaf2 {
+      top: 25%;
+      right: 15%;
+      font-size: 25px;
+      animation-delay: 1s;
+    }
+
+    .leaf3 {
+      bottom: 20%;
+      left: 5%;
+      font-size: 28px;
+      animation-delay: 2s;
+    }
+
+    .leaf4 {
+      bottom: 30%;
+      right: 10%;
+      font-size: 32px;
+      animation-delay: 3s;
+    }
+
+    @keyframes sway {
+      0%, 100% { transform: rotate(0deg); }
+      50% { transform: rotate(10deg); }
     }
 
     .container {
@@ -27,32 +67,128 @@
       z-index: 10;
     }
 
-    .form-wrapper {
-      background: rgba(255, 255, 255, 0.95);
-      border-radius: 25px;
-      padding: 35px;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-      backdrop-filter: blur(15px);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      position: relative;
-      overflow: hidden;
+    /* Юрская пальма */
+    .jurassic-palm {
+      position: absolute;
+      top: -30px;
+      right: -60px;
+      z-index: 5;
+      transform: rotate(15deg);
     }
 
-    .form-wrapper::before {
+    .palm-trunk {
+      width: 12px;
+      height: 80px;
+      background: linear-gradient(to bottom, #8B4513, #A0522D);
+      border-radius: 6px;
+      position: relative;
+      margin: 0 auto;
+    }
+
+    .palm-trunk::before {
       content: '';
       position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-      animation: shimmer 3s infinite;
-      pointer-events: none;
+      width: 8px;
+      height: 8px;
+      background: #654321;
+      border-radius: 50%;
+      left: 2px;
+      top: 20px;
     }
 
-    @keyframes shimmer {
-      0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
-      100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+    .palm-trunk::after {
+      content: '';
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: #654321;
+      border-radius: 50%;
+      right: 2px;
+      top: 45px;
+    }
+
+    .palm-leaves {
+      position: relative;
+      top: -10px;
+    }
+
+    .palm-leaf {
+      position: absolute;
+      width: 60px;
+      height: 8px;
+      background: linear-gradient(to right, #228B22, #32CD32, #228B22);
+      border-radius: 50px;
+      transform-origin: 10px center;
+    }
+
+    .palm-leaf:nth-child(1) {
+      transform: rotate(-60deg);
+      top: -5px;
+      left: -25px;
+    }
+
+    .palm-leaf:nth-child(2) {
+      transform: rotate(-30deg);
+      top: -8px;
+      left: -20px;
+    }
+
+    .palm-leaf:nth-child(3) {
+      transform: rotate(0deg);
+      top: -10px;
+      left: -25px;
+    }
+
+    .palm-leaf:nth-child(4) {
+      transform: rotate(30deg);
+      top: -8px;
+      left: -20px;
+    }
+
+    .palm-leaf:nth-child(5) {
+      transform: rotate(60deg);
+      top: -5px;
+      left: -25px;
+    }
+
+    .palm-leaf:nth-child(6) {
+      transform: rotate(90deg);
+      top: 0px;
+      left: -15px;
+    }
+
+    /* Анимация покачивания пальмы */
+    .jurassic-palm {
+      animation: palmSway 6s ease-in-out infinite;
+    }
+
+    @keyframes palmSway {
+      0%, 100% { transform: rotate(15deg); }
+      50% { transform: rotate(20deg); }
+    }
+
+    /* Левая пальма */
+    .jurassic-palm-left {
+      position: absolute;
+      top: -20px;
+      left: -50px;
+      z-index: 5;
+      transform: rotate(-10deg) scale(0.8);
+      animation: palmSwayLeft 7s ease-in-out infinite;
+    }
+
+    @keyframes palmSwayLeft {
+      0%, 100% { transform: rotate(-10deg) scale(0.8); }
+      50% { transform: rotate(-15deg) scale(0.8); }
+    }
+
+    .form-wrapper {
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(10px);
+      border: 2px solid rgba(255, 255, 255, 0.2);
     }
 
     .header {
@@ -69,19 +205,16 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 28px;
+      font-size: 24px;
       color: white;
       font-weight: bold;
-      position: relative;
-      box-shadow: 0 4px 15px rgba(34, 197, 94, 0.3);
     }
 
     .title {
-      font-size: 26px;
-      color: #4C1D95;
+      font-size: 24px;
+      color: #2D5016;
       font-weight: 700;
       margin-bottom: 5px;
-      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
     .subtitle {
@@ -104,22 +237,20 @@
 
     .form-group input {
       width: 100%;
-      padding: 15px 20px;
+      padding: 12px 16px;
       border: 2px solid #E5E7EB;
-      border-radius: 15px;
+      border-radius: 12px;
       font-size: 16px;
       font-family: 'Nunito', sans-serif;
       transition: all 0.3s ease;
-      background: rgba(255, 255, 255, 0.9);
-      position: relative;
+      background: rgba(255, 255, 255, 0.8);
     }
 
     .form-group input:focus {
       outline: none;
-      border-color: #667eea;
-      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-      background: rgba(255, 255, 255, 1);
-      transform: translateY(-2px);
+      border-color: #22C55E;
+      box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
+      background: rgba(255, 255, 255, 0.95);
     }
 
     .form-group input.invalid {
@@ -144,39 +275,23 @@
 
     .submit-btn {
       width: 100%;
-      padding: 16px;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 14px;
+      background: linear-gradient(135deg, #22C55E 0%, #16A34A 100%);
       color: white;
       border: none;
-      border-radius: 15px;
+      border-radius: 12px;
       font-size: 16px;
       font-weight: 600;
       font-family: 'Nunito', sans-serif;
       cursor: pointer;
       transition: all 0.3s ease;
-      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+      box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
       position: relative;
-      overflow: hidden;
-    }
-
-    .submit-btn::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-      transition: left 0.5s;
-    }
-
-    .submit-btn:hover::before {
-      left: 100%;
     }
 
     .submit-btn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 25px rgba(102, 126, 234, 0.5);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(34, 197, 94, 0.4);
     }
 
     .submit-btn:active {
@@ -189,6 +304,7 @@
       transform: none;
     }
 
+    /* Анимация загрузки */
     .loading::after {
       content: '';
       position: absolute;
@@ -208,6 +324,7 @@
       100% { transform: rotate(360deg); }
     }
 
+    /* Успешная отправка */
     .success-message {
       background: #22C55E;
       color: white;
@@ -219,15 +336,7 @@
       box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
     }
 
-    .debug-info {
-      background: #f3f4f6;
-      padding: 10px;
-      border-radius: 8px;
-      margin: 10px 0;
-      font-size: 12px;
-      color: #6b7280;
-    }
-
+    /* Респонсив */
     @media (max-width: 480px) {
       .container {
         margin: 20px auto;
@@ -240,22 +349,63 @@
       .title {
         font-size: 22px;
       }
+      
+      .leaf {
+        font-size: 20px !important;
+      }
+
+      .jurassic-palm {
+        right: -40px;
+        top: -20px;
+        transform: rotate(15deg) scale(0.7);
+      }
+
+      .jurassic-palm-left {
+        left: -35px;
+        top: -15px;
+        transform: rotate(-10deg) scale(0.6);
+      }
     }
   </style>
 </head>
 <body>
+  <!-- Простые листики джунглей -->
+  <div class="leaf leaf1">🌿</div>
+  <div class="leaf leaf2">🍃</div>
+  <div class="leaf leaf3">🌱</div>
+  <div class="leaf leaf4">🌿</div>
+
   <div class="container">
+    <!-- Юрские пальмы -->
+    <div class="jurassic-palm">
+      <div class="palm-trunk"></div>
+      <div class="palm-leaves">
+        <div class="palm-leaf"></div>
+        <div class="palm-leaf"></div>
+        <div class="palm-leaf"></div>
+        <div class="palm-leaf"></div>
+        <div class="palm-leaf"></div>
+        <div class="palm-leaf"></div>
+      </div>
+    </div>
+
+    <div class="jurassic-palm-left">
+      <div class="palm-trunk"></div>
+      <div class="palm-leaves">
+        <div class="palm-leaf"></div>
+        <div class="palm-leaf"></div>
+        <div class="palm-leaf"></div>
+        <div class="palm-leaf"></div>
+        <div class="palm-leaf"></div>
+        <div class="palm-leaf"></div>
+      </div>
+    </div>
+
     <div class="form-wrapper">
       <div class="header">
-        <div class="dino-icon">🌴</div>
+        <div class="dino-icon">YM</div>
         <h1 class="title">YAVA MODERATION</h1>
         <p class="subtitle">Форма регистрации</p>
-      </div>
-      
-      <div id="debug-info" class="debug-info" style="display: none;">
-        <div>Telegram WebApp доступен: <span id="tg-status">Проверяем...</span></div>
-        <div>Версия: <span id="tg-version">-</span></div>
-        <div>Платформа: <span id="tg-platform">-</span></div>
       </div>
       
       <form id="regForm">
@@ -274,23 +424,23 @@
         <div class="form-group">
           <label for="discord_id">Discord ID</label>
           <input type="text" id="discord_id" placeholder="123456789012345678" required>
-          <div class="error-message" id="discord-error">Discord ID должен состоять только из цифр</div>
+          <div class="error-message" id="discord-error">Discord ID должен содержать только цифры (17-19 символов)</div>
         </div>
         
         <div class="form-group">
           <label for="vozrast">Возраст</label>
-          <input type="number" id="vozrast" placeholder="Укажите ваш возраст" min="1" max="99" required>
-          <div class="error-message" id="age-error">Возраст должен быть от 1 до 99 лет</div>
+          <input type="number" id="vozrast" placeholder="Сколько вам лет?" min="13" max="99" required>
+          <div class="error-message" id="age-error">Возраст должен быть от 13 до 99 лет</div>
         </div>
         
         <div class="form-group">
-          <label for="gorod">Город проживания</label>
+          <label for="gorod">Местоположение</label>
           <input type="text" id="gorod" placeholder="Страна, город" required>
           <div class="error-message" id="location-error">Поле обязательно для заполнения</div>
         </div>
         
         <button type="submit" class="submit-btn">
-          Зарегистрироваться
+          Отправить заявку
         </button>
       </form>
     </div>
@@ -298,78 +448,47 @@
 
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <script>
-    let tg = null;
-    let isWebAppReady = false;
+    const tg = window.Telegram.WebApp;
     
-    function initTelegramWebApp() {
-      try {
-        if (window.Telegram && window.Telegram.WebApp) {
-          tg = window.Telegram.WebApp;
-          
-          tg.ready();
-          
-          tg.expand();
-          
-          tg.MainButton.setText('ОТПРАВИТЬ ЗАЯВКУ');
-          tg.MainButton.color = '#667eea';
-          tg.MainButton.textColor = '#ffffff';
-          
-          tg.MainButton.onClick(handleMainButtonClick);
-          
-          isWebAppReady = true;
-          
-          updateDebugInfo();
-          
-          console.log('Telegram WebApp инициализирован успешно');
-          
-        } else {
-          throw new Error('Telegram WebApp не найден');
-        }
-      } catch (error) {
-        console.error('Ошибка инициализации Telegram WebApp:', error);
-        
-        document.getElementById('debug-info').style.display = 'block';
-        document.getElementById('tg-status').textContent = 'Ошибка: ' + error.message;
-        
-        const submitBtn = document.querySelector('.submit-btn');
-        submitBtn.style.display = 'block';
-      }
+    if (!tg) {
+      alert("⚠️ Пожалуйста, откройте эту форму через Telegram WebApp!");
+    } else {
+      tg.expand();
     }
-    
-    function updateDebugInfo() {
-      if (tg) {
-        document.getElementById('debug-info').style.display = 'block';
-        document.getElementById('tg-status').textContent = 'Да';
-        document.getElementById('tg-version').textContent = tg.version || 'Неизвестно';
-        document.getElementById('tg-platform').textContent = tg.platform || 'Неизвестно';
-      }
-    }
-    
-    document.addEventListener('DOMContentLoaded', function() {
-      setTimeout(initTelegramWebApp, 100);
-    });
 
     const form = document.getElementById('regForm');
     const submitBtn = form.querySelector('.submit-btn');
     
+    // Массив существующих ников (имитация базы данных)
+    const existingNicks = [
+      'Test_Player',
+      'Admin_User',
+      'Moderator_01',
+      'Player_Test'
+    ];
+
+    // Функции валидации
     function validateNick(nick) {
       if (!nick.includes('_')) {
         return 'Ник должен содержать символ "_"';
+      }
+      if (existingNicks.includes(nick)) {
+        return 'Этот ник уже существует в базе данных';
       }
       return null;
     }
 
     function validateDiscordId(discordId) {
       if (!/^\d{17,19}$/.test(discordId)) {
-        return 'Discord ID должен состоять только из цифр (17-19 цифр)';
+        return 'Discord ID должен содержать только цифры (17-19 символов)';
       }
       return null;
     }
 
     function validateAge(age) {
       const ageNum = parseInt(age);
-      if (isNaN(ageNum) || ageNum < 1 || ageNum > 99) {
-        return 'Возраст должен быть от 1 до 99 лет';
+      if (isNaN(ageNum) || ageNum < 13 || ageNum > 99) {
+        return 'Возраст должен быть от 13 до 99 лет';
       }
       return null;
     }
@@ -403,6 +522,7 @@
     function validateForm() {
       let isValid = true;
       
+      // Валидация ника
       const nick = document.getElementById('nick').value.trim();
       const nickError = validateNick(nick);
       if (nickError) {
@@ -412,6 +532,7 @@
         hideError('nick');
       }
 
+      // Валидация форумного аккаунта
       const fa = document.getElementById('fa').value.trim();
       const faError = validateUrl(fa);
       if (faError) {
@@ -421,6 +542,7 @@
         hideError('fa');
       }
 
+      // Валидация Discord ID
       const discordId = document.getElementById('discord_id').value.trim();
       const discordError = validateDiscordId(discordId);
       if (discordError) {
@@ -430,6 +552,7 @@
         hideError('discord_id');
       }
 
+      // Валидация возраста
       const age = document.getElementById('vozrast').value;
       const ageError = validateAge(age);
       if (ageError) {
@@ -439,6 +562,7 @@
         hideError('vozrast');
       }
 
+      // Валидация местоположения
       const location = document.getElementById('gorod').value.trim();
       if (!location) {
         showError('gorod', 'Поле обязательно для заполнения');
@@ -450,36 +574,7 @@
       return isValid;
     }
 
-    function collectFormData() {
-      return {
-        nick: document.getElementById('nick').value.trim(),
-        fa: document.getElementById('fa').value.trim(),
-        discord_id: document.getElementById('discord_id').value.trim(),
-        vozrast: document.getElementById('vozrast').value,
-        gorod: document.getElementById('gorod').value.trim()
-      };
-    }
-
-    function handleMainButtonClick() {
-      if (!validateForm()) {
-        tg.showAlert('Пожалуйста, исправьте ошибки в форме');
-        return;
-      }
-      
-      const data = collectFormData();
-      
-      try {
-        tg.sendData(JSON.stringify(data));
-        console.log('Данные отправлены:', data);
-        
-        tg.showAlert('Заявка успешно отправлена!');
-        
-      } catch (error) {
-        console.error('Ошибка отправки данных:', error);
-        tg.showAlert('Ошибка при отправке заявки: ' + error.message);
-      }
-    }
-
+    // Валидация в реальном времени
     document.getElementById('nick').addEventListener('blur', function() {
       const nickError = validateNick(this.value.trim());
       if (nickError) {
@@ -490,6 +585,7 @@
     });
 
     document.getElementById('discord_id').addEventListener('input', function() {
+      // Разрешаем только цифры
       this.value = this.value.replace(/[^\d]/g, '');
     });
 
@@ -505,35 +601,45 @@
     form.addEventListener('submit', function(e) {
       e.preventDefault();
       
-      if (!isWebAppReady) {
-        alert('Telegram WebApp не инициализирован. Откройте форму через Telegram бота.');
+      if (!validateForm()) {
         return;
       }
       
-      handleMainButtonClick();
-    });
-    
-    form.addEventListener('input', function() {
-      if (isWebAppReady && tg) {
-        const isValid = validateForm();
-        if (isValid) {
-          tg.MainButton.show();
-        } else {
-          tg.MainButton.hide();
+      // Анимация загрузки
+      submitBtn.classList.add('loading');
+      submitBtn.textContent = 'Отправляем...';
+      submitBtn.disabled = true;
+      
+      const data = {
+        nick: document.getElementById('nick').value.trim(),
+        fa: document.getElementById('fa').value.trim(),
+        discord_id: document.getElementById('discord_id').value.trim(),
+        vozrast: document.getElementById('vozrast').value,
+        gorod: document.getElementById('gorod').value.trim()
+      };
+      
+      setTimeout(() => {
+        try {
+          tg.sendData(JSON.stringify(data));
+          
+          // Показываем успешное сообщение
+          const successDiv = document.createElement('div');
+          successDiv.className = 'success-message';
+          successDiv.innerHTML = 'Заявка успешно отправлена!';
+          form.parentNode.insertBefore(successDiv, form);
+          
+          submitBtn.textContent = 'Готово!';
+          submitBtn.style.background = '#22C55E';
+          submitBtn.classList.remove('loading');
+          
+        } catch (err) {
+          submitBtn.classList.remove('loading');
+          submitBtn.textContent = 'Отправить заявку';
+          submitBtn.disabled = false;
+          alert("Ошибка отправки: " + err.message);
         }
-      }
+      }, 1000);
     });
-    
-    setTimeout(function() {
-      if (isWebAppReady && tg) {
-        const isValid = validateForm();
-        if (isValid) {
-          tg.MainButton.show();
-        } else {
-          tg.MainButton.hide();
-        }
-      }
-    }, 500);
   </script>
 </body>
 </html>
