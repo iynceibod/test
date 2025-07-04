@@ -14,26 +14,50 @@
 
     body {
       font-family: 'Nunito', sans-serif;
-      background-color: #d7f6eb;
-      background-image: url('https://i.imgur.com/Y9e8qEH.png');
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      background-attachment: fixed;
+      background: linear-gradient(180deg, #87CEEB 0%, #98FB98 40%, #228B22 100%);
       min-height: 100vh;
       padding: 20px;
       position: relative;
     }
 
-    body::before {
-      content: '';
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(255, 255, 255, 0.2);
-      z-index: 1;
+    /* Простые листики */
+    .leaf {
+      position: absolute;
+      opacity: 0.3;
+      animation: sway 4s ease-in-out infinite;
+    }
+
+    .leaf1 {
+      top: 15%;
+      left: 10%;
+      font-size: 30px;
+      animation-delay: 0s;
+    }
+
+    .leaf2 {
+      top: 25%;
+      right: 15%;
+      font-size: 25px;
+      animation-delay: 1s;
+    }
+
+    .leaf3 {
+      bottom: 20%;
+      left: 5%;
+      font-size: 28px;
+      animation-delay: 2s;
+    }
+
+    .leaf4 {
+      bottom: 30%;
+      right: 10%;
+      font-size: 32px;
+      animation-delay: 3s;
+    }
+
+    @keyframes sway {
+      0%, 100% { transform: rotate(0deg); }
+      50% { transform: rotate(10deg); }
     }
 
     .container {
@@ -43,13 +67,128 @@
       z-index: 10;
     }
 
+    /* Юрская пальма */
+    .jurassic-palm {
+      position: absolute;
+      top: -30px;
+      right: -60px;
+      z-index: 5;
+      transform: rotate(15deg);
+    }
+
+    .palm-trunk {
+      width: 12px;
+      height: 80px;
+      background: linear-gradient(to bottom, #8B4513, #A0522D);
+      border-radius: 6px;
+      position: relative;
+      margin: 0 auto;
+    }
+
+    .palm-trunk::before {
+      content: '';
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: #654321;
+      border-radius: 50%;
+      left: 2px;
+      top: 20px;
+    }
+
+    .palm-trunk::after {
+      content: '';
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: #654321;
+      border-radius: 50%;
+      right: 2px;
+      top: 45px;
+    }
+
+    .palm-leaves {
+      position: relative;
+      top: -10px;
+    }
+
+    .palm-leaf {
+      position: absolute;
+      width: 60px;
+      height: 8px;
+      background: linear-gradient(to right, #228B22, #32CD32, #228B22);
+      border-radius: 50px;
+      transform-origin: 10px center;
+    }
+
+    .palm-leaf:nth-child(1) {
+      transform: rotate(-60deg);
+      top: -5px;
+      left: -25px;
+    }
+
+    .palm-leaf:nth-child(2) {
+      transform: rotate(-30deg);
+      top: -8px;
+      left: -20px;
+    }
+
+    .palm-leaf:nth-child(3) {
+      transform: rotate(0deg);
+      top: -10px;
+      left: -25px;
+    }
+
+    .palm-leaf:nth-child(4) {
+      transform: rotate(30deg);
+      top: -8px;
+      left: -20px;
+    }
+
+    .palm-leaf:nth-child(5) {
+      transform: rotate(60deg);
+      top: -5px;
+      left: -25px;
+    }
+
+    .palm-leaf:nth-child(6) {
+      transform: rotate(90deg);
+      top: 0px;
+      left: -15px;
+    }
+
+    /* Анимация покачивания пальмы */
+    .jurassic-palm {
+      animation: palmSway 6s ease-in-out infinite;
+    }
+
+    @keyframes palmSway {
+      0%, 100% { transform: rotate(15deg); }
+      50% { transform: rotate(20deg); }
+    }
+
+    /* Левая пальма */
+    .jurassic-palm-left {
+      position: absolute;
+      top: -20px;
+      left: -50px;
+      z-index: 5;
+      transform: rotate(-10deg) scale(0.8);
+      animation: palmSwayLeft 7s ease-in-out infinite;
+    }
+
+    @keyframes palmSwayLeft {
+      0%, 100% { transform: rotate(-10deg) scale(0.8); }
+      50% { transform: rotate(-15deg) scale(0.8); }
+    }
+
     .form-wrapper {
-      background: rgba(255, 255, 255, 0.95);
+      background: rgba(255, 255, 255, 0.9);
       border-radius: 20px;
       padding: 30px;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-      backdrop-filter: blur(15px);
-      border: 3px dashed #8de3c1;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(10px);
+      border: 2px solid rgba(255, 255, 255, 0.2);
     }
 
     .header {
@@ -58,11 +197,9 @@
     }
 
     .dino-icon {
-      width: 70px;
-      height: 70px;
-      background: url('https://cdn-icons-png.flaticon.com/512/616/616408.png') no-repeat center;
-      background-size: 60%;
-      background-color: #3ddc97;
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, #22C55E 0%, #16A34A 100%);
       border-radius: 50%;
       margin: 0 auto 15px;
       display: flex;
@@ -71,22 +208,23 @@
       font-size: 24px;
       color: white;
       font-weight: bold;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     }
 
     .title {
-      font-size: 26px;
-      color: #2b5c4c;
+      font-size: 24px;
+      color: #2D5016;
       font-weight: 700;
+      margin-bottom: 5px;
     }
 
     .subtitle {
-      color: #6b7280;
+      color: #6B7280;
       font-size: 14px;
     }
 
     .form-group {
       margin-bottom: 20px;
+      position: relative;
     }
 
     .form-group label {
@@ -100,17 +238,19 @@
     .form-group input {
       width: 100%;
       padding: 12px 16px;
-      border: 2px solid #c3f0d2;
+      border: 2px solid #E5E7EB;
       border-radius: 12px;
       font-size: 16px;
-      background: rgba(255, 255, 255, 0.9);
+      font-family: 'Nunito', sans-serif;
       transition: all 0.3s ease;
+      background: rgba(255, 255, 255, 0.8);
     }
 
     .form-group input:focus {
       outline: none;
-      border-color: #3ddc97;
-      box-shadow: 0 0 0 3px rgba(61, 220, 151, 0.2);
+      border-color: #22C55E;
+      box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
+      background: rgba(255, 255, 255, 0.95);
     }
 
     .form-group input.invalid {
@@ -136,21 +276,22 @@
     .submit-btn {
       width: 100%;
       padding: 14px;
-      background: linear-gradient(135deg, #3ddc97 0%, #23b17a 100%);
+      background: linear-gradient(135deg, #22C55E 0%, #16A34A 100%);
       color: white;
       border: none;
       border-radius: 12px;
       font-size: 16px;
       font-weight: 600;
+      font-family: 'Nunito', sans-serif;
       cursor: pointer;
       transition: all 0.3s ease;
-      box-shadow: 0 4px 12px rgba(61, 220, 151, 0.3);
+      box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
       position: relative;
     }
 
     .submit-btn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(61, 220, 151, 0.4);
+      box-shadow: 0 6px 20px rgba(34, 197, 94, 0.4);
     }
 
     .submit-btn:active {
@@ -160,8 +301,10 @@
     .submit-btn:disabled {
       opacity: 0.7;
       cursor: not-allowed;
+      transform: none;
     }
 
+    /* Анимация загрузки */
     .loading::after {
       content: '';
       position: absolute;
@@ -181,71 +324,124 @@
       100% { transform: rotate(360deg); }
     }
 
+    /* Успешная отправка */
     .success-message {
-      background: #3ddc97;
+      background: #22C55E;
       color: white;
       padding: 12px;
       border-radius: 12px;
       text-align: center;
       font-weight: 600;
       margin-bottom: 20px;
-      box-shadow: 0 4px 12px rgba(61, 220, 151, 0.3);
+      box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
     }
 
+    /* Респонсив */
     @media (max-width: 480px) {
       .container {
         margin: 20px auto;
       }
+      
       .form-wrapper {
         padding: 25px 20px;
       }
+      
       .title {
         font-size: 22px;
+      }
+      
+      .leaf {
+        font-size: 20px !important;
+      }
+
+      .jurassic-palm {
+        right: -40px;
+        top: -20px;
+        transform: rotate(15deg) scale(0.7);
+      }
+
+      .jurassic-palm-left {
+        left: -35px;
+        top: -15px;
+        transform: rotate(-10deg) scale(0.6);
       }
     }
   </style>
 </head>
 <body>
+  <!-- Простые листики джунглей -->
+  <div class="leaf leaf1">🌿</div>
+  <div class="leaf leaf2">🍃</div>
+  <div class="leaf leaf3">🌱</div>
+  <div class="leaf leaf4">🌿</div>
+
   <div class="container">
+    <!-- Юрские пальмы -->
+    <div class="jurassic-palm">
+      <div class="palm-trunk"></div>
+      <div class="palm-leaves">
+        <div class="palm-leaf"></div>
+        <div class="palm-leaf"></div>
+        <div class="palm-leaf"></div>
+        <div class="palm-leaf"></div>
+        <div class="palm-leaf"></div>
+        <div class="palm-leaf"></div>
+      </div>
+    </div>
+
+    <div class="jurassic-palm-left">
+      <div class="palm-trunk"></div>
+      <div class="palm-leaves">
+        <div class="palm-leaf"></div>
+        <div class="palm-leaf"></div>
+        <div class="palm-leaf"></div>
+        <div class="palm-leaf"></div>
+        <div class="palm-leaf"></div>
+        <div class="palm-leaf"></div>
+      </div>
+    </div>
+
     <div class="form-wrapper">
       <div class="header">
-        <div class="dino-icon"></div>
+        <div class="dino-icon">YM</div>
         <h1 class="title">YAVA MODERATION</h1>
         <p class="subtitle">Форма регистрации</p>
       </div>
-
+      
       <form id="regForm">
         <div class="form-group">
           <label for="nick">Игровой ник</label>
           <input type="text" id="nick" placeholder="Nick_Name" required>
           <div class="error-message" id="nick-error">Ник должен содержать символ "_"</div>
         </div>
-
+        
         <div class="form-group">
           <label for="fa">Форумный аккаунт</label>
           <input type="url" id="fa" placeholder="Ссылка на Arizona Guard" required>
           <div class="error-message" id="fa-error">Введите корректную ссылку</div>
         </div>
-
+        
         <div class="form-group">
           <label for="discord_id">Discord ID</label>
           <input type="text" id="discord_id" placeholder="123456789012345678" required>
           <div class="error-message" id="discord-error">Discord ID должен содержать только цифры (17-19 символов)</div>
         </div>
-
+        
         <div class="form-group">
           <label for="vozrast">Возраст</label>
           <input type="number" id="vozrast" placeholder="Сколько вам лет?" min="13" max="99" required>
           <div class="error-message" id="age-error">Возраст должен быть от 13 до 99 лет</div>
         </div>
-
+        
         <div class="form-group">
           <label for="gorod">Местоположение</label>
           <input type="text" id="gorod" placeholder="Страна, город" required>
           <div class="error-message" id="location-error">Поле обязательно для заполнения</div>
         </div>
-
-        <button type="submit" class="submit-btn">Отправить заявку</button>
+        
+        <button type="submit" class="submit-btn">
+          Отправить заявку
+        </button>
       </form>
     </div>
   </div>
@@ -253,7 +449,7 @@
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <script>
     const tg = window.Telegram.WebApp;
-
+    
     if (!tg) {
       alert("⚠️ Пожалуйста, откройте эту форму через Telegram WebApp!");
     } else {
@@ -262,22 +458,39 @@
 
     const form = document.getElementById('regForm');
     const submitBtn = form.querySelector('.submit-btn');
+    
+    // Массив существующих ников (имитация базы данных)
+    const existingNicks = [
+      'Test_Player',
+      'Admin_User',
+      'Moderator_01',
+      'Player_Test'
+    ];
 
-    const existingNicks = ['Test_Player', 'Admin_User', 'Moderator_01', 'Player_Test'];
-
+    // Функции валидации
     function validateNick(nick) {
-      if (!nick.includes('_')) return 'Ник должен содержать символ "_"';
-      if (existingNicks.includes(nick)) return 'Этот ник уже существует в базе данных';
+      if (!nick.includes('_')) {
+        return 'Ник должен содержать символ "_"';
+      }
+      if (existingNicks.includes(nick)) {
+        return 'Этот ник уже существует в базе данных';
+      }
       return null;
     }
 
     function validateDiscordId(discordId) {
-      return /^\d{17,19}$/.test(discordId) ? null : 'Discord ID должен содержать только цифры (17-19 символов)';
+      if (!/^\d{17,19}$/.test(discordId)) {
+        return 'Discord ID должен содержать только цифры (17-19 символов)';
+      }
+      return null;
     }
 
     function validateAge(age) {
       const ageNum = parseInt(age);
-      return isNaN(ageNum) || ageNum < 13 || ageNum > 99 ? 'Возраст должен быть от 13 до 99 лет' : null;
+      if (isNaN(ageNum) || ageNum < 13 || ageNum > 99) {
+        return 'Возраст должен быть от 13 до 99 лет';
+      }
+      return null;
     }
 
     function validateUrl(url) {
@@ -289,59 +502,143 @@
       }
     }
 
-    function showError(id, message) {
-      const el = document.getElementById(id);
-      el.textContent = message;
-      el.classList.add('show');
-      document.getElementById(id.split('-')[0]).classList.add('invalid');
+    function showError(inputId, message) {
+      const input = document.getElementById(inputId);
+      const errorDiv = document.getElementById(inputId + '-error');
+      
+      input.classList.add('invalid');
+      errorDiv.textContent = message;
+      errorDiv.classList.add('show');
     }
 
-    function hideErrors() {
-      document.querySelectorAll('.error-message').forEach(el => el.classList.remove('show'));
-      document.querySelectorAll('input').forEach(el => el.classList.remove('invalid'));
+    function hideError(inputId) {
+      const input = document.getElementById(inputId);
+      const errorDiv = document.getElementById(inputId + '-error');
+      
+      input.classList.remove('invalid');
+      errorDiv.classList.remove('show');
     }
 
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-      hideErrors();
-
+    function validateForm() {
+      let isValid = true;
+      
+      // Валидация ника
       const nick = document.getElementById('nick').value.trim();
+      const nickError = validateNick(nick);
+      if (nickError) {
+        showError('nick', nickError);
+        isValid = false;
+      } else {
+        hideError('nick');
+      }
+
+      // Валидация форумного аккаунта
       const fa = document.getElementById('fa').value.trim();
-      const discord_id = document.getElementById('discord_id').value.trim();
-      const vozrast = document.getElementById('vozrast').value.trim();
-      const gorod = document.getElementById('gorod').value.trim();
+      const faError = validateUrl(fa);
+      if (faError) {
+        showError('fa', faError);
+        isValid = false;
+      } else {
+        hideError('fa');
+      }
 
-      let hasError = false;
+      // Валидация Discord ID
+      const discordId = document.getElementById('discord_id').value.trim();
+      const discordError = validateDiscordId(discordId);
+      if (discordError) {
+        showError('discord_id', discordError);
+        isValid = false;
+      } else {
+        hideError('discord_id');
+      }
 
-      const errors = {
-        'nick-error': validateNick(nick),
-        'fa-error': validateUrl(fa),
-        'discord-error': validateDiscordId(discord_id),
-        'age-error': validateAge(vozrast),
-        'location-error': !gorod ? 'Поле обязательно для заполнения' : null,
+      // Валидация возраста
+      const age = document.getElementById('vozrast').value;
+      const ageError = validateAge(age);
+      if (ageError) {
+        showError('vozrast', ageError);
+        isValid = false;
+      } else {
+        hideError('vozrast');
+      }
+
+      // Валидация местоположения
+      const location = document.getElementById('gorod').value.trim();
+      if (!location) {
+        showError('gorod', 'Поле обязательно для заполнения');
+        isValid = false;
+      } else {
+        hideError('gorod');
+      }
+
+      return isValid;
+    }
+
+    // Валидация в реальном времени
+    document.getElementById('nick').addEventListener('blur', function() {
+      const nickError = validateNick(this.value.trim());
+      if (nickError) {
+        showError('nick', nickError);
+      } else {
+        hideError('nick');
+      }
+    });
+
+    document.getElementById('discord_id').addEventListener('input', function() {
+      // Разрешаем только цифры
+      this.value = this.value.replace(/[^\d]/g, '');
+    });
+
+    document.getElementById('discord_id').addEventListener('blur', function() {
+      const discordError = validateDiscordId(this.value.trim());
+      if (discordError) {
+        showError('discord_id', discordError);
+      } else {
+        hideError('discord_id');
+      }
+    });
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      if (!validateForm()) {
+        return;
+      }
+      
+      // Анимация загрузки
+      submitBtn.classList.add('loading');
+      submitBtn.textContent = 'Отправляем...';
+      submitBtn.disabled = true;
+      
+      const data = {
+        nick: document.getElementById('nick').value.trim(),
+        fa: document.getElementById('fa').value.trim(),
+        discord_id: document.getElementById('discord_id').value.trim(),
+        vozrast: document.getElementById('vozrast').value,
+        gorod: document.getElementById('gorod').value.trim()
       };
-
-      for (const [id, error] of Object.entries(errors)) {
-        if (error) {
-          showError(id, error);
-          hasError = true;
-        }
-      }
-
-      if (!hasError) {
-        submitBtn.classList.add('loading');
-        submitBtn.disabled = true;
-
-        setTimeout(() => {
-          tg.sendData(JSON.stringify({
-            nick, fa, discord_id, vozrast, gorod
-          }));
+      
+      setTimeout(() => {
+        try {
+          tg.sendData(JSON.stringify(data));
+          
+          // Показываем успешное сообщение
+          const successDiv = document.createElement('div');
+          successDiv.className = 'success-message';
+          successDiv.innerHTML = 'Заявка успешно отправлена!';
+          form.parentNode.insertBefore(successDiv, form);
+          
+          submitBtn.textContent = 'Готово!';
+          submitBtn.style.background = '#22C55E';
           submitBtn.classList.remove('loading');
+          
+        } catch (err) {
+          submitBtn.classList.remove('loading');
+          submitBtn.textContent = 'Отправить заявку';
           submitBtn.disabled = false;
-          form.reset();
-          alert("✅ Заявка успешно отправлена!");
-        }, 1000);
-      }
+          alert("Ошибка отправки: " + err.message);
+        }
+      }, 1000);
     });
   </script>
 </body>
