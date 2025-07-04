@@ -14,39 +14,50 @@
 
     body {
       font-family: 'Nunito', sans-serif;
-      background: linear-gradient(135deg, #2d5016 0%, #22C55E 50%, #16A34A 100%);
+      background: linear-gradient(180deg, #87CEEB 0%, #98FB98 40%, #228B22 100%);
       min-height: 100vh;
       padding: 20px;
       position: relative;
-      overflow-x: hidden;
     }
 
-    /* Юрский фон - тонкие древние узоры */
-    .jurassic-bg {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 1;
-      opacity: 0.1;
-      background-image: 
-        radial-gradient(circle at 20% 20%, rgba(34, 197, 94, 0.3) 0%, transparent 50%),
-        radial-gradient(circle at 80% 80%, rgba(22, 163, 74, 0.3) 0%, transparent 50%),
-        radial-gradient(circle at 40% 70%, rgba(45, 80, 22, 0.2) 0%, transparent 50%);
-      animation: ancientPulse 8s ease-in-out infinite;
+    /* Простые листики */
+    .leaf {
+      position: absolute;
+      opacity: 0.3;
+      animation: sway 4s ease-in-out infinite;
     }
 
-    @keyframes ancientPulse {
-      0%, 100% { 
-        opacity: 0.1;
-        transform: scale(1);
-      }
-      50% { 
-        opacity: 0.2;
-        transform: scale(1.05);
-      }
+    .leaf1 {
+      top: 15%;
+      left: 10%;
+      font-size: 30px;
+      animation-delay: 0s;
+    }
+
+    .leaf2 {
+      top: 25%;
+      right: 15%;
+      font-size: 25px;
+      animation-delay: 1s;
+    }
+
+    .leaf3 {
+      bottom: 20%;
+      left: 5%;
+      font-size: 28px;
+      animation-delay: 2s;
+    }
+
+    .leaf4 {
+      bottom: 30%;
+      right: 10%;
+      font-size: 32px;
+      animation-delay: 3s;
+    }
+
+    @keyframes sway {
+      0%, 100% { transform: rotate(0deg); }
+      50% { transform: rotate(10deg); }
     }
 
     .container {
@@ -56,33 +67,128 @@
       z-index: 10;
     }
 
-    .form-wrapper {
-      background: rgba(255, 255, 255, 0.95);
-      border-radius: 24px;
-      padding: 30px;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-      backdrop-filter: blur(15px);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      position: relative;
-      overflow: hidden;
+    /* Юрская пальма */
+    .jurassic-palm {
+      position: absolute;
+      top: -30px;
+      right: -60px;
+      z-index: 5;
+      transform: rotate(15deg);
     }
 
-    /* Декоративный градиент сверху - юрский стиль */
-    .form-wrapper::before {
+    .palm-trunk {
+      width: 12px;
+      height: 80px;
+      background: linear-gradient(to bottom, #8B4513, #A0522D);
+      border-radius: 6px;
+      position: relative;
+      margin: 0 auto;
+    }
+
+    .palm-trunk::before {
       content: '';
       position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 4px;
-      background: linear-gradient(90deg, #22C55E, #16A34A, #2d5016, #22C55E);
-      background-size: 200% 100%;
-      animation: jurassicShimmer 4s ease-in-out infinite;
+      width: 8px;
+      height: 8px;
+      background: #654321;
+      border-radius: 50%;
+      left: 2px;
+      top: 20px;
     }
 
-    @keyframes jurassicShimmer {
-      0% { background-position: -200% 0; }
-      100% { background-position: 200% 0; }
+    .palm-trunk::after {
+      content: '';
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: #654321;
+      border-radius: 50%;
+      right: 2px;
+      top: 45px;
+    }
+
+    .palm-leaves {
+      position: relative;
+      top: -10px;
+    }
+
+    .palm-leaf {
+      position: absolute;
+      width: 60px;
+      height: 8px;
+      background: linear-gradient(to right, #228B22, #32CD32, #228B22);
+      border-radius: 50px;
+      transform-origin: 10px center;
+    }
+
+    .palm-leaf:nth-child(1) {
+      transform: rotate(-60deg);
+      top: -5px;
+      left: -25px;
+    }
+
+    .palm-leaf:nth-child(2) {
+      transform: rotate(-30deg);
+      top: -8px;
+      left: -20px;
+    }
+
+    .palm-leaf:nth-child(3) {
+      transform: rotate(0deg);
+      top: -10px;
+      left: -25px;
+    }
+
+    .palm-leaf:nth-child(4) {
+      transform: rotate(30deg);
+      top: -8px;
+      left: -20px;
+    }
+
+    .palm-leaf:nth-child(5) {
+      transform: rotate(60deg);
+      top: -5px;
+      left: -25px;
+    }
+
+    .palm-leaf:nth-child(6) {
+      transform: rotate(90deg);
+      top: 0px;
+      left: -15px;
+    }
+
+    /* Анимация покачивания пальмы */
+    .jurassic-palm {
+      animation: palmSway 6s ease-in-out infinite;
+    }
+
+    @keyframes palmSway {
+      0%, 100% { transform: rotate(15deg); }
+      50% { transform: rotate(20deg); }
+    }
+
+    /* Левая пальма */
+    .jurassic-palm-left {
+      position: absolute;
+      top: -20px;
+      left: -50px;
+      z-index: 5;
+      transform: rotate(-10deg) scale(0.8);
+      animation: palmSwayLeft 7s ease-in-out infinite;
+    }
+
+    @keyframes palmSwayLeft {
+      0%, 100% { transform: rotate(-10deg) scale(0.8); }
+      50% { transform: rotate(-15deg) scale(0.8); }
+    }
+
+    .form-wrapper {
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(10px);
+      border: 2px solid rgba(255, 255, 255, 0.2);
     }
 
     .header {
@@ -91,8 +197,8 @@
     }
 
     .dino-icon {
-      width: 70px;
-      height: 70px;
+      width: 60px;
+      height: 60px;
       background: linear-gradient(135deg, #22C55E 0%, #16A34A 100%);
       border-radius: 50%;
       margin: 0 auto 15px;
@@ -102,46 +208,18 @@
       font-size: 24px;
       color: white;
       font-weight: bold;
-      position: relative;
-      overflow: hidden;
-      box-shadow: 0 4px 15px rgba(34, 197, 94, 0.3);
-    }
-
-    .dino-icon::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-      animation: ancientRotate 5s linear infinite;
-    }
-
-    @keyframes ancientRotate {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
     }
 
     .title {
-      font-size: 26px;
-      background: linear-gradient(135deg, #2d5016, #22C55E);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      font-size: 24px;
+      color: #2D5016;
       font-weight: 700;
-      margin-bottom: 8px;
+      margin-bottom: 5px;
     }
 
     .subtitle {
       color: #6B7280;
       font-size: 14px;
-      font-weight: 500;
-    }
-
-    .subtitle::after {
-      content: " 🦕";
-      opacity: 0.7;
     }
 
     .form-group {
@@ -159,22 +237,20 @@
 
     .form-group input {
       width: 100%;
-      padding: 14px 16px;
+      padding: 12px 16px;
       border: 2px solid #E5E7EB;
-      border-radius: 16px;
+      border-radius: 12px;
       font-size: 16px;
       font-family: 'Nunito', sans-serif;
       transition: all 0.3s ease;
-      background: rgba(255, 255, 255, 0.9);
-      position: relative;
+      background: rgba(255, 255, 255, 0.8);
     }
 
     .form-group input:focus {
       outline: none;
-      border-color: #667eea;
-      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-      background: rgba(255, 255, 255, 1);
-      transform: translateY(-2px);
+      border-color: #22C55E;
+      box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
+      background: rgba(255, 255, 255, 0.95);
     }
 
     .form-group input.invalid {
@@ -191,7 +267,6 @@
       font-size: 12px;
       margin-top: 5px;
       display: none;
-      font-weight: 500;
     }
 
     .error-message.show {
@@ -200,43 +275,27 @@
 
     .submit-btn {
       width: 100%;
-      padding: 16px;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 14px;
+      background: linear-gradient(135deg, #22C55E 0%, #16A34A 100%);
       color: white;
       border: none;
-      border-radius: 16px;
+      border-radius: 12px;
       font-size: 16px;
       font-weight: 600;
       font-family: 'Nunito', sans-serif;
       cursor: pointer;
       transition: all 0.3s ease;
-      box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+      box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
       position: relative;
-      overflow: hidden;
-    }
-
-    .submit-btn::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-      transition: left 0.5s;
-    }
-
-    .submit-btn:hover::before {
-      left: 100%;
     }
 
     .submit-btn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(34, 197, 94, 0.4);
     }
 
     .submit-btn:active {
-      transform: translateY(-1px);
+      transform: translateY(0);
     }
 
     .submit-btn:disabled {
@@ -251,9 +310,9 @@
       position: absolute;
       top: 50%;
       left: 50%;
-      width: 20px;
-      height: 20px;
-      margin: -10px 0 0 -10px;
+      width: 16px;
+      height: 16px;
+      margin: -8px 0 0 -8px;
       border: 2px solid transparent;
       border-top: 2px solid #fff;
       border-radius: 50%;
@@ -267,26 +326,14 @@
 
     /* Успешная отправка */
     .success-message {
-      background: linear-gradient(135deg, #667eea, #764ba2);
+      background: #22C55E;
       color: white;
-      padding: 15px;
-      border-radius: 16px;
+      padding: 12px;
+      border-radius: 12px;
       text-align: center;
       font-weight: 600;
       margin-bottom: 20px;
-      box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
-      animation: slideIn 0.5s ease-out;
-    }
-
-    @keyframes slideIn {
-      from {
-        opacity: 0;
-        transform: translateY(-20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
     }
 
     /* Респонсив */
@@ -297,29 +344,68 @@
       
       .form-wrapper {
         padding: 25px 20px;
-        border-radius: 20px;
       }
       
       .title {
-        font-size: 24px;
+        font-size: 22px;
       }
       
-      .jurassic-bg {
-        opacity: 0.05;
+      .leaf {
+        font-size: 20px !important;
+      }
+
+      .jurassic-palm {
+        right: -40px;
+        top: -20px;
+        transform: rotate(15deg) scale(0.7);
+      }
+
+      .jurassic-palm-left {
+        left: -35px;
+        top: -15px;
+        transform: rotate(-10deg) scale(0.6);
       }
     }
   </style>
 </head>
 <body>
-  <!-- Юрский фон -->
-  <div class="jurassic-bg"></div>
+  <!-- Простые листики джунглей -->
+  <div class="leaf leaf1">🌿</div>
+  <div class="leaf leaf2">🍃</div>
+  <div class="leaf leaf3">🌱</div>
+  <div class="leaf leaf4">🌿</div>
 
   <div class="container">
+    <!-- Юрские пальмы -->
+    <div class="jurassic-palm">
+      <div class="palm-trunk"></div>
+      <div class="palm-leaves">
+        <div class="palm-leaf"></div>
+        <div class="palm-leaf"></div>
+        <div class="palm-leaf"></div>
+        <div class="palm-leaf"></div>
+        <div class="palm-leaf"></div>
+        <div class="palm-leaf"></div>
+      </div>
+    </div>
+
+    <div class="jurassic-palm-left">
+      <div class="palm-trunk"></div>
+      <div class="palm-leaves">
+        <div class="palm-leaf"></div>
+        <div class="palm-leaf"></div>
+        <div class="palm-leaf"></div>
+        <div class="palm-leaf"></div>
+        <div class="palm-leaf"></div>
+        <div class="palm-leaf"></div>
+      </div>
+    </div>
+
     <div class="form-wrapper">
       <div class="header">
         <div class="dino-icon">YM</div>
         <h1 class="title">YAVA MODERATION</h1>
-        <p class="subtitle">Добро пожаловать в юрский период</p>
+        <p class="subtitle">Форма регистрации</p>
       </div>
       
       <form id="regForm">
@@ -543,7 +629,7 @@
           form.parentNode.insertBefore(successDiv, form);
           
           submitBtn.textContent = 'Готово!';
-          submitBtn.style.background = 'linear-gradient(135deg, #22C55E, #16A34A)';
+          submitBtn.style.background = '#22C55E';
           submitBtn.classList.remove('loading');
           
         } catch (err) {
