@@ -590,7 +590,10 @@
       
       setTimeout(() => {
         try {
-          tg.sendData(JSON.stringify(data));
+          tg.sendData(JSON.stringify({
+            method: "web_app_data",
+            data: data
+          }));
           
           const successDiv = document.createElement('div');
           successDiv.className = 'success-message';
