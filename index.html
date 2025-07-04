@@ -1,67 +1,40 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <title>Тестовая фор1231312ма</title>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <style>
-        body { font-family: Arial; padding: 20px; }
-        input, button { width: 100%; padding: 10px; margin: 5px 0; }
-        button { background: #0088cc; color: white; border: none; }
-        #debug { margin-top: 20px; color: red; }
-    </style>
+  <meta charset="UTF-8">
+  <title>Моё мини-приложение</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      padding: 30px;
+      background-color: #f4f4f4;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 18px;
+      border-radius: 10px;
+      border: none;
+      background-color: #0088cc;
+      color: white;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
-    <h2>Тестовая форма</h2>
-    <input type="text" id="test-input" placeholder="Введите текст">
-    <button onclick="sendData()">Отправить</button>
-    
-    <div id="debug"></div>
+  <h1>Добро пожаловать!</h1>
+  <p>Это мини-приложение Telegram 👋</p>
+  <button onclick="sendData()">Отправить данные боту</button>
 
-    <script>
-        function sendData() {
-            const inputValue = document.getElementById("test-input").value;
-            const debugDiv = document.getElementById("debug");
-            
-            try {
-                debugDiv.innerHTML = "Пытаемся отправить данные...";
-                
-                if (!inputValue) {
-                    debugDiv.innerHTML = "Ошибка: поле пустое!";
-                    return;
-                }
-                
-                // Проверяем инициализацию WebApp
-                if (!window.Telegram || !Telegram.WebApp) {
-                    debugDiv.innerHTML = "Telegram.WebApp не доступен!";
-                    return;
-                }
-                
-                Telegram.WebApp.sendData(JSON.stringify({
-                    text: inputValue
-                }));
-                
-                debugDiv.innerHTML = "Данные отправлены! Закрываем через 1 сек...";
-                
-                setTimeout(() => {
-                    Telegram.WebApp.close();
-                }, 1000);
-                
-            } catch (e) {
-                debugDiv.innerHTML = "Ошибка: " + e.message;
-            }
-        }
-        
-        // Проверяем загрузку Telegram.WebApp при старте
-        document.addEventListener("DOMContentLoaded", () => {
-            const debugDiv = document.getElementById("debug");
-            if (window.Telegram && Telegram.WebApp) {
-                debugDiv.innerHTML = "Telegram.WebApp готов к работе!";
-                Telegram.WebApp.expand(); // Раскрываем на весь экран
-            } else {
-                debugDiv.innerHTML = "Telegram.WebApp НЕ обнаружен!";
-            }
-        });
-    </script>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <script>
+    const tg = window.Telegram.WebApp;
+    tg.expand();
+
+    function sendData() {
+      tg.sendData("Пользователь нажал на кнопку ✅");
+    }
+  </script>
 </body>
 </html>
