@@ -189,7 +189,6 @@
       transform: none;
     }
 
-    /* Анимация загрузки */
     .loading::after {
       content: '';
       position: absolute;
@@ -209,7 +208,6 @@
       100% { transform: rotate(360deg); }
     }
 
-    /* Успешная отправка */
     .success-message {
       background: #22C55E;
       color: white;
@@ -221,7 +219,6 @@
       box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
     }
 
-    /* Респонсив */
     @media (max-width: 480px) {
       .container {
         margin: 20px auto;
@@ -262,23 +259,23 @@
         <div class="form-group">
           <label for="discord_id">Discord ID</label>
           <input type="text" id="discord_id" placeholder="123456789012345678" required>
-          <div class="error-message" id="discord-error">Discord ID должен содержать только цифры (17-19 символов)</div>
+          <div class="error-message" id="discord-error">Discord ID должен состоять только из цифр</div>
         </div>
         
         <div class="form-group">
           <label for="vozrast">Возраст</label>
-          <input type="number" id="vozrast" placeholder="Сколько вам лет?" min="13" max="99" required>
-          <div class="error-message" id="age-error">Возраст должен быть от 13 до 99 лет</div>
+          <input type="number" id="vozrast" placeholder="Укажите ваш возраст" min="1" max="99" required>
+          <div class="error-message" id="age-error">Возраст должен быть от 1 до 99 лет</div>
         </div>
         
         <div class="form-group">
-          <label for="gorod">Местоположение</label>
+          <label for="gorod">Город проживания</label>
           <input type="text" id="gorod" placeholder="Страна, город" required>
           <div class="error-message" id="location-error">Поле обязательно для заполнения</div>
         </div>
         
         <button type="submit" class="submit-btn">
-          Отправить заявку
+          Зарегистрироваться
         </button>
       </form>
     </div>
@@ -289,7 +286,7 @@
     const tg = window.Telegram.WebApp;
     
     if (!tg) {
-      alert("⚠️ Пожалуйста, откройте эту форму через Telegram WebApp!");
+      alert("Откройте эту форму через Telegram WebApp!");
     } else {
       tg.expand();
     }
@@ -297,36 +294,25 @@
     const form = document.getElementById('regForm');
     const submitBtn = form.querySelector('.submit-btn');
     
-    // Массив существующих ников (имитация базы данных)
-    const existingNicks = [
-      'Test_Player',
-      'Admin_User',
-      'Moderator_01',
-      'Player_Test'
-    ];
 
-    // Функции валидации
     function validateNick(nick) {
       if (!nick.includes('_')) {
         return 'Ник должен содержать символ "_"';
-      }
-      if (existingNicks.includes(nick)) {
-        return 'Этот ник уже существует в базе данных';
       }
       return null;
     }
 
     function validateDiscordId(discordId) {
       if (!/^\d{17,19}$/.test(discordId)) {
-        return 'Discord ID должен содержать только цифры (17-19 символов)';
+        return 'Discord ID должен состоять только из цифр';
       }
       return null;
     }
 
     function validateAge(age) {
       const ageNum = parseInt(age);
-      if (isNaN(ageNum) || ageNum < 13 || ageNum > 99) {
-        return 'Возраст должен быть от 13 до 99 лет';
+      if (isNaN(ageNum) || ageNum < 1 || ageNum > 99) {
+        return 'Возраст должен быть от 1 до 99 лет';
       }
       return null;
     }
@@ -360,7 +346,6 @@
     function validateForm() {
       let isValid = true;
       
-      // Валидация ника
       const nick = document.getElementById('nick').value.trim();
       const nickError = validateNick(nick);
       if (nickError) {
@@ -370,7 +355,6 @@
         hideError('nick');
       }
 
-      // Валидация форумного аккаунта
       const fa = document.getElementById('fa').value.trim();
       const faError = validateUrl(fa);
       if (faError) {
@@ -380,7 +364,6 @@
         hideError('fa');
       }
 
-      // Валидация Discord ID
       const discordId = document.getElementById('discord_id').value.trim();
       const discordError = validateDiscordId(discordId);
       if (discordError) {
@@ -390,7 +373,6 @@
         hideError('discord_id');
       }
 
-      // Валидация возраста
       const age = document.getElementById('vozrast').value;
       const ageError = validateAge(age);
       if (ageError) {
@@ -400,7 +382,6 @@
         hideError('vozrast');
       }
 
-      // Валидация местоположения
       const location = document.getElementById('gorod').value.trim();
       if (!location) {
         showError('gorod', 'Поле обязательно для заполнения');
@@ -412,7 +393,6 @@
       return isValid;
     }
 
-    // Валидация в реальном времени
     document.getElementById('nick').addEventListener('blur', function() {
       const nickError = validateNick(this.value.trim());
       if (nickError) {
@@ -423,7 +403,6 @@
     });
 
     document.getElementById('discord_id').addEventListener('input', function() {
-      // Разрешаем только цифры
       this.value = this.value.replace(/[^\d]/g, '');
     });
 
@@ -443,7 +422,6 @@
         return;
       }
       
-      // Анимация загрузки
       submitBtn.classList.add('loading');
       submitBtn.textContent = 'Отправляем...';
       submitBtn.disabled = true;
@@ -460,7 +438,6 @@
         try {
           tg.sendData(JSON.stringify(data));
           
-          // Показываем успешное сообщение
           const successDiv = document.createElement('div');
           successDiv.className = 'success-message';
           successDiv.innerHTML = 'Заявка успешно отправлена!';
@@ -472,7 +449,7 @@
           
         } catch (err) {
           submitBtn.classList.remove('loading');
-          submitBtn.textContent = 'Отправить заявку';
+          submitBtn.textContent = 'Зарегистрироваться';
           submitBtn.disabled = false;
           alert("Ошибка отправки: " + err.message);
         }
