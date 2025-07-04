@@ -1,18 +1,88 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
-    <title>TEST</title>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <meta charset="UTF-8">
+  <title>Регистрация</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: 'Comic Sans MS', cursive;
+      background: linear-gradient(to right, #b4f8c8, #fce38a);
+      padding: 20px;
+      background-image: url('https://img.freepik.com/premium-vector/seamless-pattern-with-dinosaurs-khaki-coloring-children-s-background-cartoon-textile-cover_713008-71.jpg?semt=ais_items_boosted&w=740');
+      background-size: 80px;
+    }
+    form {
+      max-width: 400px;
+      margin: auto;
+      background: rgba(255, 255, 255, 0.95);
+      padding: 20px;
+      border-radius: 16px;
+      box-shadow: 0 0 12px rgba(0,0,0,0.1);
+    }
+    input, button {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 10px;
+      border: 1px solid #aaa;
+    }
+    button {
+      background: #40c9a2;
+      color: white;
+      font-weight: bold;
+      border: none;
+      transition: 0.3s;
+    }
+    button:hover {
+      background: #368b75;
+    }
+    h2 {
+      text-align: center;
+      color: #2c3e50;
+    }
+  </style>
 </head>
 <body>
-    <h1>TEST PAGE</h1>
-    <script>
-        const tg = window.Telegram.WebApp;
-        tg.expand();
-        tg.MainButton.setText("CLICK ME").show().onClick(() => {
-            tg.sendData("TEST");
-            tg.close();
-        });
-    </script>
+  <form id="regForm">
+    <h2>🦕 YAVA MODERATION</h2>
+    <input type="text" id="nick" placeholder="Игровой ник [Nick_Name])" required>
+    <input type="text" id="fa" placeholder="Ссылка на Форумный Аккаунт Arizona Guard" required>
+    <input type="text" id="discord_id" placeholder="Discord ID" required>
+    <input type="number" id="vozrast" placeholder="Возраст" required>
+    <input type="text" id="gorod" placeholder="Страна, город проживания" required>
+    <button type="submit">🦖 Отправить</button>
+  </form>
+
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <script>
+    const tg = window.Telegram.WebApp;
+
+    if (!tg) {
+      alert("⚠️ Пожалуйста, откройте эту форму через Telegram WebApp, а не напрямую в браузере.");
+    } else {
+      tg.expand();
+    }
+
+    const form = document.getElementById('regForm');
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const data = {
+        nick: document.getElementById('nick').value,
+        fa: document.getElementById('fa').value,
+        discord_id: document.getElementById('discord_id').value,
+        vozrast: document.getElementById('vozrast').value,
+        gorod: document.getElementById('gorod').value
+      };
+
+      try {
+        tg.sendData(JSON.stringify(data)); 
+        alert("✅ Данные отправлены. Возвращаемся в Telegram...");
+      } catch (err) {
+        alert("❌ Не удалось отправить данные: " + err.message);
+      }
+    });
+  </script>
 </body>
 </html>
