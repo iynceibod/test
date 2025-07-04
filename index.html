@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>🦕 Регистрация</title>
+  <title>YAVA MODERATION - Регистрация</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
@@ -14,50 +14,26 @@
 
     body {
       font-family: 'Nunito', sans-serif;
-      background: linear-gradient(180deg, #87CEEB 0%, #98FB98 40%, #228B22 100%);
+      background: url('https://png.pngtree.com/thumb_back/fh260/background/20220511/pngtree-cute-dinosaurs-dinosaur-dino-doodle-image_1324083.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
       min-height: 100vh;
       padding: 20px;
       position: relative;
     }
 
-    /* Простые листики */
-    .leaf {
-      position: absolute;
-      opacity: 0.3;
-      animation: sway 4s ease-in-out infinite;
-    }
-
-    .leaf1 {
-      top: 15%;
-      left: 10%;
-      font-size: 30px;
-      animation-delay: 0s;
-    }
-
-    .leaf2 {
-      top: 25%;
-      right: 15%;
-      font-size: 25px;
-      animation-delay: 1s;
-    }
-
-    .leaf3 {
-      bottom: 20%;
-      left: 5%;
-      font-size: 28px;
-      animation-delay: 2s;
-    }
-
-    .leaf4 {
-      bottom: 30%;
-      right: 10%;
-      font-size: 32px;
-      animation-delay: 3s;
-    }
-
-    @keyframes sway {
-      0%, 100% { transform: rotate(0deg); }
-      50% { transform: rotate(10deg); }
+    /* Полупрозрачный оверлей для лучшей читаемости */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.1);
+      z-index: 1;
     }
 
     .container {
@@ -68,12 +44,12 @@
     }
 
     .form-wrapper {
-      background: rgba(255, 255, 255, 0.9);
+      background: rgba(255, 255, 255, 0.95);
       border-radius: 20px;
       padding: 30px;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-      backdrop-filter: blur(10px);
-      border: 2px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(15px);
+      border: 2px solid rgba(255, 255, 255, 0.3);
     }
 
     .header {
@@ -82,8 +58,17 @@
     }
 
     .dino-icon {
-      font-size: 40px;
-      margin-bottom: 10px;
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, #22C55E 0%, #16A34A 100%);
+      border-radius: 50%;
+      margin: 0 auto 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      color: white;
+      font-weight: bold;
     }
 
     .title {
@@ -100,6 +85,7 @@
 
     .form-group {
       margin-bottom: 20px;
+      position: relative;
     }
 
     .form-group label {
@@ -128,8 +114,24 @@
       background: rgba(255, 255, 255, 0.95);
     }
 
+    .form-group input.invalid {
+      border-color: #EF4444;
+      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+    }
+
     .form-group input::placeholder {
       color: #9CA3AF;
+    }
+
+    .error-message {
+      color: #EF4444;
+      font-size: 12px;
+      margin-top: 5px;
+      display: none;
+    }
+
+    .error-message.show {
+      display: block;
     }
 
     .submit-btn {
@@ -145,6 +147,7 @@
       cursor: pointer;
       transition: all 0.3s ease;
       box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+      position: relative;
     }
 
     .submit-btn:hover {
@@ -156,12 +159,13 @@
       transform: translateY(0);
     }
 
-    /* Анимация загрузки */
-    .loading {
+    .submit-btn:disabled {
       opacity: 0.7;
-      pointer-events: none;
+      cursor: not-allowed;
+      transform: none;
     }
 
+    /* Анимация загрузки */
     .loading::after {
       content: '';
       position: absolute;
@@ -206,24 +210,14 @@
       .title {
         font-size: 22px;
       }
-      
-      .leaf {
-        font-size: 20px !important;
-      }
     }
   </style>
 </head>
 <body>
-  <!-- Простые листики джунглей -->
-  <div class="leaf leaf1">🌿</div>
-  <div class="leaf leaf2">🍃</div>
-  <div class="leaf leaf3">🌱</div>
-  <div class="leaf leaf4">🌿</div>
-
   <div class="container">
     <div class="form-wrapper">
       <div class="header">
-        <div class="dino-icon">🦕</div>
+        <div class="dino-icon">YM</div>
         <h1 class="title">YAVA MODERATION</h1>
         <p class="subtitle">Форма регистрации</p>
       </div>
@@ -232,30 +226,35 @@
         <div class="form-group">
           <label for="nick">Игровой ник</label>
           <input type="text" id="nick" placeholder="Nick_Name" required>
+          <div class="error-message" id="nick-error">Ник должен содержать символ "_"</div>
         </div>
         
         <div class="form-group">
           <label for="fa">Форумный аккаунт</label>
-          <input type="text" id="fa" placeholder="Ссылка на Arizona Guard" required>
+          <input type="url" id="fa" placeholder="Ссылка на Arizona Guard" required>
+          <div class="error-message" id="fa-error">Введите корректную ссылку</div>
         </div>
         
         <div class="form-group">
           <label for="discord_id">Discord ID</label>
-          <input type="text" id="discord_id" placeholder="Ваш Discord ID" required>
+          <input type="text" id="discord_id" placeholder="123456789012345678" required>
+          <div class="error-message" id="discord-error">Discord ID должен содержать только цифры (17-19 символов)</div>
         </div>
         
         <div class="form-group">
           <label for="vozrast">Возраст</label>
           <input type="number" id="vozrast" placeholder="Сколько вам лет?" min="13" max="99" required>
+          <div class="error-message" id="age-error">Возраст должен быть от 13 до 99 лет</div>
         </div>
         
         <div class="form-group">
           <label for="gorod">Местоположение</label>
           <input type="text" id="gorod" placeholder="Страна, город" required>
+          <div class="error-message" id="location-error">Поле обязательно для заполнения</div>
         </div>
         
         <button type="submit" class="submit-btn">
-          🦖 Отправить заявку
+          Отправить заявку
         </button>
       </form>
     </div>
@@ -274,19 +273,163 @@
     const form = document.getElementById('regForm');
     const submitBtn = form.querySelector('.submit-btn');
     
+    // Массив существующих ников (имитация базы данных)
+    const existingNicks = [
+      'Test_Player',
+      'Admin_User',
+      'Moderator_01',
+      'Player_Test'
+    ];
+
+    // Функции валидации
+    function validateNick(nick) {
+      if (!nick.includes('_')) {
+        return 'Ник должен содержать символ "_"';
+      }
+      if (existingNicks.includes(nick)) {
+        return 'Этот ник уже существует в базе данных';
+      }
+      return null;
+    }
+
+    function validateDiscordId(discordId) {
+      if (!/^\d{17,19}$/.test(discordId)) {
+        return 'Discord ID должен содержать только цифры (17-19 символов)';
+      }
+      return null;
+    }
+
+    function validateAge(age) {
+      const ageNum = parseInt(age);
+      if (isNaN(ageNum) || ageNum < 13 || ageNum > 99) {
+        return 'Возраст должен быть от 13 до 99 лет';
+      }
+      return null;
+    }
+
+    function validateUrl(url) {
+      try {
+        new URL(url);
+        return null;
+      } catch {
+        return 'Введите корректную ссылку';
+      }
+    }
+
+    function showError(inputId, message) {
+      const input = document.getElementById(inputId);
+      const errorDiv = document.getElementById(inputId + '-error');
+      
+      input.classList.add('invalid');
+      errorDiv.textContent = message;
+      errorDiv.classList.add('show');
+    }
+
+    function hideError(inputId) {
+      const input = document.getElementById(inputId);
+      const errorDiv = document.getElementById(inputId + '-error');
+      
+      input.classList.remove('invalid');
+      errorDiv.classList.remove('show');
+    }
+
+    function validateForm() {
+      let isValid = true;
+      
+      // Валидация ника
+      const nick = document.getElementById('nick').value.trim();
+      const nickError = validateNick(nick);
+      if (nickError) {
+        showError('nick', nickError);
+        isValid = false;
+      } else {
+        hideError('nick');
+      }
+
+      // Валидация форумного аккаунта
+      const fa = document.getElementById('fa').value.trim();
+      const faError = validateUrl(fa);
+      if (faError) {
+        showError('fa', faError);
+        isValid = false;
+      } else {
+        hideError('fa');
+      }
+
+      // Валидация Discord ID
+      const discordId = document.getElementById('discord_id').value.trim();
+      const discordError = validateDiscordId(discordId);
+      if (discordError) {
+        showError('discord_id', discordError);
+        isValid = false;
+      } else {
+        hideError('discord_id');
+      }
+
+      // Валидация возраста
+      const age = document.getElementById('vozrast').value;
+      const ageError = validateAge(age);
+      if (ageError) {
+        showError('vozrast', ageError);
+        isValid = false;
+      } else {
+        hideError('vozrast');
+      }
+
+      // Валидация местоположения
+      const location = document.getElementById('gorod').value.trim();
+      if (!location) {
+        showError('gorod', 'Поле обязательно для заполнения');
+        isValid = false;
+      } else {
+        hideError('gorod');
+      }
+
+      return isValid;
+    }
+
+    // Валидация в реальном времени
+    document.getElementById('nick').addEventListener('blur', function() {
+      const nickError = validateNick(this.value.trim());
+      if (nickError) {
+        showError('nick', nickError);
+      } else {
+        hideError('nick');
+      }
+    });
+
+    document.getElementById('discord_id').addEventListener('input', function() {
+      // Разрешаем только цифры
+      this.value = this.value.replace(/[^\d]/g, '');
+    });
+
+    document.getElementById('discord_id').addEventListener('blur', function() {
+      const discordError = validateDiscordId(this.value.trim());
+      if (discordError) {
+        showError('discord_id', discordError);
+      } else {
+        hideError('discord_id');
+      }
+    });
+
     form.addEventListener('submit', function(e) {
       e.preventDefault();
       
+      if (!validateForm()) {
+        return;
+      }
+      
       // Анимация загрузки
       submitBtn.classList.add('loading');
-      submitBtn.textContent = '⏳ Отправляем...';
+      submitBtn.textContent = 'Отправляем...';
+      submitBtn.disabled = true;
       
       const data = {
-        nick: document.getElementById('nick').value,
-        fa: document.getElementById('fa').value,
-        discord_id: document.getElementById('discord_id').value,
+        nick: document.getElementById('nick').value.trim(),
+        fa: document.getElementById('fa').value.trim(),
+        discord_id: document.getElementById('discord_id').value.trim(),
         vozrast: document.getElementById('vozrast').value,
-        gorod: document.getElementById('gorod').value
+        gorod: document.getElementById('gorod').value.trim()
       };
       
       setTimeout(() => {
@@ -296,18 +439,20 @@
           // Показываем успешное сообщение
           const successDiv = document.createElement('div');
           successDiv.className = 'success-message';
-          successDiv.innerHTML = '✅ Заявка успешно отправлена!';
+          successDiv.innerHTML = 'Заявка успешно отправлена!';
           form.parentNode.insertBefore(successDiv, form);
           
-          submitBtn.textContent = '✅ Готово!';
+          submitBtn.textContent = 'Готово!';
           submitBtn.style.background = '#22C55E';
+          submitBtn.classList.remove('loading');
           
         } catch (err) {
           submitBtn.classList.remove('loading');
-          submitBtn.textContent = '🦖 Отправить заявку';
-          alert("❌ Ошибка отправки: " + err.message);
+          submitBtn.textContent = 'Отправить заявку';
+          submitBtn.disabled = false;
+          alert("Ошибка отправки: " + err.message);
         }
-      }, 800);
+      }, 1000);
     });
   </script>
 </body>
