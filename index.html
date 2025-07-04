@@ -2,37 +2,73 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Регистрация</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    /* Ваши стили */
+    body {
+      font-family: 'Comic Sans MS', cursive;
+      background: linear-gradient(to right, #b4f8c8, #fce38a);
+      padding: 20px;
+      background-image: url('https://img.freepik.com/premium-vector/seamless-pattern-with-dinosaurs-khaki-coloring-children-s-background-cartoon-textile-cover_713008-71.jpg?semt=ais_items_boosted&w=740');
+      background-size: 80px;
+    }
+    form {
+      max-width: 400px;
+      margin: auto;
+      background: rgba(255, 255, 255, 0.95);
+      padding: 20px;
+      border-radius: 16px;
+      box-shadow: 0 0 12px rgba(0,0,0,0.1);
+    }
+    input, button {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 10px;
+      border: 1px solid #aaa;
+    }
+    button {
+      background: #40c9a2;
+      color: white;
+      font-weight: bold;
+      border: none;
+      transition: 0.3s;
+    }
+    button:hover {
+      background: #368b75;
+    }
+    h2 {
+      text-align: center;
+      color: #2c3e50;
+    }
   </style>
 </head>
 <body>
   <form id="regForm">
-    <h2>🦖 Регистрация</h2>
-    <input type="text" id="nick" placeholder="Ваш ник" required>
-    <input type="text" id="fa" placeholder="Форумный аккаунт" required>
+    <h2>🦕 YAVA MODERATION</h2>
+    <input type="text" id="nick" placeholder="Игровой ник [Nick_Name])" required>
+    <input type="text" id="fa" placeholder="Ссылка на Форумный Аккаунт Arizona Guard" required>
     <input type="text" id="discord_id" placeholder="Discord ID" required>
     <input type="number" id="vozrast" placeholder="Возраст" required>
-    <input type="text" id="gorod" placeholder="Город" required>
-    <button type="submit">Отправить</button>
+    <input type="text" id="gorod" placeholder="Страна, город проживания" required>
+    <button type="submit">🦖 Отправить</button>
   </form>
 
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <script>
     const tg = window.Telegram.WebApp;
-    const urlParams = new URLSearchParams(window.location.search);
-    const userId = urlParams.get('user_id');
 
-    tg.expand();
-    tg.enableClosingConfirmation();
+    if (!tg) {
+      alert("⚠️ Пожалуйста, откройте эту форму через Telegram WebApp, а не напрямую в браузере.");
+    } else {
+      tg.expand();
+    }
 
-    document.getElementById('regForm').addEventListener('submit', function(e) {
+    const form = document.getElementById('regForm');
+    form.addEventListener('submit', function(e) {
       e.preventDefault();
-      
-      const formData = {
-        user_id: userId,
+
+      const data = {
         nick: document.getElementById('nick').value,
         fa: document.getElementById('fa').value,
         discord_id: document.getElementById('discord_id').value,
@@ -40,18 +76,11 @@
         gorod: document.getElementById('gorod').value
       };
 
-      if (tg.initDataUnsafe?.query_id) {
-        // Для Inline WebApp
-        const query_id = tg.initDataUnsafe.query_id;
-        const data = JSON.stringify(formData);
-        
-        // Формируем URL с данными
-        const redirectUrl = `https://t.me/${tg.initDataUnsafe.user.username}?startapp=webapp_${query_id}_${encodeURIComponent(data)}`;
-        window.location.href = redirectUrl;
-      } else {
-        // Для обычного WebApp (на всякий случай)
-        tg.sendData(JSON.stringify(formData));
-        tg.close();
+      try {
+        tg.sendData(JSON.stringify(data)); 
+        alert("✅ Данные отправлены. Возвращаемся в Telegram...");
+      } catch (err) {
+        alert("❌ Не удалось отправить данные: " + err.message);
       }
     });
   </script>
