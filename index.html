@@ -1,257 +1,133 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <title>Регистрация | YAVA MODERATION</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://fonts.googleapis.com/css2?family=Rubik+Dirt&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --dino-green: #4CAF50;
-      --dino-dark: #2E7D32;
-      --dino-light: #8BC34A;
-      --dino-sand: #FFD54F;
-      --dino-orange: #FF9800;
-      --dino-brown: #795548;
-    }
-    
-    body {
-      font-family: 'Rubik Dirt', cursive;
-      background: url('https://img.freepik.com/free-vector/hand-drawn-dinosaur-pattern_23-2149024986.jpg?w=1380&t=st=1698765432~exp=1698766032~hmac=8a0b9a9b9a9b9a9b9a9b9a9b9a9b9a9b9a9b9a9b9a9b9a9b9a9b9a9b9a9b9a9') fixed;
-      background-size: 300px;
-      margin: 0;
-      padding: 20px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-    }
-    
-    .dino-container {
-      position: relative;
-      max-width: 420px;
-      width: 100%;
-      perspective: 1000px;
-    }
-    
-    .dino-form {
-      background: rgba(255, 253, 245, 0.95);
-      padding: 30px;
-      border-radius: 20px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-      border: 5px solid var(--dino-brown);
-      transform-style: preserve-3d;
-      transition: transform 0.5s;
-      position: relative;
-      overflow: hidden;
-    }
-    
-    .dino-form::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 15px;
-      background: linear-gradient(90deg, var(--dino-green), var(--dino-light), var(--dino-orange), var(--dino-sand), var(--dino-green));
-      background-size: 200% 100%;
-      animation: rainbow 3s linear infinite;
-    }
-    
-    @keyframes rainbow {
-      0% { background-position: 0% 50%; }
-      100% { background-position: 200% 50%; }
-    }
-    
-    h2 {
-      text-align: center;
-      color: var(--dino-dark);
-      font-size: 28px;
-      margin-bottom: 25px;
-      text-shadow: 2px 2px 0px rgba(0,0,0,0.1);
-      letter-spacing: 1px;
-    }
-    
-    .dino-input-group {
-      margin-bottom: 20px;
-      position: relative;
-    }
-    
-    .dino-input-group label {
-      display: block;
-      margin-bottom: 8px;
-      color: var(--dino-brown);
-      font-size: 16px;
-    }
-    
-    .dino-input {
-      width: 100%;
-      padding: 14px 15px;
-      border: 2px solid var(--dino-brown);
-      border-radius: 12px;
-      font-family: 'Rubik Dirt', cursive;
-      font-size: 16px;
-      background: rgba(255, 255, 255, 0.8);
-      transition: all 0.3s;
-    }
-    
-    .dino-input:focus {
-      outline: none;
-      border-color: var(--dino-green);
-      box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.3);
-      background: white;
-    }
-    
-    .dino-button {
-      background: linear-gradient(to right, var(--dino-green), var(--dino-dark));
-      color: white;
-      border: none;
-      padding: 15px;
-      border-radius: 12px;
-      font-family: 'Rubik Dirt', cursive;
-      font-size: 18px;
-      cursor: pointer;
-      transition: all 0.3s;
-      margin-top: 10px;
-      width: 100%;
-      position: relative;
-      overflow: hidden;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-    
-    .dino-button:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
-    }
-    
-    .dino-button:active {
-      transform: translateY(1px);
-    }
-    
-    .dino-button::before {
-      content: "🦖";
-      position: absolute;
-      left: 20px;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 20px;
-    }
-    
-    .dino-button::after {
-      content: "🦕";
-      position: absolute;
-      right: 20px;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 20px;
-    }
-    
-    .dino-footprints {
-      position: absolute;
-      width: 100%;
-      height: 30px;
-      bottom: -15px;
-      left: 0;
-      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 20"><path d="M10,10 Q15,5 20,10 Q25,15 30,10 Q35,5 40,10 Q45,15 50,10 Q55,5 60,10 Q65,15 70,10 Q75,5 80,10 Q85,15 90,10" fill="none" stroke="%232E7D32" stroke-width="2"/></svg>') repeat-x;
-      opacity: 0.6;
-    }
-    
-    @media (max-width: 480px) {
-      .dino-form {
-        padding: 20px;
-      }
-      
-      h2 {
-        font-size: 24px;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 <body>
-  <div class="dino-container">
-    <form id="regForm" class="dino-form">
-      <h2>🦖 YAVA MODERATION 🦕</h2>
-      
-      <div class="dino-input-group">
-        <label for="nick">Игровой ник (Nick_Name)</label>
-        <input type="text" id="nick" class="dino-input" placeholder="Например: Rex_Jurassic" required>
-      </div>
-      
-      <div class="dino-input-group">
-        <label for="fa">Форумный аккаунт Arizona Guard</label>
-        <input type="text" id="fa" class="dino-input" placeholder="Ссылка на ваш профиль" required>
-      </div>
-      
-      <div class="dino-input-group">
-        <label for="discord_id">Discord ID</label>
-        <input type="text" id="discord_id" class="dino-input" placeholder="Например: Rex#1234" required>
-      </div>
-      
-      <div class="dino-input-group">
-        <label for="vozrast">Возраст</label>
-        <input type="number" id="vozrast" class="dino-input" placeholder="Сколько вам лет?" min="12" max="99" required>
-      </div>
-      
-      <div class="dino-input-group">
-        <label for="gorod">Страна и город</label>
-        <input type="text" id="gorod" class="dino-input" placeholder="Откуда вы?" required>
-      </div>
-      
-      <button type="submit" class="dino-button">ОТПРАВИТЬ ДАННЫЕ</button>
-      
-      <div class="dino-footprints"></div>
-    </form>
-  </div>
+    <div class="container">
+        <h2>Регистрация</h2>
+        <form id="regForm">
+            <div class="form-group">
+                <label for="nick">Игровой ник:</label>
+                <input type="text" id="nick" placeholder="Nick_Name" required>
+            </div>
+            <div class="form-group">
+                <label for="fa">Форумный аккаунт:</label>
+                <input type="text" id="fa" placeholder="Ссылка на форум" required>
+            </div>
+            <div class="form-group">
+                <label for="discord_id">Discord ID:</label>
+                <input type="text" id="discord_id" placeholder="Ваш Discord" required>
+            </div>
+            <div class="form-group">
+                <label for="vozrast">Возраст:</label>
+                <input type="number" id="vozrast" placeholder="Ваш возраст" required>
+            </div>
+            <div class="form-group">
+                <label for="gorod">Город:</label>
+                <input type="text" id="gorod" placeholder="Город проживания" required>
+            </div>
+            <button type="submit">Зарегистрироваться</button>
+        </form>
+    </div>
 
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const tg = window.Telegram.WebApp;
-      
-      if (!tg) {
-        console.error("Telegram WebApp не инициализирован");
-        return;
-      }
-      
-      tg.expand();
-      tg.enableClosingConfirmation();
-      
-      const form = document.getElementById('regForm');
-      
-      form.addEventListener('submit', function(e) {
-        e.preventDefault();
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script>
+        const tg = window.Telegram.WebApp;
         
-        const formData = {
-          nick: document.getElementById('nick').value.trim(),
-          fa: document.getElementById('fa').value.trim(),
-          discord_id: document.getElementById('discord_id').value.trim(),
-          vozrast: document.getElementById('vozrast').value.trim(),
-          gorod: document.getElementById('gorod').value.trim()
-        };
-        
-        // Валидация данных
-        if (!formData.nick || !formData.fa || !formData.discord_id || !formData.vozrast || !formData.gorod) {
-          tg.showAlert("Пожалуйста, заполните все поля!");
-          return;
+        // Проверяем, что WebApp инициализирован
+        if (!tg) {
+            console.error("Telegram WebApp не загружен");
+            alert("Пожалуйста, откройте эту страницу через Telegram бота");
+        } else {
+            tg.expand(); // Раскрываем на весь экран
+            tg.enableClosingConfirmation(); // Подтверждение перед закрытием
         }
-        
-        // Проверка ника на формат Nick_Name
-        if (!formData.nick.includes('_')) {
-          tg.showAlert("Ник должен содержать символ '_' (например: Rex_Jurassic)");
-          return;
-        }
-        
-        try {
-          tg.sendData(JSON.stringify(formData));
-          tg.showAlert("✅ Данные успешно отправлены! Сейчас вы вернётесь в бота...", function() {
-            tg.close();
-          });
-        } catch (error) {
-          console.error("Ошибка отправки данных:", error);
-          tg.showAlert("❌ Ошибка при отправке данных. Попробуйте ещё раз.");
-        }
-      });
-    });
-  </script>
+
+        document.getElementById('regForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Собираем данные формы
+            const formData = {
+                nick: document.getElementById('nick').value,
+                fa: document.getElementById('fa').value,
+                discord_id: document.getElementById('discord_id').value,
+                vozrast: document.getElementById('vozrast').value,
+                gorod: document.getElementById('gorod').value
+            };
+
+            // Проверяем заполнение всех полей
+            if (!formData.nick || !formData.fa || !formData.discord_id || !formData.vozrast || !formData.gorod) {
+                tg.showAlert("Заполните все поля!");
+                return;
+            }
+
+            // Проверяем формат ника
+            if (!formData.nick.includes('_')) {
+                tg.showAlert("Ник должен содержать символ '_' (например: Ivan_Pro)");
+                return;
+            }
+
+            try {
+                // Отправляем данные в бота
+                tg.sendData(JSON.stringify(formData));
+                tg.showAlert("Данные отправлены!", function() {
+                    tg.close(); // Закрываем WebApp после отправки
+                });
+            } catch (error) {
+                console.error("Ошибка отправки:", error);
+                tg.showAlert("Ошибка при отправке данных");
+            }
+        });
+    </script>
 </body>
 </html>
