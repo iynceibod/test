@@ -62,55 +62,40 @@
 
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const errorElement = document.getElementById('error-message');
-      
-      // Проверяем, запущено ли в Telegram WebApp
-      if (window.Telegram && window.Telegram.WebApp) {
-        const tg = window.Telegram.WebApp;
-        
-        try {
-          tg.expand(); // Разворачиваем на весь экран
-          tg.enableClosingConfirmation(); // Запрашиваем подтверждение при закрытии
-          
-          // Инициализация основной логики
-          initForm(tg);
-        } catch (e) {
-          showError("Ошибка инициализации WebApp: " + e.message);
+    const tg = window.Telegram.WebApp;
+    const isInline = tg.initDataUnsafe?.query_id !== undefined;
+
+    if (!tg) {
+      alert("⚠️ Пожалуйста, откройте эту форму через Telegram");
+    } else {
+      tg.expand();
+    }
+
+    const form = document.getElementById('regForm');
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      const data = {
+        nick: document.getElementById('nick').value,
+        fa: document.getElementById('fa').value,
+        discord_id: document.getElementById('discord_id').value,
+        vozrast: document.getElementById('vozrast').value,
+        gorod: document.getElementById('gorod').value
+      };
+
+      try {
+        if (isInline) {
+          // Для Inline WebApp
+          tg.sendData(JSON.stringify(data));
+        } else {
+          // Для Reply WebApp
+          tg.sendData(JSON.stringify(data));
         }
-      } else {
-        showError("⚠️ Пожалуйста, откройте эту форму через Telegram (в мобильном приложении или официальном веб-клиенте).");
+        tg.close();
+      } catch (err) {
+        alert("❌ Ошибка: " + err.message);
       }
     });
-
-    function initForm(tg) {
-      const form = document.getElementById('regForm');
-      
-      form.addEventListener('submit', function(e) {
-        e.preventDefault();
-
-        const data = {
-          nick: document.getElementById('nick').value,
-          fa: document.getElementById('fa').value,
-          discord_id: document.getElementById('discord_id').value,
-          vozrast: document.getElementById('vozrast').value,
-          gorod: document.getElementById('gorod').value
-        };
-
-        try {
-          tg.sendData(JSON.stringify(data));
-          tg.close(); // Закрываем WebApp после отправки
-        } catch (err) {
-          showError("❌ Ошибка при отправке данных: " + err.message);
-        }
-      });
-    }
-
-    function showError(message) {
-      const errorElement = document.getElementById('error-message');
-      errorElement.textContent = message;
-      console.error(message);
-    }
   </script>
 </body>
 </html>
