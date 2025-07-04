@@ -438,7 +438,6 @@
   </div>
 
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <script>
     const tg = window.Telegram.WebApp;
     
@@ -446,23 +445,30 @@
       alert("Откройте эту форму через Telegram WebApp!");
     } else {
       tg.expand();
-      tg.enableClosingConfirmation();
     }
 
     const form = document.getElementById('regForm');
     const submitBtn = form.querySelector('.submit-btn');
     
     function validateNick(nick) {
-      return nick.includes('_') ? null : 'Ник должен содержать символ "_"';
+      if (!nick.includes('_')) {
+        return 'Ник должен быть в формате Nick_Name';
+      }
     }
 
     function validateDiscordId(discordId) {
-      return /^\d{17,19}$/.test(discordId) ? null : 'Discord ID должен содержать только цифры (17-19 символов)';
+      if (!/^\d{17,19}$/.test(discordId)) {
+        return 'Discord ID должен состоять только из цифр';
+      }
+      return null;
     }
 
     function validateAge(age) {
       const ageNum = parseInt(age);
-      return (ageNum >= 1 && ageNum <= 99) ? null : 'Возраст должен быть от 1 до 99 лет';
+      if (isNaN(ageNum) || ageNum < 1 || ageNum > 99) {
+        return 'Возраст должен быть от 1 до 99 лет';
+      }
+      return null;
     }
 
     function validateUrl(url) {
@@ -477,6 +483,7 @@
     function showError(inputId, message) {
       const input = document.getElementById(inputId);
       const errorDiv = document.getElementById(inputId + '-error');
+      
       input.classList.add('invalid');
       errorDiv.textContent = message;
       errorDiv.classList.add('show');
@@ -485,6 +492,7 @@
     function hideError(inputId) {
       const input = document.getElementById(inputId);
       const errorDiv = document.getElementById(inputId + '-error');
+      
       input.classList.remove('invalid');
       errorDiv.classList.remove('show');
     }
@@ -492,27 +500,42 @@
     function validateForm() {
       let isValid = true;
       
-      // Валидация ника
       const nick = document.getElementById('nick').value.trim();
       const nickError = validateNick(nick);
-      nickError ? (showError('nick', nickError), isValid = false) : hideError('nick');
+      if (nickError) {
+        showError('nick', nickError);
+        isValid = false;
+      } else {
+        hideError('nick');
+      }
 
-      // Валидация FA
       const fa = document.getElementById('fa').value.trim();
       const faError = validateUrl(fa);
-      faError ? (showError('fa', faError), isValid = false) : hideError('fa');
+      if (faError) {
+        showError('fa', faError);
+        isValid = false;
+      } else {
+        hideError('fa');
+      }
 
-      // Валидация Discord ID
       const discordId = document.getElementById('discord_id').value.trim();
       const discordError = validateDiscordId(discordId);
-      discordError ? (showError('discord_id', discordError), isValid = false) : hideError('discord_id');
+      if (discordError) {
+        showError('discord_id', discordError);
+        isValid = false;
+      } else {
+        hideError('discord_id');
+      }
 
-      // Валидация возраста
       const age = document.getElementById('vozrast').value;
       const ageError = validateAge(age);
-      ageError ? (showError('vozrast', ageError), isValid = false) : hideError('vozrast');
+      if (ageError) {
+        showError('vozrast', ageError);
+        isValid = false;
+      } else {
+        hideError('vozrast');
+      }
 
-      // Валидация города
       const location = document.getElementById('gorod').value.trim();
       if (!location) {
         showError('gorod', 'Поле обязательно для заполнения');
@@ -524,10 +547,13 @@
       return isValid;
     }
 
-    // Обработчики событий
     document.getElementById('nick').addEventListener('blur', function() {
-      const error = validateNick(this.value.trim());
-      error ? showError('nick', error) : hideError('nick');
+      const nickError = validateNick(this.value.trim());
+      if (nickError) {
+        showError('nick', nickError);
+      } else {
+        hideError('nick');
+      }
     });
 
     document.getElementById('discord_id').addEventListener('input', function() {
@@ -535,48 +561,54 @@
     });
 
     document.getElementById('discord_id').addEventListener('blur', function() {
-      const error = validateDiscordId(this.value.trim());
-      error ? showError('discord_id', error) : hideError('discord_id');
+      const discordError = validateDiscordId(this.value.trim());
+      if (discordError) {
+        showError('discord_id', discordError);
+      } else {
+        hideError('discord_id');
+      }
     });
 
     form.addEventListener('submit', function(e) {
       e.preventDefault();
       
-      if (!validateForm()) return;
+      if (!validateForm()) {
+        return;
+      }
       
       submitBtn.classList.add('loading');
+      submitBtn.textContent = 'Отправляем...';
       submitBtn.disabled = true;
-      submitBtn.innerHTML = '<span class="loading-text">Отправка...</span>';
       
-      const formData = {
+      const data = {
         nick: document.getElementById('nick').value.trim(),
         fa: document.getElementById('fa').value.trim(),
         discord_id: document.getElementById('discord_id').value.trim(),
         vozrast: document.getElementById('vozrast').value,
-        gorod: document.getElementById('gorod').value.trim(),
-        user_id: tg.initDataUnsafe.user?.id || 0,
-        username: tg.initDataUnsafe.user?.username || ''
+        gorod: document.getElementById('gorod').value.trim()
       };
-
-      // Отправка данных в Telegram WebApp
-      if (tg.sendData) {
-        tg.sendData(JSON.stringify(formData));
-        
-        // Альтернатива на случай если sendData не сработает
-        setTimeout(() => {
-          tg.close();
-        }, 1000);
-      } else {
-        console.log("Данные для отправки:", formData);
-        alert("В режиме тестирования: данные не отправлены в Telegram");
-        submitBtn.classList.remove('loading');
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Отправить заявку';
-      }
+      
+      setTimeout(() => {
+        try {
+          tg.sendData(JSON.stringify(data));
+          
+          const successDiv = document.createElement('div');
+          successDiv.className = 'success-message';
+          successDiv.innerHTML = 'Заявка успешно отправлена!';
+          form.parentNode.insertBefore(successDiv, form);
+          
+          submitBtn.textContent = 'Готово!';
+          submitBtn.style.background = '#22C55E';
+          submitBtn.classList.remove('loading');
+          
+        } catch (err) {
+          submitBtn.classList.remove('loading');
+          submitBtn.textContent = 'Отправить заявку';
+          submitBtn.disabled = false;
+          alert("Ошибка отправки: " + err.message);
+        }
+      }, 1000);
     });
-
-    // Инициализация формы
-    tg.ready();
   </script>
 </body>
 </html>
