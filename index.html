@@ -41,18 +41,12 @@
       text-align: center;
       color: #2c3e50;
     }
-    #error-message {
-      color: red;
-      text-align: center;
-      margin: 10px 0;
-    }
   </style>
 </head>
 <body>
-  <div id="error-message"></div>
   <form id="regForm">
     <h2>🦕 YAVA MODERATION</h2>
-    <input type="text" id="nick" placeholder="Игровой ник [Nick_Name])" required>
+    <input type="text" id="nick" placeholder="Игровой ник [Nick_Name]" required>
     <input type="text" id="fa" placeholder="Ссылка на Форумный Аккаунт Arizona Guard" required>
     <input type="text" id="discord_id" placeholder="Discord ID" required>
     <input type="number" id="vozrast" placeholder="Возраст" required>
@@ -63,19 +57,21 @@
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <script>
     const tg = window.Telegram.WebApp;
-    const isInline = tg.initDataUnsafe?.query_id !== undefined;
+    const urlParams = new URLSearchParams(window.location.search);
+    const userId = urlParams.get('user_id');
 
     if (!tg) {
       alert("⚠️ Пожалуйста, откройте эту форму через Telegram");
     } else {
       tg.expand();
+      tg.enableClosingConfirmation();
     }
 
-    const form = document.getElementById('regForm');
-    form.addEventListener('submit', async function(e) {
+    document.getElementById('regForm').addEventListener('submit', function(e) {
       e.preventDefault();
 
       const data = {
+        user_id: userId,
         nick: document.getElementById('nick').value,
         fa: document.getElementById('fa').value,
         discord_id: document.getElementById('discord_id').value,
@@ -83,18 +79,15 @@
         gorod: document.getElementById('gorod').value
       };
 
-      try {
-        if (isInline) {
-          // Для Inline WebApp
-          tg.sendData(JSON.stringify(data));
-        } else {
-          // Для Reply WebApp
-          tg.sendData(JSON.stringify(data));
-        }
-        tg.close();
-      } catch (err) {
-        alert("❌ Ошибка: " + err.message);
+      if (tg.initDataUnsafe?.query_id) {
+        // Для Inline WebApp
+        tg.sendData(JSON.stringify(data));
+      } else {
+        // Для обычного WebApp (на всякий случай)
+        tg.sendData(JSON.stringify(data));
       }
+      
+      tg.close();
     });
   </script>
 </body>
