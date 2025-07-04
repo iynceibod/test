@@ -1,22 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
     <title>TEST</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
-    <button onclick="sendTest()">ТЕСТ КНОПКА</button>
-
+    <h1>TEST PAGE</h1>
     <script>
-        const tg = Telegram.WebApp;
+        const tg = window.Telegram.WebApp;
         tg.expand();
-        
-        function sendTest() {
-            console.log("Кнопка нажата!");  // Проверьте в браузере (F12)
-            tg.sendData("TEST_DATA");
+        tg.MainButton.setText("CLICK ME").show().onClick(() => {
+            tg.sendData("TEST");
             tg.close();
-        }
+        });
     </script>
 </body>
 </html>
