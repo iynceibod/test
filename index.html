@@ -2,39 +2,46 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>Моё мини-приложение</title>
+  <title>Регистрация</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    body {
-      font-family: sans-serif;
-      text-align: center;
-      padding: 30px;
-      background-color: #f4f4f4;
-    }
-    button {
-      padding: 10px 20px;
-      font-size: 18px;
-      border-radius: 10px;
-      border: none;
-      background-color: #0088cc;
-      color: white;
-      cursor: pointer;
-    }
+    body { font-family: Arial, sans-serif; background: #f4f4f4; padding: 20px; }
+    form { max-width: 400px; margin: auto; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    input, button { width: 100%; padding: 12px; margin: 8px 0; border-radius: 8px; border: 1px solid #ccc; }
+    button { background: #0088cc; color: white; border: none; font-weight: bold; cursor: pointer; }
+    button:hover { background: #0075aa; }
   </style>
 </head>
 <body>
-  <h1>Добро пожаловать!</h1>
-  <p>Это мини-приложение Telegram 👋</p>
-  <button onclick="sendData()">Отправить данные боту</button>
+  <form id="regForm">
+    <h2>Регистрация</h2>
+    <input type="text" id="nick" placeholder="Игровой ник (пример: A_Sidorov)" required>
+    <input type="text" id="fa" placeholder="Ссылка на ФА" required>
+    <input type="text" id="discord_id" placeholder="Discord ID" required>
+    <input type="number" id="vozrast" placeholder="Возраст" required>
+    <input type="text" id="gorod" placeholder="Город и страна" required>
+    <button type="submit">Отправить</button>
+  </form>
 
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <script>
     const tg = window.Telegram.WebApp;
-    tg.expand();
+    tg.expand(); // Разворачиваем WebApp на всю высоту
 
-    function sendData() {
-      tg.sendData("Пользователь нажал на кнопку ✅");
-    }
+    const form = document.getElementById('regForm');
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const data = {
+        nick: document.getElementById('nick').value,
+        fa: document.getElementById('fa').value,
+        discord_id: document.getElementById('discord_id').value,
+        vozrast: document.getElementById('vozrast').value,
+        gorod: document.getElementById('gorod').value
+      };
+
+      tg.sendData(JSON.stringify(data)); // Отправка данных боту
+    });
   </script>
 </body>
 </html>
