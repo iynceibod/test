@@ -5,28 +5,64 @@
   <title>Регистрация</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    body { font-family: Arial, sans-serif; background: #f4f4f4; padding: 20px; }
-    form { max-width: 400px; margin: auto; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-    input, button { width: 100%; padding: 12px; margin: 8px 0; border-radius: 8px; border: 1px solid #ccc; }
-    button { background: #0088cc; color: white; border: none; font-weight: bold; cursor: pointer; }
-    button:hover { background: #0075aa; }
+    body {
+      font-family: 'Comic Sans MS', cursive;
+      background: linear-gradient(to right, #b4f8c8, #fce38a);
+      padding: 20px;
+      background-image: url('https://i.imgur.com/7Mdrbzf.png'); /* динозаврики фоном */
+      background-size: 80px;
+    }
+    form {
+      max-width: 400px;
+      margin: auto;
+      background: rgba(255, 255, 255, 0.95);
+      padding: 20px;
+      border-radius: 16px;
+      box-shadow: 0 0 12px rgba(0,0,0,0.1);
+    }
+    input, button {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 10px;
+      border: 1px solid #aaa;
+    }
+    button {
+      background: #40c9a2;
+      color: white;
+      font-weight: bold;
+      border: none;
+      transition: 0.3s;
+    }
+    button:hover {
+      background: #368b75;
+    }
+    h2 {
+      text-align: center;
+      color: #2c3e50;
+    }
   </style>
 </head>
 <body>
   <form id="regForm">
-    <h2>Регистрация</h2>
+    <h2>🦕 Регистрация Дино</h2>
     <input type="text" id="nick" placeholder="Игровой ник (пример: A_Sidorov)" required>
     <input type="text" id="fa" placeholder="Ссылка на ФА" required>
     <input type="text" id="discord_id" placeholder="Discord ID" required>
     <input type="number" id="vozrast" placeholder="Возраст" required>
     <input type="text" id="gorod" placeholder="Город и страна" required>
-    <button type="submit">Отправить</button>
+    <button type="submit">🦖 Отправить</button>
   </form>
 
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <script>
     const tg = window.Telegram.WebApp;
-    tg.expand(); // Разворачиваем WebApp на всю высоту
+
+    if (!tg) {
+      alert("⚠️ Пожалуйста, откройте эту форму через Telegram WebApp, а не напрямую в браузере.");
+    } else {
+      tg.expand();
+    }
 
     const form = document.getElementById('regForm');
     form.addEventListener('submit', function(e) {
@@ -40,7 +76,12 @@
         gorod: document.getElementById('gorod').value
       };
 
-      tg.sendData(JSON.stringify(data)); // Отправка данных боту
+      try {
+        tg.sendData(JSON.stringify(data));  // Отправка в бота
+        alert("✅ Данные отправлены. Возвращаемся в Telegram...");
+      } catch (err) {
+        alert("❌ Не удалось отправить данные: " + err.message);
+      }
     });
   </script>
 </body>
