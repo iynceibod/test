@@ -2,32 +2,21 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Тест форма</title>
+    <title>TEST</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <style>
-        body { padding: 20px; }
-        input { display: block; margin: 10px 0; width: 100%; padding: 8px; }
-        button { padding: 10px; background: #0088cc; color: white; border: none; width: 100%; }
-    </style>
 </head>
 <body>
-    <form id="form">
-        <input type="text" id="test_field" placeholder="Введите любой текст" required>
-        <button type="submit">Отправить тест</button>
-    </form>
+    <button onclick="sendTest()">ТЕСТ КНОПКА</button>
 
     <script>
-        const tg = window.Telegram.WebApp;
+        const tg = Telegram.WebApp;
         tg.expand();
         
-        document.getElementById('form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const data = {
-                test: document.getElementById('test_field').value
-            };
-            tg.sendData(JSON.stringify(data));
+        function sendTest() {
+            console.log("Кнопка нажата!");  // Проверьте в браузере (F12)
+            tg.sendData("TEST_DATA");
             tg.close();
-        });
+        }
     </script>
 </body>
 </html>
