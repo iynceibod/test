@@ -1,73 +1,178 @@
+// Инициализация Telegram WebApp
 const tg = window.Telegram?.WebApp;
-if (tg) {
-  tg.expand();
-  tg.setHeaderColor('#667eea');
-} else {
+if (!tg) {
   console.warn('Telegram WebApp не найден');
+} else {
+  tg.expand();
+  tg.setHeaderColor('#2d5016');
 }
 
+// Получение элементов формы
 const form = document.getElementById('regForm');
 const submitBtn = form.querySelector('.submit-btn');
 
+// Функции валидации
+function validateNick(nick) {
+  const errorElement = document.getElementById('nick-error');
+  
+  if (!nick) {
+    showError(errorElement, 'Введите ник');
+    return false;
+  }
+  
+  if (!nick.includes('_')) {
+    showError(errorElement, 'Ник должен содержать символ "_"');
+    return false;
+  }
+  
+  hideError(errorElement);
+  return true;
+}
+
+function validateForumAccount(url) {
+  const errorElement = document.getElementById('fa-error');
+  
+  if (!url) {
+    showError(errorElement, 'Введите URL форума');
+    return false;
+  }
+  
+  if (!url.startsWith('http://') && !url.startsWith('https://')) {
+    showError(errorElement, 'Введите корректный URL (начинается с http:// или https://)');
+    return false;
+  }
+  
+  hideError(errorElement);
+  return true;
+}
+
+function validateDiscordId(id) {
+  const errorElement = document.getElementById('discord-error');
+  
+  if (!id) {
+    showError(errorElement, 'Введите Discord ID');
+    return false;
+  }
+  
+  if (!/^\d+$/.test(id)) {
+    showError(errorElement, 'Discord ID должен содержать только цифры');
+    return false;
+  }
+  
+  hideError(errorElement);
+  return true;
+}
+
+function validateAge(age) {
+  const errorElement = document.getElementById('age-error');
+  
+  if (!age) {
+    showError(errorElement, 'Введите возраст');
+    return false;
+  }
+  
+  if (age < 14) {
+    showError(errorElement, 'Минимальный возраст - 14 лет');
+    return false;
+  }
+  
+  hideError(errorElement);
+  return true;
+}
+
+function validateLocation(location) {
+  const errorElement = document.getElementById('location-error');
+  
+  if (!location) {
+    showError(errorElement, 'Введите местоположение');
+    return false;
+  }
+  
+  hideError(errorElement);
+  return true;
+}
+
+function showError(element, message) {
+  element.textContent = message;
+  element.style.display = 'block';
+}
+
+function hideError(element) {
+  element.textContent = '';
+  element.style.display = 'none';
+}
+
+// Валидация в реальном времени
 function validateForm() {
   const nick = document.getElementById('nick').value.trim();
   const fa = document.getElementById('fa').value.trim();
   const discord_id = document.getElementById('discord_id').value.trim();
-  const vozrast = document.getElementById('vozrast').value.trim();
+  const vozrast = document.getElementById('vozrast').value;
   const gorod = document.getElementById('gorod').value.trim();
-
-  let valid = true;
-
-  // Очистка ошибок
-  document.querySelectorAll('.error').forEach(e => e.textContent = '');
-
-  // Ник
-  if (!nick.includes('_')) {
-    document.getElementById('nick-error').textContent = 'Ник должен содержать "_"';
-    valid = false;
-  }
-
-  // Форум
-  if (!fa.startsWith('http')) {
-    document.getElementById('fa-error').textContent = 'Укажите ссылку на форум';
-    valid = false;
-  }
-
-  // Discord ID
-  if (!/^\d+$/.test(discord_id)) {
-    document.getElementById('discord-error').textContent = 'ID должен содержать только цифры';
-    valid = false;
-  }
-
-  // Возраст
-  if (!vozrast) {
-    document.getElementById('vozrast-error').textContent = 'Возраст обязателен';
-    valid = false;
-  }
-
-  // Город
-  if (!gorod) {
-    document.getElementById('gorod-error').textContent = 'Укажите местоположение';
-    valid = false;
-  }
-
-  submitBtn.disabled = !valid;
-  return valid;
+  
+  const isNickValid = validateNick(nick);
+  const isFaValid = validateForumAccount(fa);
+  const isDiscordValid = validateDiscordId(discord_id);
+  const isAgeValid = validateAge(vozrast);
+  const isLocationValid = validateLocation(gorod);
+  
+  const isValid = isNickValid && isFaValid && isDiscordValid && isAgeValid && isLocationValid;
+  submitBtn.disabled = !isValid;
+  
+  return isValid;
 }
 
-
+// Добавляем слушатели для валидации
 const inputs = form.querySelectorAll('input');
 inputs.forEach(input => {
-  input.addEventListener('input', validateForm);
-  input.addEventListener('blur', validateForm);
+  input.addEventListener('input', function() {
+    validateForm();
+    // Убираем класс ошибки при вводе
+    if (this.classList.contains('invalid')) {
+      this.classList.remove('invalid');
+    }
+  });
+  
+  input.addEventListener('blur', function() {
+    const id = this.id;
+    const value = this.value.trim();
+    
+    switch(id) {
+      case 'nick':
+        validateNick(value);
+        if (!validateNick(value)) this.classList.add('invalid');
+        break;
+      case 'fa':
+        validateForumAccount(value);
+        if (!validateForumAccount(value)) this.classList.add('invalid');
+        break;
+      case 'discord_id':
+        validateDiscordId(value);
+        if (!validateDiscordId(value)) this.classList.add('invalid');
+        break;
+      case 'vozrast':
+        validateAge(value);
+        if (!validateAge(value)) this.classList.add('invalid');
+        break;
+      case 'gorod':
+        validateLocation(value);
+        if (!validateLocation(value)) this.classList.add('invalid');
+        break;
+    }
+  });
 });
 
+// Функция отправки данных
 function submitForm() {
-  if (!validateForm()) return;
-
+  if (!validateForm()) {
+    return;
+  }
+  
+  // Показываем загрузку
   submitBtn.classList.add('loading');
   submitBtn.disabled = true;
-
+  
+  // Собираем данные
   const data = {
     nick: document.getElementById('nick').value.trim(),
     fa: document.getElementById('fa').value.trim(),
@@ -76,36 +181,54 @@ function submitForm() {
     gorod: document.getElementById('gorod').value.trim(),
     timestamp: new Date().toISOString()
   };
-
+  
+  // Отправка через Telegram WebApp
   setTimeout(() => {
     try {
       if (tg) {
         tg.sendData(JSON.stringify(data));
       } else {
+        // Для тестирования вне Telegram
         console.log('Данные формы:', data);
         showSuccessMessage();
       }
     } catch (err) {
       console.error('Ошибка отправки:', err);
-      alert('❌ Ошибка отправки данных');
+      alert('Ошибка отправки данных');
       submitBtn.classList.remove('loading');
       submitBtn.disabled = false;
     }
   }, 800);
 }
 
+// Показать сообщение об успехе (для тестирования)
 function showSuccessMessage() {
   const successDiv = document.createElement('div');
   successDiv.className = 'success-message';
-  successDiv.innerHTML = '✅ Заявка успешно отправлена!';
+  successDiv.textContent = 'Заявка успешно отправлена!';
   form.parentNode.insertBefore(successDiv, form);
-  submitBtn.textContent = '✅ Готово!';
+  
+  submitBtn.textContent = 'Готово!';
+  submitBtn.classList.remove('loading');
   submitBtn.style.background = '#22c55e';
+  submitBtn.classList.add('pulse');
+  
+  // Очищаем форму
+  setTimeout(() => {
+    form.reset();
+    submitBtn.classList.remove('pulse');
+    submitBtn.style.background = '';
+    submitBtn.textContent = 'Отправить заявку';
+    successDiv.remove();
+    validateForm();
+  }, 3000);
 }
 
-form.addEventListener('submit', function (e) {
+// Обработка отправки формы
+form.addEventListener('submit', function(e) {
   e.preventDefault();
   submitForm();
 });
 
+// Инициализация валидации
 validateForm();
