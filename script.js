@@ -1,16 +1,49 @@
-// Инициализация Telegram WebApp
 const tg = window.Telegram?.WebApp;
-
 if (!tg) {
   console.warn('Telegram WebApp не найден');
 } else {
   tg.expand();
-  tg.setHeaderColor('#667eea');
+  tg.setHeaderColor('#1a5c1a');
 }
 
 // Получение элементов формы
 const form = document.getElementById('regForm');
 const submitBtn = form.querySelector('.submit-btn');
+
+// Функции валидации
+function validateNick(nick) {
+  if (!nick) return 'Укажите игровой ник';
+  if (!nick.includes('_')) return 'Ник должен содержать символ "_"';
+  return null;
+}
+
+function validateFA(fa) {
+  if (!fa) return 'Укажите ссылку на форумный аккаунт';
+  if (!fa.startsWith('http://') && !fa.startsWith('https://')) {
+    return 'Ссылка должна начинаться с http:// или https://';
+  }
+  return null;
+}
+
+function validateDiscordID(id) {
+  if (!id) return 'Укажите Discord ID';
+  if (!/^\d+$/.test(id)) return 'Discord ID должен содержать только цифры';
+  return null;
+}
+
+// Функция показа ошибок
+function showError(fieldId, message) {
+  const field = document.getElementById(fieldId);
+  const errorDiv = document.getElementById(fieldId + '-error');
+  
+  if (message) {
+    field.classList.add('error');
+    errorDiv.textContent = message;
+  } else {
+    field.classList.remove('error');
+    errorDiv.textContent = '';
+  }
+}
 
 // Валидация в реальном времени
 function validateForm() {
@@ -19,11 +52,23 @@ function validateForm() {
   const discord_id = document.getElementById('discord_id').value.trim();
   const vozrast = document.getElementById('vozrast').value;
   const gorod = document.getElementById('gorod').value.trim();
-  
-  const isValid = nick && fa && discord_id && vozrast && gorod;
-  submitBtn.disabled = !isValid;
-  
-  return isValid;
+
+  // Проверяем каждое поле
+  const nickError = validateNick(nick);
+  const faError = validateFA(fa);
+  const discordError = validateDiscordID(discord_id);
+
+  // Показываем ошибки
+  showError('nick', nickError);
+  showError('fa', faError);
+  showError('discord_id', discordError);
+
+  // Проверяем, есть ли ошибки
+  const hasErrors = nickError || faError || discordError;
+  const allFilled = nick && fa && discord_id && vozrast && gorod;
+
+  submitBtn.disabled = hasErrors || !allFilled;
+  return !hasErrors && allFilled;
 }
 
 // Добавляем слушатели для валидации
@@ -69,18 +114,19 @@ function submitForm() {
       submitBtn.classList.remove('loading');
       submitBtn.disabled = false;
     }
-  }, 800);
+  }, 1000);
 }
 
-// Показать сообщение об успехе (для тестирования)
+// Показать сообщение об успехе
 function showSuccessMessage() {
   const successDiv = document.createElement('div');
   successDiv.className = 'success-message';
-  successDiv.innerHTML = '✅ Заявка успешно отправлена!';
+  successDiv.innerHTML = '🦕 Заявка отправлена! Добро пожаловать в команду!';
   form.parentNode.insertBefore(successDiv, form);
   
-  submitBtn.textContent = '✅ Готово!';
-  submitBtn.style.background = '#22c55e';
+  submitBtn.innerHTML = '🎉 Готово!';
+  submitBtn.style.background = 'linear-gradient(135deg, #32cd32, #228b22)';
+  submitBtn.classList.remove('loading');
 }
 
 // Обработка отправки формы
