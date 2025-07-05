@@ -16,19 +16,45 @@ function validateForm() {
   const vozrast = document.getElementById('vozrast').value.trim();
   const gorod = document.getElementById('gorod').value.trim();
 
-  const hasUnderscore = nick.includes('_');
-  const isDiscordIdValid = /^\d+$/.test(discord_id);
-  const isFaUrl = fa.startsWith('http://') || fa.startsWith('https://');
+  let valid = true;
 
-  const isValid =
-    nick && hasUnderscore &&
-    fa && isFaUrl &&
-    discord_id && isDiscordIdValid &&
-    vozrast && gorod;
+  // Очистка ошибок
+  document.querySelectorAll('.error').forEach(e => e.textContent = '');
 
-  submitBtn.disabled = !isValid;
-  return isValid;
+  // Ник
+  if (!nick.includes('_')) {
+    document.getElementById('nick-error').textContent = 'Ник должен содержать "_"';
+    valid = false;
+  }
+
+  // Форум
+  if (!fa.startsWith('http')) {
+    document.getElementById('fa-error').textContent = 'Укажите ссылку на форум';
+    valid = false;
+  }
+
+  // Discord ID
+  if (!/^\d+$/.test(discord_id)) {
+    document.getElementById('discord-error').textContent = 'ID должен содержать только цифры';
+    valid = false;
+  }
+
+  // Возраст
+  if (!vozrast) {
+    document.getElementById('vozrast-error').textContent = 'Возраст обязателен';
+    valid = false;
+  }
+
+  // Город
+  if (!gorod) {
+    document.getElementById('gorod-error').textContent = 'Укажите местоположение';
+    valid = false;
+  }
+
+  submitBtn.disabled = !valid;
+  return valid;
 }
+
 
 const inputs = form.querySelectorAll('input');
 inputs.forEach(input => {
