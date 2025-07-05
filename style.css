@@ -5,6 +5,7 @@
   --dino-light: #ecf0f1;
   --dino-accent: #e67e22;
   --dino-error: #e74c3c;
+  --form-bg: rgba(255, 255, 255, 0.95);
 }
 
 * {
@@ -22,76 +23,48 @@ body {
 }
 
 .container {
-  max-width: 100%;
+  max-width: 500px;
   margin: 0 auto;
 }
 
 .form-wrapper {
-  background: rgba(255, 255, 255, 0.97);
+  background: var(--form-bg);
   border-radius: 14px;
-  padding: 22px;
+  padding: 25px;
   box-shadow: 0 6px 24px rgba(0, 0, 0, 0.15);
   border: 2px solid var(--dino-green);
   position: relative;
   overflow: hidden;
-  
-  /* Пальмы на фоне */
-  background-image: 
-    radial-gradient(circle at 10% 20%, rgba(39, 174, 96, 0.05) 0%, transparent 20%),
-    radial-gradient(circle at 90% 80%, rgba(39, 174, 96, 0.05) 0%, transparent 20%),
-    repeating-linear-gradient(
-      45deg,
-      transparent,
-      transparent 40px,
-      rgba(39, 174, 96, 0.03) 40px,
-      rgba(39, 174, 96, 0.03) 80px
-    );
 }
 
-.form-wrapper::before {
+/* Четкие видимые пальмы */
+.form-wrapper::after {
   content: "";
   position: absolute;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
+  width: 100%;
+  height: 100%;
   background-image: 
-    radial-gradient(circle, transparent 0%, var(--form-bg) 100%),
-    repeating-linear-gradient(
-      0deg,
-      transparent,
-      transparent 30px,
-      var(--form-bg) 30px,
-      var(--form-bg) 60px
-    ),
-    repeating-linear-gradient(
-      90deg,
-      transparent,
-      transparent 30px,
-      var(--form-bg) 30px,
-      var(--form-bg) 60px
-    );
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ctext x='12' y='18' font-size='24' text-anchor='middle' fill='%2327ae60' opacity='0.2'%3E🌴%3C/text%3E%3C/svg%3E");
+  background-size: 60px 60px;
+  background-repeat: repeat;
   z-index: 0;
+  pointer-events: none;
 }
 
 .header {
   text-align: center;
-  margin-bottom: 24px;
+  margin-bottom: 25px;
   position: relative;
   z-index: 1;
 }
 
-.dino-icon {
-  font-size: 42px;
-  margin-bottom: 12px;
-  color: var(--dino-green);
-}
-
 .title {
-  font-size: 24px;
+  font-size: 26px;
   font-weight: 800;
   color: var(--dino-dark);
-  margin-bottom: 6px;
+  margin-bottom: 8px;
   text-transform: uppercase;
   letter-spacing: 1px;
 }
@@ -116,21 +89,13 @@ body {
   font-size: 14px;
 }
 
-.error-message {
-  color: var(--dino-error);
-  font-size: 12px;
-  margin-top: 5px;
-  display: none;
-  font-weight: 500;
-}
-
 .form-group input {
   width: 100%;
   padding: 14px 16px;
   border: 2px solid var(--dino-green);
   border-radius: 10px;
   font-size: 15px;
-  background: white;
+  background: rgba(255, 255, 255, 0.8);
   color: var(--dino-dark);
   transition: all 0.25s ease;
 }
@@ -162,7 +127,7 @@ body {
   font-weight: 700;
   cursor: pointer;
   transition: all 0.25s ease;
-  margin-top: 12px;
+  margin-top: 10px;
   position: relative;
   overflow: hidden;
   letter-spacing: 0.5px;
@@ -180,11 +145,12 @@ body {
   transform: translateY(0);
 }
 
-.submit-btn:disabled {
-  background: #bdc3c7;
-  cursor: not-allowed;
-  transform: none;
-  box-shadow: none;
+.error-message {
+  color: var(--dino-error);
+  font-size: 12px;
+  margin-top: 5px;
+  display: none;
+  font-weight: 500;
 }
 
 .loading {
@@ -236,11 +202,11 @@ body {
   }
   
   .form-wrapper {
-    padding: 18px;
+    padding: 20px;
   }
   
-  .form-wrapper::before {
-    font-size: 18px;
+  .form-wrapper::after {
+    background-size: 50px 50px;
   }
   
   .title {
@@ -249,9 +215,5 @@ body {
   
   .form-group input {
     padding: 12px 14px;
-  }
-  
-  .submit-btn {
-    padding: 14px;
   }
 }
