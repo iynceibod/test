@@ -6,411 +6,94 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
     body {
-      font-family: 'Nunito', sans-serif;
-      background: linear-gradient(180deg, #87CEEB 0%, #98FB98 40%, #228B22 100%);
-      min-height: 100vh;
-      padding: 20px;
-      position: relative;
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background: #f5f5f5;
     }
-
-    .leaf {
-      position: absolute;
-      opacity: 0.3;
-      animation: sway 4s ease-in-out infinite;
-    }
-
-    .leaf1 {
-      top: 15%;
-      left: 10%;
-      font-size: 30px;
-      animation-delay: 0s;
-    }
-
-    .leaf2 {
-      top: 25%;
-      right: 15%;
-      font-size: 25px;
-      animation-delay: 1s;
-    }
-
-    .leaf3 {
-      bottom: 20%;
-      left: 5%;
-      font-size: 28px;
-      animation-delay: 2s;
-    }
-
-    .leaf4 {
-      bottom: 30%;
-      right: 10%;
-      font-size: 32px;
-      animation-delay: 3s;
-    }
-
-    @keyframes sway {
-      0%, 100% { transform: rotate(0deg); }
-      50% { transform: rotate(10deg); }
-    }
-
+    
     .container {
-      max-width: 400px;
-      margin: 40px auto;
-      position: relative;
-      z-index: 10;
-    }
-
-    .jurassic-palm {
-      position: absolute;
-      top: -30px;
-      right: -60px;
-      z-index: 5;
-      transform: rotate(15deg);
-    }
-
-    .palm-trunk {
-      width: 12px;
-      height: 80px;
-      background: linear-gradient(to bottom, #8B4513, #A0522D);
-      border-radius: 6px;
-      position: relative;
+      max-width: 500px;
       margin: 0 auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     }
-
-    .palm-trunk::before {
-      content: '';
-      position: absolute;
-      width: 8px;
-      height: 8px;
-      background: #654321;
-      border-radius: 50%;
-      left: 2px;
-      top: 20px;
+    
+    .form-group {
+      margin-bottom: 15px;
     }
-
-    .palm-trunk::after {
-      content: '';
-      position: absolute;
-      width: 6px;
-      height: 6px;
-      background: #654321;
-      border-radius: 50%;
-      right: 2px;
-      top: 45px;
-    }
-
-    .palm-leaves {
-      position: relative;
-      top: -10px;
-    }
-
-    .palm-leaf {
-      position: absolute;
-      width: 60px;
-      height: 8px;
-      background: linear-gradient(to right, #228B22, #32CD32, #228B22);
-      border-radius: 50px;
-      transform-origin: 10px center;
-    }
-
-    .palm-leaf:nth-child(1) {
-      transform: rotate(-60deg);
-      top: -5px;
-      left: -25px;
-    }
-
-    .palm-leaf:nth-child(2) {
-      transform: rotate(-30deg);
-      top: -8px;
-      left: -20px;
-    }
-
-    .palm-leaf:nth-child(3) {
-      transform: rotate(0deg);
-      top: -10px;
-      left: -25px;
-    }
-
-    .palm-leaf:nth-child(4) {
-      transform: rotate(30deg);
-      top: -8px;
-      left: -20px;
-    }
-
-    .palm-leaf:nth-child(5) {
-      transform: rotate(60deg);
-      top: -5px;
-      left: -25px;
-    }
-
-    .palm-leaf:nth-child(6) {
-      transform: rotate(90deg);
-      top: 0px;
-      left: -15px;
-    }
-
-    .jurassic-palm {
-      animation: palmSway 6s ease-in-out infinite;
-    }
-
-    @keyframes palmSway {
-      0%, 100% { transform: rotate(15deg); }
-      50% { transform: rotate(20deg); }
-    }
-
-    .jurassic-palm-left {
-      position: absolute;
-      top: -20px;
-      left: -50px;
-      z-index: 5;
-      transform: rotate(-10deg) scale(0.8);
-      animation: palmSwayLeft 7s ease-in-out infinite;
-    }
-
-    @keyframes palmSwayLeft {
-      0%, 100% { transform: rotate(-10deg) scale(0.8); }
-      50% { transform: rotate(-15deg) scale(0.8); }
-    }
-
-    .form-wrapper {
-      background: rgba(255, 255, 255, 0.9);
-      border-radius: 20px;
-      padding: 30px;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-      backdrop-filter: blur(10px);
-      border: 2px solid rgba(255, 255, 255, 0.2);
-    }
-
-    .header {
-      text-align: center;
-      margin-bottom: 25px;
-    }
-
-    .dino-icon {
-      width: 60px;
-      height: 60px;
-      background: linear-gradient(135deg, #22C55E 0%, #16A34A 100%);
-      border-radius: 50%;
-      margin: 0 auto 15px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 24px;
-      color: white;
+    
+    label {
+      display: block;
+      margin-bottom: 5px;
       font-weight: bold;
     }
-
-    .title {
-      font-size: 24px;
-      color: #2D5016;
-      font-weight: 700;
-      margin-bottom: 5px;
-    }
-
-    .subtitle {
-      color: #6B7280;
-      font-size: 14px;
-    }
-
-    .form-group {
-      margin-bottom: 20px;
-      position: relative;
-    }
-
-    .form-group label {
-      display: block;
-      font-weight: 600;
-      color: #374151;
-      margin-bottom: 6px;
-      font-size: 14px;
-    }
-
-    .form-group input {
+    
+    input {
       width: 100%;
-      padding: 12px 16px;
-      border: 2px solid #E5E7EB;
-      border-radius: 12px;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
       font-size: 16px;
-      font-family: 'Nunito', sans-serif;
-      transition: all 0.3s ease;
-      background: rgba(255, 255, 255, 0.8);
+      box-sizing: border-box;
     }
-
-    .form-group input:focus {
-      outline: none;
-      border-color: #22C55E;
-      box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
-      background: rgba(255, 255, 255, 0.95);
+    
+    .submit-btn {
+      width: 100%;
+      padding: 15px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
     }
-
-    .form-group input.invalid {
-      border-color: #EF4444;
-      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+    
+    .submit-btn:hover {
+      background: #0056b3;
     }
-
-    .form-group input::placeholder {
-      color: #9CA3AF;
+    
+    .debug-info {
+      background: #f8f9fa;
+      padding: 15px;
+      border: 1px solid #dee2e6;
+      border-radius: 5px;
+      margin-bottom: 20px;
+      font-family: monospace;
+      font-size: 14px;
+      white-space: pre-wrap;
     }
-
+    
     .error-message {
-      color: #EF4444;
-      font-size: 12px;
+      color: red;
+      font-size: 14px;
       margin-top: 5px;
       display: none;
     }
-
+    
     .error-message.show {
       display: block;
     }
-
-    .submit-btn {
-      width: 100%;
-      padding: 14px;
-      background: linear-gradient(135deg, #22C55E 0%, #16A34A 100%);
-      color: white;
-      border: none;
-      border-radius: 12px;
-      font-size: 16px;
-      font-weight: 600;
-      font-family: 'Nunito', sans-serif;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
-      position: relative;
-    }
-
-    .submit-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(34, 197, 94, 0.4);
-    }
-
-    .submit-btn:active {
-      transform: translateY(0);
-    }
-
-    .submit-btn:disabled {
-      opacity: 0.7;
-      cursor: not-allowed;
-      transform: none;
-    }
-
-    .loading::after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 16px;
-      height: 16px;
-      margin: -8px 0 0 -8px;
-      border: 2px solid transparent;
-      border-top: 2px solid #fff;
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-    }
-
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-
+    
     .success-message {
-      background: #22C55E;
-      color: white;
-      padding: 12px;
-      border-radius: 12px;
-      text-align: center;
-      font-weight: 600;
+      background: #d4edda;
+      color: #155724;
+      padding: 15px;
+      border: 1px solid #c3e6cb;
+      border-radius: 5px;
       margin-bottom: 20px;
-      box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
-    }
-
-    .debug-info {
-      background: #f0f0f0;
-      padding: 10px;
-      border-radius: 8px;
-      margin-bottom: 20px;
-      font-size: 12px;
-      color: #666;
-    }
-
-    @media (max-width: 480px) {
-      .container {
-        margin: 20px auto;
-      }
-      
-      .form-wrapper {
-        padding: 25px 20px;
-      }
-      
-      .title {
-        font-size: 22px;
-      }
-      
-      .leaf {
-        font-size: 20px !important;
-      }
-
-      .jurassic-palm {
-        right: -40px;
-        top: -20px;
-        transform: rotate(15deg) scale(0.7);
-      }
-
-      .jurassic-palm-left {
-        left: -35px;
-        top: -15px;
-        transform: rotate(-10deg) scale(0.6);
-      }
     }
   </style>
 </head>
 <body>
-  <div class="leaf leaf1">🌿</div>
-  <div class="leaf leaf2">🍃</div>
-  <div class="leaf leaf3">🌱</div>
-  <div class="leaf leaf4">🌿</div>
-
   <div class="container">
-    <div class="jurassic-palm">
-      <div class="palm-trunk"></div>
-      <div class="palm-leaves">
-        <div class="palm-leaf"></div>
-        <div class="palm-leaf"></div>
-        <div class="palm-leaf"></div>
-        <div class="palm-leaf"></div>
-        <div class="palm-leaf"></div>
-        <div class="palm-leaf"></div>
-      </div>
+    <div class="debug-info" id="debug-info">
+      Инициализация...
     </div>
 
-    <div class="jurassic-palm-left">
-      <div class="palm-trunk"></div>
-      <div class="palm-leaves">
-        <div class="palm-leaf"></div>
-        <div class="palm-leaf"></div>
-        <div class="palm-leaf"></div>
-        <div class="palm-leaf"></div>
-        <div class="palm-leaf"></div>
-        <div class="palm-leaf"></div>
-      </div>
-    </div>
-
-    <div class="form-wrapper">
-      <div class="debug-info" id="debug-info">
-        Инициализация...
-      </div>
-
-      <div class="header">
-        <div class="dino-icon">YM</div>
-        <h1 class="title">YAVA MODERATION</h1>
-        <p class="subtitle">Форма регистрации</p>
-      </div>
+    <h1>YAVA MODERATION - Регистрация</h1>
       
       <form id="regForm">
         <div class="form-group">
@@ -443,45 +126,60 @@
           <div class="error-message" id="location-error">Поле обязательно для заполнения</div>
         </div>
         
-        <button type="submit" class="submit-btn">
+        <button type="submit" class="submit-btn" id="submit-btn">
           Отправить заявку
         </button>
       </form>
     </div>
   </div>
 
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <script>
-    let tg = window.Telegram?.WebApp;
+    let tg;
     const debugInfo = document.getElementById('debug-info');
     
     function updateDebug(message) {
-      debugInfo.innerHTML = message;
+      const timestamp = new Date().toLocaleTimeString();
+      debugInfo.innerHTML += `[${timestamp}] ${message}\n`;
       console.log(message);
     }
 
-    // Проверка инициализации Telegram WebApp
-    if (!tg) {
-      updateDebug("❌ Telegram WebApp не найден! Откройте через Telegram.");
+    // Проверка загрузки скрипта Telegram
+    updateDebug("Начинаем инициализацию...");
+    
+    if (typeof window.Telegram === 'undefined') {
+      updateDebug("❌ Telegram объект не найден");
     } else {
-      updateDebug("✅ Telegram WebApp инициализирован");
+      updateDebug("✅ Telegram объект найден");
       
-      // Расширяем окно
-      tg.expand();
-      
-      // Включаем главную кнопку
-      tg.MainButton.setText("Отправить заявку");
-      tg.MainButton.color = "#22C55E";
-      tg.MainButton.textColor = "#FFFFFF";
-      
-      // Показываем кнопку "Назад"
-      tg.BackButton.show();
-      
-      updateDebug(`✅ WebApp готов. Пользователь: ${tg.initDataUnsafe?.user?.first_name || 'Неизвестен'}`);
+      if (window.Telegram.WebApp) {
+        tg = window.Telegram.WebApp;
+        updateDebug("✅ WebApp найден");
+        
+        // Расширяем окно
+        tg.expand();
+        updateDebug("✅ Окно расширено");
+        
+        // Получаем данные пользователя
+        if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
+          updateDebug(`✅ Пользователь: ${tg.initDataUnsafe.user.first_name} (ID: ${tg.initDataUnsafe.user.id})`);
+        } else {
+          updateDebug("⚠️ Данные пользователя не найдены");
+        }
+        
+        // Проверяем возможность отправки данных
+        if (typeof tg.sendData === 'function') {
+          updateDebug("✅ Функция sendData доступна");
+        } else {
+          updateDebug("❌ Функция sendData недоступна");
+        }
+        
+      } else {
+        updateDebug("❌ WebApp не найден в объекте Telegram");
+      }
     }
 
     const form = document.getElementById('regForm');
-    const submitBtn = form.querySelector('.submit-btn');
+    const submitBtn = document.getElementById('submit-btn');
     
     function validateNick(nick) {
       if (!nick.includes('_')) {
@@ -518,7 +216,7 @@
       const input = document.getElementById(inputId);
       const errorDiv = document.getElementById(inputId + '-error');
       
-      input.classList.add('invalid');
+      input.style.borderColor = 'red';
       errorDiv.textContent = message;
       errorDiv.classList.add('show');
     }
@@ -527,7 +225,7 @@
       const input = document.getElementById(inputId);
       const errorDiv = document.getElementById(inputId + '-error');
       
-      input.classList.remove('invalid');
+      input.style.borderColor = '#ddd';
       errorDiv.classList.remove('show');
     }
 
@@ -582,6 +280,8 @@
     }
 
     function sendData() {
+      updateDebug("🔄 Начинаем отправку данных...");
+      
       if (!validateForm()) {
         updateDebug("❌ Форма содержит ошибки");
         return;
@@ -595,12 +295,16 @@
         gorod: document.getElementById('gorod').value.trim()
       };
       
-      updateDebug("📤 Отправляем данные: " + JSON.stringify(data));
+      updateDebug("📤 Отправляем данные: " + JSON.stringify(data, null, 2));
+      
+      // Изменяем кнопку
+      submitBtn.textContent = 'Отправляем...';
+      submitBtn.disabled = true;
       
       try {
-        if (tg && tg.sendData) {
+        if (tg && typeof tg.sendData === 'function') {
           tg.sendData(JSON.stringify(data));
-          updateDebug("✅ Данные отправлены успешно!");
+          updateDebug("✅ Данные отправлены через tg.sendData()");
           
           // Показываем успешное сообщение
           const successDiv = document.createElement('div');
@@ -612,53 +316,41 @@
           form.style.display = 'none';
           
         } else {
-          throw new Error("Telegram WebApp не поддерживает отправку данных");
+          throw new Error("Telegram WebApp не инициализирован или sendData недоступен");
         }
       } catch (error) {
         updateDebug("❌ Ошибка отправки: " + error.message);
+        
+        // Возвращаем кнопку в исходное состояние
+        submitBtn.textContent = 'Отправить заявку';
+        submitBtn.disabled = false;
+        
+        // Показываем ошибку пользователю
         alert("Ошибка: " + error.message);
       }
     }
 
-    // Обработчики событий
-    if (tg && tg.MainButton) {
-      tg.MainButton.onClick(sendData);
-    }
-
     // Обработчики полей
-    document.getElementById('nick').addEventListener('blur', function() {
-      const nickError = validateNick(this.value.trim());
-      if (nickError) {
-        showError('nick', nickError);
-      } else {
-        hideError('nick');
-      }
-    });
-
     document.getElementById('discord_id').addEventListener('input', function() {
       this.value = this.value.replace(/[^\d]/g, '');
     });
 
-    document.getElementById('discord_id').addEventListener('blur', function() {
-      const discordError = validateDiscordId(this.value.trim());
-      if (discordError) {
-        showError('discord_id', discordError);
-      } else {
-        hideError('discord_id');
-      }
-    });
-
-    // Обработчик отправки формы (для обычного браузера)
+    // Обработчик отправки формы
     form.addEventListener('submit', function(e) {
       e.preventDefault();
+      updateDebug("🔄 Форма отправлена через submit event");
       sendData();
     });
 
-    // Обработчик изменения полей для отображения главной кнопки
-    form.addEventListener('input', function() {
-      if (tg && tg.MainButton) {
-        const isFormValid = validateForm();
-        if (isFormValid) {
+    // Обработчик кнопки
+    submitBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      updateDebug("🔄 Кнопка нажата через click event");
+      sendData();
+    });
+
+    updateDebug("✅ Все обработчики установлены");
+  </script>FormValid) {
           tg.MainButton.show();
         } else {
           tg.MainButton.hide();
