@@ -48,23 +48,30 @@ body {
     );
 }
 
-/* Эмодзи пальм */
 .form-wrapper::before {
-  content: "🌴🌴🌴🌴🌴🌴🌴🌴🌴🌴🌴🌴🌴🌴🌴";
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  font-size: 24px;
-  color: rgba(39, 174, 96, 0.15);
-  display: flex;
-  flex-wrap: wrap;
-  align-content: space-between;
-  justify-content: space-around;
-  line-height: 1.2;
+  background-image: 
+    radial-gradient(circle, transparent 0%, var(--form-bg) 100%),
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 30px,
+      var(--form-bg) 30px,
+      var(--form-bg) 60px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 30px,
+      var(--form-bg) 30px,
+      var(--form-bg) 60px
+    );
   z-index: 0;
-  pointer-events: none;
 }
 
 .header {
