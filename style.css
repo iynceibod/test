@@ -1,11 +1,11 @@
 /* style.css */
 :root {
-  --dino-green: #27ae60;
-  --dino-dark: #2c3e50;
-  --dino-light: #ecf0f1;
-  --dino-accent: #e67e22;
-  --dino-error: #e74c3c;
-  --form-bg: rgba(255, 255, 255, 0.95);
+  --palms-color: rgba(100, 200, 150, 0.15); /* Светло-зеленый */
+  --form-bg: rgba(255, 255, 255, 0.98); /* Почти белый */
+  --dino-green: #5cdb95; /* Светло-зеленый */
+  --dino-dark: #3a506b; /* Светло-синий */
+  --dino-accent: #ff9f1c; /* Светло-оранжевый */
+  --dino-error: #ff6b6b; /* Светло-красный */
 }
 
 * {
@@ -16,7 +16,7 @@
 
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background-color: #0a2e1a;
+  background-color: #edf6f9; /* Светлый фон */
   min-height: 100vh;
   padding: 16px;
   line-height: 1.5;
@@ -31,14 +31,14 @@ body {
   background: var(--form-bg);
   border-radius: 14px;
   padding: 25px;
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   border: 2px solid var(--dino-green);
   position: relative;
   overflow: hidden;
 }
 
-/* Четкие видимые пальмы */
-.form-wrapper::after {
+/* Мелкие повернутые пальмы */
+.form-wrapper::before {
   content: "";
   position: absolute;
   top: 0;
@@ -46,8 +46,8 @@ body {
   width: 100%;
   height: 100%;
   background-image: 
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ctext x='12' y='18' font-size='24' text-anchor='middle' fill='%2327ae60' opacity='0.2'%3E🌴%3C/text%3E%3C/svg%3E");
-  background-size: 60px 60px;
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ctext x='12' y='18' font-size='16' text-anchor='middle' fill='%2364c896' opacity='0.2' transform='rotate(-15 12 12)'%3E🌴%3C/text%3E%3C/svg%3E");
+  background-size: 40px 40px; /* Уменьшенный размер */
   background-repeat: repeat;
   z-index: 0;
   pointer-events: none;
@@ -95,31 +95,31 @@ body {
   border: 2px solid var(--dino-green);
   border-radius: 10px;
   font-size: 15px;
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.9);
   color: var(--dino-dark);
   transition: all 0.25s ease;
 }
 
 .form-group input.invalid {
   border-color: var(--dino-error);
-  background-color: rgba(231, 76, 60, 0.05);
+  background-color: rgba(255, 107, 107, 0.05);
 }
 
 .form-group input:focus {
   outline: none;
   border-color: var(--dino-accent);
-  box-shadow: 0 0 0 3px rgba(230, 126, 34, 0.2);
+  box-shadow: 0 0 0 3px rgba(255, 159, 28, 0.2);
 }
 
 .form-group input::placeholder {
-  color: #95a5a6;
+  color: #b8c2cc;
   opacity: 0.7;
 }
 
 .submit-btn {
   width: 100%;
   padding: 16px;
-  background: linear-gradient(135deg, var(--dino-green) 0%, #1e8449 100%);
+  background: linear-gradient(135deg, var(--dino-green) 0%, #4bc0a9 100%);
   color: white;
   border: none;
   border-radius: 10px;
@@ -132,17 +132,13 @@ body {
   overflow: hidden;
   letter-spacing: 0.5px;
   text-transform: uppercase;
-  box-shadow: 0 4px 12px rgba(39, 174, 96, 0.3);
+  box-shadow: 0 4px 12px rgba(92, 219, 149, 0.3);
   z-index: 1;
 }
 
 .submit-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(39, 174, 96, 0.4);
-}
-
-.submit-btn:active {
-  transform: translateY(0);
+  box-shadow: 0 6px 16px rgba(92, 219, 149, 0.4);
 }
 
 .error-message {
@@ -186,7 +182,7 @@ body {
   font-weight: 600;
   margin-bottom: 20px;
   animation: fadeIn 0.4s;
-  box-shadow: 0 4px 12px rgba(39, 174, 96, 0.3);
+  box-shadow: 0 4px 12px rgba(92, 219, 149, 0.3);
   z-index: 1;
 }
 
@@ -205,8 +201,8 @@ body {
     padding: 20px;
   }
   
-  .form-wrapper::after {
-    background-size: 50px 50px;
+  .form-wrapper::before {
+    background-size: 30px 30px; /* Еще меньше на мобильных */
   }
   
   .title {
