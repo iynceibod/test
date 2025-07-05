@@ -1,13 +1,32 @@
 /* style.css */
 :root {
-  --palms-color: rgba(255, 255, 255, 0.15); /* Белые полупрозрачные пальмы */
-  --form-bg: rgba(46, 125, 80, 0.9); /* Зеленый фон формы с легкой прозрачностью */
-  --dino-green: #2e7d32; /* Темно-зеленый для акцентов */
-  --dino-dark: #ffffff; /* Белый текст */
-  --dino-accent: #ffab40; /* Теплый оранжевый для акцентов */
-  --dino-error: #ff6d6d; /* Светло-красный для ошибок */
-  --text-color: #ffffff; /* Белый текст */
-  --border-color: rgba(255, 255, 255, 0.3); /* Полупрозрачные белые границы */
+  --primary-color: #2563eb;
+  --primary-hover: #1d4ed8;
+  --secondary-color: #64748b;
+  --success-color: #10b981;
+  --error-color: #ef4444;
+  --warning-color: #f59e0b;
+  
+  --background-light: #f8fafc;
+  --background-dark: #0f172a;
+  --surface-light: #ffffff;
+  --surface-dark: #1e293b;
+  
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+  
+  --border-light: #e2e8f0;
+  --border-focus: #3b82f6;
+  
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
 }
 
 * {
@@ -17,166 +36,340 @@
 }
 
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background-color: #1b5e20; /* Темно-зеленый фон страницы */
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   min-height: 100vh;
-  padding: 16px;
-  line-height: 1.5;
-  color: var(--text-color);
+  padding: 1rem;
+  line-height: 1.6;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .container {
-  max-width: 500px;
-  margin: 0 auto;
+  width: 100%;
+  max-width: 420px;
 }
 
 .form-wrapper {
-  background: var(--form-bg);
-  border-radius: 14px;
-  padding: 25px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
-  border: 1px solid var(--border-color);
+  background: var(--surface-light);
+  border-radius: var(--radius-xl);
+  padding: 2rem;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border-light);
   position: relative;
-  overflow: hidden;
-  backdrop-filter: blur(5px); /* Легкое размытие для эффекта стекла */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
-/* Белые полупрозрачные пальмы */
 .form-wrapper::before {
-  content: "";
+  content: '';
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: 
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ctext x='12' y='18' font-size='16' text-anchor='middle' fill='%23ffffff' opacity='0.15' transform='rotate(-15 12 12)'%3E🌴%3C/text%3E%3C/svg%3E");
-  background-size: 40px 40px;
-  background-repeat: repeat;
-  z-index: 0;
-  pointer-events: none;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary-color), var(--success-color), var(--warning-color));
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
 }
 
 .header {
   text-align: center;
-  margin-bottom: 25px;
-  position: relative;
-  z-index: 1;
+  margin-bottom: 2rem;
 }
 
 .title {
-  font-size: 26px;
-  font-weight: 800;
-  color: var(--dino-dark);
-  margin-bottom: 8px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.025em;
 }
 
 .subtitle {
-  color: rgba(255, 255, 255, 0.8);
-  font-size: 15px;
-  font-weight: 600;
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  font-weight: 500;
 }
 
 .form-group {
-  margin-bottom: 18px;
+  margin-bottom: 1.5rem;
   position: relative;
-  z-index: 1;
 }
 
 .form-group label {
   display: block;
   font-weight: 600;
-  color: var(--dino-dark);
-  margin-bottom: 8px;
-  font-size: 14px;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+  letter-spacing: 0.025em;
 }
 
 .form-group input {
   width: 100%;
-  padding: 14px 16px;
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  font-size: 15px;
-  background: rgba(255, 255, 255, 0.1);
-  color: var(--dino-dark);
-  transition: all 0.25s ease;
+  padding: 0.75rem 1rem;
+  border: 2px solid var(--border-light);
+  border-radius: var(--radius-md);
+  font-size: 1rem;
+  background: var(--surface-light);
+  color: var(--text-primary);
+  transition: all 0.2s ease-in-out;
+  font-family: inherit;
 }
 
 .form-group input::placeholder {
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--text-muted);
 }
 
 .form-group input:focus {
   outline: none;
-  border-color: var(--dino-accent);
-  background: rgba(255, 255, 255, 0.2);
-  box-shadow: 0 0 0 2px rgba(255, 171, 64, 0.3);
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 3px rgb(59 130 246 / 0.1);
+  background: var(--surface-light);
+}
+
+.form-group input:hover:not(:focus) {
+  border-color: var(--secondary-color);
 }
 
 .form-group input.invalid {
-  border-color: var(--dino-error);
-  background: rgba(255, 109, 109, 0.1);
+  border-color: var(--error-color);
+  background: rgb(239 68 68 / 0.05);
+}
+
+.form-group input.invalid:focus {
+  box-shadow: 0 0 0 3px rgb(239 68 68 / 0.1);
+}
+
+.form-group input.valid {
+  border-color: var(--success-color);
+  background: rgb(16 185 129 / 0.05);
+}
+
+.form-group input.valid:focus {
+  box-shadow: 0 0 0 3px rgb(16 185 129 / 0.1);
 }
 
 .error-message {
-  color: var(--dino-error);
-  font-size: 12px;
-  margin-top: 5px;
+  color: var(--error-color);
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
   display: none;
   font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.error-message::before {
+  content: '⚠';
+  font-size: 0.875rem;
+}
+
+.success-message {
+  color: var(--success-color);
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+  display: none;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.success-message::before {
+  content: '✓';
+  font-size: 0.875rem;
 }
 
 .submit-btn {
   width: 100%;
-  padding: 16px;
-  background: linear-gradient(135deg, var(--dino-green) 0%, #1b5e20 100%);
+  padding: 0.875rem 1.5rem;
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%);
   color: white;
   border: none;
-  border-radius: 8px;
-  font-size: 16px;
-  font-weight: 700;
+  border-radius: var(--radius-md);
+  font-size: 1rem;
+  font-weight: 600;
   cursor: pointer;
-  transition: all 0.25s ease;
-  margin-top: 10px;
+  transition: all 0.2s ease-in-out;
+  margin-top: 0.5rem;
   position: relative;
   overflow: hidden;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  z-index: 1;
+  letter-spacing: 0.025em;
+  box-shadow: var(--shadow-sm);
+  font-family: inherit;
+}
+
+.submit-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.6s ease;
 }
 
 .submit-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+  background: linear-gradient(135deg, var(--primary-hover) 0%, #1e40af 100%);
+}
+
+.submit-btn:hover::before {
+  left: 100%;
 }
 
 .submit-btn:active {
   transform: translateY(0);
+  box-shadow: var(--shadow-sm);
 }
 
-/* Адаптация для мобильных */
+.submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.submit-btn:disabled:hover {
+  transform: none;
+  box-shadow: var(--shadow-sm);
+}
+
+/* Floating label effect */
+.form-group.floating {
+  position: relative;
+}
+
+.form-group.floating input {
+  padding-top: 1.25rem;
+  padding-bottom: 0.25rem;
+}
+
+.form-group.floating label {
+  position: absolute;
+  top: 0.75rem;
+  left: 1rem;
+  font-size: 1rem;
+  color: var(--text-muted);
+  pointer-events: none;
+  transition: all 0.2s ease-in-out;
+  background: var(--surface-light);
+  padding: 0 0.25rem;
+  margin: 0;
+}
+
+.form-group.floating input:focus + label,
+.form-group.floating input:not(:placeholder-shown) + label {
+  top: -0.5rem;
+  left: 0.75rem;
+  font-size: 0.75rem;
+  color: var(--border-focus);
+  font-weight: 600;
+}
+
+.form-group.floating input.invalid + label {
+  color: var(--error-color);
+}
+
+.form-group.floating input.valid + label {
+  color: var(--success-color);
+}
+
+/* Темная тема */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --surface-light: var(--surface-dark);
+    --text-primary: #f1f5f9;
+    --text-secondary: #cbd5e1;
+    --text-muted: #64748b;
+    --border-light: #334155;
+  }
+  
+  body {
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  }
+  
+  .form-group.floating label {
+    background: var(--surface-dark);
+  }
+}
+
+/* Адаптивность */
 @media (max-width: 480px) {
   body {
-    padding: 12px;
+    padding: 0.75rem;
   }
   
   .form-wrapper {
-    padding: 20px;
-  }
-  
-  .form-wrapper::before {
-    background-size: 30px 30px;
+    padding: 1.5rem;
   }
   
   .title {
-    font-size: 22px;
+    font-size: 1.5rem;
   }
   
   .form-group input {
-    padding: 12px 14px;
+    padding: 0.625rem 0.875rem;
   }
+  
+  .submit-btn {
+    padding: 0.75rem 1.25rem;
+  }
+}
+
+/* Анимации */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.form-wrapper {
+  animation: slideIn 0.3s ease-out;
+}
+
+/* Улучшения для accessibility */
+.form-group input:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+}
+
+.submit-btn:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+}
+
+/* Стили для состояния загрузки */
+.submit-btn.loading {
+  pointer-events: none;
+  opacity: 0.8;
+}
+
+.submit-btn.loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  margin: -10px 0 0 -10px;
+  border: 2px solid transparent;
+  border-top: 2px solid currentColor;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
