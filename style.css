@@ -57,14 +57,13 @@ body {
   position: relative;
 }
 
-.dino-footprint {
-  background-image: url('https://i.yapx.cc/ZwfT9.png');
+.palm-icon {
   width: 80px;
   height: 80px;
-  background-size: contain;
+  margin: 0 auto 16px;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="%232d6a4f" d="M256 0c-70.7 0-128 57.3-128 128s57.3 128 128 128 128-57.3 128-128S326.7 0 256 0zm0 192c-35.3 0-64-28.7-64-64s28.7-64 64-64 64 28.7 64 64-28.7 64-64 64zm128 160c0-17.7-14.3-32-32-32h-64v-96h64c17.7 0 32-14.3 32-32s-14.3-32-32-32h-64v-32h64c17.7 0 32-14.3 32-32s-14.3-32-32-32h-64V96h64c17.7 0 32-14.3 32-32s-14.3-32-32-32H160c-17.7 0-32 14.3-32 32s14.3 32 32 32h64v32h-64c-17.7 0-32 14.3-32 32s14.3 32 32 32h64v32h-64c-17.7 0-32 14.3-32 32s14.3 32 32 32h64v96h-64c-17.7 0-32 14.3-32 32s14.3 32 32 32h192c17.7 0 32-14.3 32-32z"/></svg>');
   background-repeat: no-repeat;
   background-position: center;
-  filter: brightness(0) saturate(100%) invert(23%) sepia(50%) saturate(638%) hue-rotate(103deg) brightness(92%) contrast(89%);
 }
 
 .title {
