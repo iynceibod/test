@@ -61,10 +61,11 @@ body {
   width: 80px;
   height: 80px;
   margin: 0 auto 16px;
-  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="%232d6a4f" d="M12 2c2.5 0 4.75 1.37 6 3.5l1 .5c1.15.58 2 1.5 2 2.5v1c0 1.5-1.5 3-3 3h-1v1h1c1.5 0 3 1.5 3 3v1c0 1.5-1.5 3-3 3h-1v1c0 1.5-1.5 3-3 3H9c-1.5 0-3-1.5-3-3v-1H5c-1.5 0-3-1.5-3-3v-1c0-1.5 1.5-3 3-3h1v-1H5c-1.5 0-3-1.5-3-3v-1c0-1 1-2 2-2.5l1-.5C7.25 3.37 9.5 2 12 2m0 2c-1.5 0-3 1-4 2.5l-1 .5c-.5.25-1 .5-1 1v1c0 .5.5 1 1 1h1v1H5c-.5 0-1 .5-1 1v1c0 .5.5 1 1 1h1v1H5c-.5 0-1 .5-1 1v1c0 .5.5 1 1 1h1v1c0 .5.5 1 1 1h6c.5 0 1-.5 1-1v-1h1c.5 0 1-.5 1-1v-1c0-.5-.5-1-1-1h-1v-1h1c.5 0 1-.5 1-1v-1c0-.5-.5-1-1-1h-1v-1h1c.5 0 1-.5 1-1v-1c0-.5-.5-1-1-1l-1-.5C15 5 13.5 4 12 4m-2 3c.5 0 1 .5 1 1s-.5 1-1 1-1-.5-1-1 .5-1 1-1m4 0c.5 0 1 .5 1 1s-.5 1-1 1-1-.5-1-1 .5-1 1-1m-5 4h6v1H9v-1m-2 2h10v1H7v-1m2 2h6v1H9v-1z"/></svg>');  background-repeat: no-repeat;
-  background-position: center;
+  background-image: url('https://w7.pngwing.com/pngs/372/920/png-transparent-tyrannosaurus-dino-t-rex-t-rex-chrome-vr-jump-trex-runner-lava-jump-dinosaur-angle-text-monochrome-thumbnail.png');  background-position: center;
   background-size: contain;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+  background-repeat: no-repeat;
+  background-position: center;
+  filter: brightness(0) saturate(100%) invert(23%) sepia(50%) saturate(638%) hue-rotate(103deg) brightness(92%) contrast(89%);
 }
 
 .title {
