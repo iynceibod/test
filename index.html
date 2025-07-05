@@ -330,6 +330,15 @@
       box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
     }
 
+    .debug-info {
+      background: #f0f0f0;
+      padding: 10px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      font-size: 12px;
+      color: #666;
+    }
+
     @media (max-width: 480px) {
       .container {
         margin: 20px auto;
@@ -393,6 +402,10 @@
     </div>
 
     <div class="form-wrapper">
+      <div class="debug-info" id="debug-info">
+        Инициализация...
+      </div>
+
       <div class="header">
         <div class="dino-icon">YM</div>
         <h1 class="title">YAVA MODERATION</h1>
@@ -439,12 +452,32 @@
 
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <script>
-    const tg = window.Telegram.WebApp;
+    let tg = window.Telegram?.WebApp;
+    const debugInfo = document.getElementById('debug-info');
     
+    function updateDebug(message) {
+      debugInfo.innerHTML = message;
+      console.log(message);
+    }
+
+    // Проверка инициализации Telegram WebApp
     if (!tg) {
-      alert("Откройте эту форму через Telegram WebApp!");
+      updateDebug("❌ Telegram WebApp не найден! Откройте через Telegram.");
     } else {
+      updateDebug("✅ Telegram WebApp инициализирован");
+      
+      // Расширяем окно
       tg.expand();
+      
+      // Включаем главную кнопку
+      tg.MainButton.setText("Отправить заявку");
+      tg.MainButton.color = "#22C55E";
+      tg.MainButton.textColor = "#FFFFFF";
+      
+      // Показываем кнопку "Назад"
+      tg.BackButton.show();
+      
+      updateDebug(`✅ WebApp готов. Пользователь: ${tg.initDataUnsafe?.user?.first_name || 'Неизвестен'}`);
     }
 
     const form = document.getElementById('regForm');
@@ -454,11 +487,12 @@
       if (!nick.includes('_')) {
         return 'Ник должен быть в формате Nick_Name';
       }
+      return null;
     }
 
     function validateDiscordId(discordId) {
       if (!/^\d{17,19}$/.test(discordId)) {
-        return 'Discord ID должен состоять только из цифр';
+        return 'Discord ID должен состоять только из цифр (17-19 символов)';
       }
       return null;
     }
@@ -547,6 +581,51 @@
       return isValid;
     }
 
+    function sendData() {
+      if (!validateForm()) {
+        updateDebug("❌ Форма содержит ошибки");
+        return;
+      }
+      
+      const data = {
+        nick: document.getElementById('nick').value.trim(),
+        fa: document.getElementById('fa').value.trim(),
+        discord_id: document.getElementById('discord_id').value.trim(),
+        vozrast: document.getElementById('vozrast').value,
+        gorod: document.getElementById('gorod').value.trim()
+      };
+      
+      updateDebug("📤 Отправляем данные: " + JSON.stringify(data));
+      
+      try {
+        if (tg && tg.sendData) {
+          tg.sendData(JSON.stringify(data));
+          updateDebug("✅ Данные отправлены успешно!");
+          
+          // Показываем успешное сообщение
+          const successDiv = document.createElement('div');
+          successDiv.className = 'success-message';
+          successDiv.innerHTML = '✅ Заявка успешно отправлена!';
+          form.parentNode.insertBefore(successDiv, form);
+          
+          // Скрываем форму
+          form.style.display = 'none';
+          
+        } else {
+          throw new Error("Telegram WebApp не поддерживает отправку данных");
+        }
+      } catch (error) {
+        updateDebug("❌ Ошибка отправки: " + error.message);
+        alert("Ошибка: " + error.message);
+      }
+    }
+
+    // Обработчики событий
+    if (tg && tg.MainButton) {
+      tg.MainButton.onClick(sendData);
+    }
+
+    // Обработчики полей
     document.getElementById('nick').addEventListener('blur', function() {
       const nickError = validateNick(this.value.trim());
       if (nickError) {
@@ -569,46 +648,28 @@
       }
     });
 
+    // Обработчик отправки формы (для обычного браузера)
     form.addEventListener('submit', function(e) {
       e.preventDefault();
-      
-      if (!validateForm()) {
-        return;
-      }
-      
-      submitBtn.classList.add('loading');
-      submitBtn.textContent = 'Отправляем...';
-      submitBtn.disabled = true;
-      
-      const data = {
-        nick: document.getElementById('nick').value.trim(),
-        fa: document.getElementById('fa').value.trim(),
-        discord_id: document.getElementById('discord_id').value.trim(),
-        vozrast: document.getElementById('vozrast').value,
-        gorod: document.getElementById('gorod').value.trim()
-      };
-      
-      setTimeout(() => {
-        try {
-          tg.sendData(JSON.stringify(data));
-          
-          const successDiv = document.createElement('div');
-          successDiv.className = 'success-message';
-          successDiv.innerHTML = 'Заявка успешно отправлена!';
-          form.parentNode.insertBefore(successDiv, form);
-          
-          submitBtn.textContent = 'Готово!';
-          submitBtn.style.background = '#22C55E';
-          submitBtn.classList.remove('loading');
-          
-        } catch (err) {
-          submitBtn.classList.remove('loading');
-          submitBtn.textContent = 'Отправить заявку';
-          submitBtn.disabled = false;
-          alert("Ошибка отправки: " + err.message);
-        }
-      }, 1000);
+      sendData();
     });
+
+    // Обработчик изменения полей для отображения главной кнопки
+    form.addEventListener('input', function() {
+      if (tg && tg.MainButton) {
+        const isFormValid = validateForm();
+        if (isFormValid) {
+          tg.MainButton.show();
+        } else {
+          tg.MainButton.hide();
+        }
+      }
+    });
+
+    // Изначально скрываем главную кнопку
+    if (tg && tg.MainButton) {
+      tg.MainButton.hide();
+    }
   </script>
 </body>
 </html>
