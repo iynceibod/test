@@ -23,13 +23,18 @@ body {
   position: relative;
   background-image: 
     linear-gradient(rgba(10, 46, 26, 0.9), rgba(10, 46, 26, 0.9)),
-    url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60"><path fill="%2316a085" d="M30 0c-5 10-10 15-15 20s-5 10-5 15 5 10 10 10 10-5 15-5 10 5 15 0 5-10 0-15S35 10 30 0z" opacity="0.1"/></svg>');
-  background-size: 100px 100px;
+    url('https://png.pngtree.com/png-vector/20230410/ourmid/pngtree-black-claws-vector-png-image_6698691.png');
+  background-size: 300px;
+  background-position: center;
+  background-repeat: repeat;
+  background-blend-mode: overlay;
 }
 
 .container {
   max-width: 100%;
   margin: 0 auto;
+  position: relative;
+  z-index: 2;
 }
 
 .form-wrapper {
@@ -37,48 +42,49 @@ body {
   border-radius: 14px;
   padding: 22px;
   box-shadow: 0 6px 24px rgba(0, 0, 0, 0.15);
-  border: 2px solid var(--dino-claw);
+  border: 2px solid var(--dino-green);
   position: relative;
   overflow: hidden;
+  backdrop-filter: blur(2px);
 }
 
-/* Когти по углам формы */
-.form-wrapper::before,
-.form-wrapper::after {
+/* Большие когти по углам экрана */
+body::before,
+body::after {
   content: '';
-  position: absolute;
-  width: 40px;
-  height: 40px;
-  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="%23e67e22" d="M12 2c-2.5 0-4.75.94-6.5 2.5l1.43 1.43C8.13 5.38 9.94 4.75 12 4.75s3.87.63 5.07 1.68L18.5 4.5C16.75 2.94 14.5 2 12 2M3.66 3.66l-.75.75c-1.37 1.37-2.05 3.28-1.59 5.09.69 2.65 2.81 5.25 4.5 7.5-1.25-1.25-2-3.25-1.87-5.5.09-1.56.75-3.03 1.78-4.03l4.72 4.72c-.5.91-.78 1.95-.78 3.03 0 1.56.75 3.03 1.88 4L12 22c1.66 0 3.22-.41 4.59-1.12l2.78 2.78 1.06-1.06L3.66 3.66M12 8c-2.22 0-4 1.78-4 4 0 .69.19 1.34.5 1.91l5.59 5.59c.57.31 1.22.5 1.91.5 2.22 0 4-1.78 4-4 0-.69-.19-1.34-.5-1.91l-5.59-5.59C13.34 8.19 12.69 8 12 8m-6.5 3.5c-.28 0-.5.22-.5.5s.22.5.5.5.5-.22.5-.5-.22-.5-.5-.5Z"/></svg>');
+  position: fixed;
+  width: 150px;
+  height: 150px;
+  background-image: url('https://png.pngtree.com/png-vector/20230410/ourmid/pngtree-black-claws-vector-png-image_6698691.png');
   background-size: contain;
   background-repeat: no-repeat;
-  opacity: 0.3;
-  z-index: 0;
+  opacity: 0.15;
+  z-index: 1;
+  pointer-events: none;
 }
 
-.form-wrapper::before {
-  top: 10px;
-  left: 10px;
+body::before {
+  top: 20px;
+  left: 20px;
   transform: rotate(-30deg);
 }
 
-.form-wrapper::after {
-  bottom: 10px;
-  right: 10px;
-  transform: rotate(150deg);
+body::after {
+  bottom: 20px;
+  right: 20px;
+  transform: rotate(120deg);
 }
 
 .header {
   text-align: center;
   margin-bottom: 24px;
   position: relative;
-  z-index: 1;
 }
 
 .dino-icon {
   font-size: 42px;
   margin-bottom: 12px;
-  color: var(--dino-claw);
+  color: var(--dino-green);
   text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
 }
 
@@ -128,8 +134,6 @@ body {
   background: white;
   color: var(--dino-dark);
   transition: all 0.25s ease;
-  position: relative;
-  z-index: 1;
 }
 
 .form-group input.invalid {
@@ -162,7 +166,6 @@ body {
   margin-top: 12px;
   position: relative;
   overflow: hidden;
-  z-index: 1;
   letter-spacing: 0.5px;
   text-transform: uppercase;
   box-shadow: 0 4px 12px rgba(39, 174, 96, 0.3);
@@ -201,7 +204,6 @@ body {
   );
   transform: rotate(30deg);
   animation: shine 3s infinite;
-  z-index: -1;
 }
 
 @keyframes shine {
@@ -250,33 +252,17 @@ body {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Следы когтей на фоне */
-.claw-mark {
-  position: absolute;
-  width: 60px;
-  height: 60px;
-  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="%2316a085" opacity="0.1" d="M12 2c-2.5 0-4.75.94-6.5 2.5l1.43 1.43C8.13 5.38 9.94 4.75 12 4.75s3.87.63 5.07 1.68L18.5 4.5C16.75 2.94 14.5 2 12 2M3.66 3.66l-.75.75c-1.37 1.37-2.05 3.28-1.59 5.09.69 2.65 2.81 5.25 4.5 7.5-1.25-1.25-2-3.25-1.87-5.5.09-1.56.75-3.03 1.78-4.03l4.72 4.72c-.5.91-.78 1.95-.78 3.03 0 1.56.75 3.03 1.88 4L12 22c1.66 0 3.22-.41 4.59-1.12l2.78 2.78 1.06-1.06L3.66 3.66M12 8c-2.22 0-4 1.78-4 4 0 .69.19 1.34.5 1.91l5.59 5.59c.57.31 1.22.5 1.91.5 2.22 0 4-1.78 4-4 0-.69-.19-1.34-.5-1.91l-5.59-5.59C13.34 8.19 12.69 8 12 8m-6.5 3.5c-.28 0-.5.22-.5.5s.22.5.5.5.5-.22.5-.5-.22-.5-.5-.5Z"/></svg>');
-  background-size: contain;
-  background-repeat: no-repeat;
-  z-index: -1;
-}
-
-.claw-mark-1 {
-  top: 10%;
-  left: 5%;
-  transform: rotate(20deg);
-}
-
-.claw-mark-2 {
-  bottom: 15%;
-  right: 5%;
-  transform: rotate(-15deg);
-}
-
 /* Адаптация для мобильных */
 @media (max-width: 480px) {
   body {
     padding: 12px;
+    background-size: 200px;
+  }
+  
+  body::before,
+  body::after {
+    width: 100px;
+    height: 100px;
   }
   
   .form-wrapper {
@@ -293,11 +279,5 @@ body {
   
   .submit-btn {
     padding: 14px;
-  }
-  
-  .form-wrapper::before,
-  .form-wrapper::after {
-    width: 30px;
-    height: 30px;
   }
 }
