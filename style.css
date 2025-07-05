@@ -1,13 +1,13 @@
 /* style.css */
 :root {
-  --palms-color: rgba(46, 125, 80, 0.2); /* Приглушенный зеленый */
-  --form-bg: rgba(240, 240, 240, 0.98); /* Светло-серый фон */
-  --dino-green: #3a7d44; /* Приглушенный зеленый */
-  --dino-dark: #34495e; /* Темно-синий */
-  --dino-accent: #d35400; /* Приглушенный оранжевый */
-  --dino-error: #c0392b; /* Темно-красный */
-  --text-color: #2c3e50; /* Темный текст */
-  --border-color: #95a5a6; /* Серые границы */
+  --palms-color: rgba(255, 255, 255, 0.15); /* Белые полупрозрачные пальмы */
+  --form-bg: rgba(46, 125, 80, 0.9); /* Зеленый фон формы с легкой прозрачностью */
+  --dino-green: #2e7d32; /* Темно-зеленый для акцентов */
+  --dino-dark: #ffffff; /* Белый текст */
+  --dino-accent: #ffab40; /* Теплый оранжевый для акцентов */
+  --dino-error: #ff6d6d; /* Светло-красный для ошибок */
+  --text-color: #ffffff; /* Белый текст */
+  --border-color: rgba(255, 255, 255, 0.3); /* Полупрозрачные белые границы */
 }
 
 * {
@@ -18,7 +18,7 @@
 
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background-color: #ecf0f1; /* Светло-серый фон */
+  background-color: #1b5e20; /* Темно-зеленый фон страницы */
   min-height: 100vh;
   padding: 16px;
   line-height: 1.5;
@@ -34,12 +34,14 @@ body {
   background: var(--form-bg);
   border-radius: 14px;
   padding: 25px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
   border: 1px solid var(--border-color);
   position: relative;
   overflow: hidden;
+  backdrop-filter: blur(5px); /* Легкое размытие для эффекта стекла */
 }
 
+/* Белые полупрозрачные пальмы */
 .form-wrapper::before {
   content: "";
   position: absolute;
@@ -48,7 +50,7 @@ body {
   width: 100%;
   height: 100%;
   background-image: 
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ctext x='12' y='18' font-size='16' text-anchor='middle' fill='%232e7d50' opacity='0.15' transform='rotate(-15 12 12)'%3E🌴%3C/text%3E%3C/svg%3E");
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ctext x='12' y='18' font-size='16' text-anchor='middle' fill='%23ffffff' opacity='0.15' transform='rotate(-15 12 12)'%3E🌴%3C/text%3E%3C/svg%3E");
   background-size: 40px 40px;
   background-repeat: repeat;
   z-index: 0;
@@ -69,10 +71,11 @@ body {
   margin-bottom: 8px;
   text-transform: uppercase;
   letter-spacing: 1px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .subtitle {
-  color: var(--dino-accent);
+  color: rgba(255, 255, 255, 0.8);
   font-size: 15px;
   font-weight: 600;
 }
@@ -94,53 +97,28 @@ body {
 .form-group input {
   width: 100%;
   padding: 14px 16px;
-  border: 2px solid var(--dino-green);
-  border-radius: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
   font-size: 15px;
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.1);
   color: var(--dino-dark);
   transition: all 0.25s ease;
 }
 
-.form-group input.invalid {
-  border-color: var(--dino-error);
-  background-color: rgba(255, 107, 107, 0.05);
+.form-group input::placeholder {
+  color: rgba(255, 255, 255, 0.6);
 }
 
 .form-group input:focus {
   outline: none;
   border-color: var(--dino-accent);
-  box-shadow: 0 0 0 3px rgba(255, 159, 28, 0.2);
+  background: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 0 2px rgba(255, 171, 64, 0.3);
 }
 
-.form-group input::placeholder {
-  color: #b8c2cc;
-  opacity: 0.7;
-}
-
-.submit-btn {
-  width: 100%;
-  padding: 16px;
-  background: linear-gradient(135deg, var(--dino-green) 0%, #4bc0a9 100%);
-  color: white;
-  border: none;
-  border-radius: 10px;
-  font-size: 16px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.25s ease;
-  margin-top: 10px;
-  position: relative;
-  overflow: hidden;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-  box-shadow: 0 4px 12px rgba(92, 219, 149, 0.3);
-  z-index: 1;
-}
-
-.submit-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(92, 219, 149, 0.4);
+.form-group input.invalid {
+  border-color: var(--dino-error);
+  background: rgba(255, 109, 109, 0.1);
 }
 
 .error-message {
@@ -151,46 +129,33 @@ body {
   font-weight: 500;
 }
 
-.loading {
-  position: relative;
-  color: transparent;
-}
-
-.loading::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 20px;
-  height: 20px;
-  margin: -10px 0 0 -10px;
-  border: 3px solid transparent;
-  border-top: 3px solid white;
-  border-radius: 50%;
-  animation: spin 0.8s linear infinite;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-.success-message {
-  background: var(--dino-green);
-  color: white;
+.submit-btn {
+  width: 100%;
   padding: 16px;
-  border-radius: 10px;
-  text-align: center;
-  font-weight: 600;
-  margin-bottom: 20px;
-  animation: fadeIn 0.4s;
-  box-shadow: 0 4px 12px rgba(92, 219, 149, 0.3);
+  background: linear-gradient(135deg, var(--dino-green) 0%, #1b5e20 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  margin-top: 10px;
+  position: relative;
+  overflow: hidden;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   z-index: 1;
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
+.submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+}
+
+.submit-btn:active {
+  transform: translateY(0);
 }
 
 /* Адаптация для мобильных */
@@ -204,7 +169,7 @@ body {
   }
   
   .form-wrapper::before {
-    background-size: 30px 30px; /* Еще меньше на мобильных */
+    background-size: 30px 30px;
   }
   
   .title {
