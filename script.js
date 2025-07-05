@@ -1,4 +1,3 @@
-// Инициализация Telegram WebApp
 const tg = window.Telegram?.WebApp;
 if (!tg) {
   console.warn('Telegram WebApp не найден');
@@ -7,11 +6,9 @@ if (!tg) {
   tg.setHeaderColor('#2d5016');
 }
 
-// Получение элементов формы
 const form = document.getElementById('regForm');
 const submitBtn = form.querySelector('.submit-btn');
 
-// Флаги для отслеживания "чистоты" полей
 const fieldTouched = {
   nick: false,
   fa: false,
@@ -20,7 +17,6 @@ const fieldTouched = {
   gorod: false
 };
 
-// Функции валидации
 function validateNick(nick) {
   const errorElement = document.getElementById('nick-error');
   
@@ -32,7 +28,7 @@ function validateNick(nick) {
   }
   
   if (!nick.includes('_')) {
-    showError(errorElement, 'Ник должен содержать символ "_"');
+    showError(errorElement, 'Ник должен быть в формате Nick_Name');
     return false;
   }
   
@@ -46,12 +42,12 @@ function validateForumAccount(url) {
   if (!fieldTouched.fa) return true;
   
   if (!url) {
-    showError(errorElement, 'Введите URL форума');
+    showError(errorElement, 'Введите URL форумного аккаунта');
     return false;
   }
   
   if (!url.startsWith('http://') && !url.startsWith('https://')) {
-    showError(errorElement, 'Введите корректный URL (начинается с http:// или https://)');
+    showError(errorElement, 'Введите корректный URL');
     return false;
   }
   
@@ -70,7 +66,7 @@ function validateDiscordId(id) {
   }
   
   if (!/^\d+$/.test(id)) {
-    showError(errorElement, 'Discord ID должен содержать только цифры');
+    showError(errorElement, 'Discord ID должен состоять только из цифр');
     return false;
   }
   
@@ -88,11 +84,7 @@ function validateAge(age) {
     return false;
   }
   
-  if (age < 14) {
-    showError(errorElement, 'Минимальный возраст - 14 лет');
-    return false;
-  }
-  
+
   hideError(errorElement);
   return true;
 }
@@ -103,7 +95,7 @@ function validateLocation(location) {
   if (!fieldTouched.gorod) return true;
   
   if (!location) {
-    showError(errorElement, 'Введите местоположение');
+    showError(errorElement, 'Введите место проживания');
     return false;
   }
   
@@ -121,7 +113,6 @@ function hideError(element) {
   element.style.display = 'none';
 }
 
-// Валидация в реальном времени
 function validateForm() {
   const nick = document.getElementById('nick').value.trim();
   const fa = document.getElementById('fa').value.trim();
@@ -141,13 +132,11 @@ function validateForm() {
   return isValid;
 }
 
-// Добавляем слушатели для валидации
 const inputs = form.querySelectorAll('input');
 inputs.forEach(input => {
   input.addEventListener('input', function() {
     fieldTouched[this.id] = true;
     validateForm();
-    // Убираем класс ошибки при вводе
     if (this.classList.contains('invalid')) {
       this.classList.remove('invalid');
     }
@@ -182,17 +171,14 @@ inputs.forEach(input => {
   });
 });
 
-// Функция отправки данных
 function submitForm() {
   if (!validateForm()) {
     return;
   }
   
-  // Показываем загрузку
   submitBtn.classList.add('loading');
   submitBtn.disabled = true;
   
-  // Собираем данные
   const data = {
     nick: document.getElementById('nick').value.trim(),
     fa: document.getElementById('fa').value.trim(),
@@ -202,13 +188,11 @@ function submitForm() {
     timestamp: new Date().toISOString()
   };
   
-  // Отправка через Telegram WebApp
   setTimeout(() => {
     try {
       if (tg) {
         tg.sendData(JSON.stringify(data));
       } else {
-        // Для тестирования вне Telegram
         console.log('Данные формы:', data);
         showSuccessMessage();
       }
@@ -221,7 +205,6 @@ function submitForm() {
   }, 800);
 }
 
-// Показать сообщение об успехе (для тестирования)
 function showSuccessMessage() {
   const successDiv = document.createElement('div');
   successDiv.className = 'success-message';
@@ -235,7 +218,6 @@ function showSuccessMessage() {
   submitBtn.classList.remove('loading');
   submitBtn.style.background = '#22c55e';
   
-  // Очищаем форму
   setTimeout(() => {
     form.reset();
     submitBtn.style.background = '';
@@ -243,18 +225,15 @@ function showSuccessMessage() {
     successDiv.remove();
     validateForm();
     
-    // Сбрасываем флаги touched
     for (const key in fieldTouched) {
       fieldTouched[key] = false;
     }
   }, 3000);
 }
 
-// Обработка отправки формы
 form.addEventListener('submit', function(e) {
   e.preventDefault();
   submitForm();
 });
 
-// Инициализация валидации
 validateForm();
