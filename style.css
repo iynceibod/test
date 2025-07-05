@@ -21,20 +21,12 @@ body {
   padding: 16px;
   line-height: 1.5;
   position: relative;
-  background-image: 
-    linear-gradient(rgba(10, 46, 26, 0.9), rgba(10, 46, 26, 0.9)),
-    url('https://png.pngtree.com/png-vector/20230410/ourmid/pngtree-black-claws-vector-png-image_6698691.png');
-  background-size: 300px;
-  background-position: center;
-  background-repeat: repeat;
-  background-blend-mode: overlay;
 }
 
 .container {
   max-width: 100%;
   margin: 0 auto;
   position: relative;
-  z-index: 2;
 }
 
 .form-wrapper {
@@ -45,40 +37,67 @@ body {
   border: 2px solid var(--dino-green);
   position: relative;
   overflow: hidden;
-  backdrop-filter: blur(2px);
+  
+  /* Текстура когтей на всю форму */
+  background-image: 
+    url('https://png.pngtree.com/png-vector/20230410/ourmid/pngtree-black-claws-vector-png-image_6698691.png'),
+    url('https://png.pngtree.com/png-vector/20230410/ourmid/pngtree-black-claws-vector-png-image_6698691.png'),
+    url('https://png.pngtree.com/png-vector/20230410/ourmid/pngtree-black-claws-vector-png-image_6698691.png');
+  background-size: 30px, 20px, 15px;
+  background-position: 
+    10% 20%,
+    80% 70%,
+    30% 90%;
+  background-repeat: no-repeat;
+  background-blend-mode: overlay;
+  background-attachment: scroll;
 }
 
-/* Большие когти по углам экрана */
-body::before,
-body::after {
+/* Маленькие когти по углам формы */
+.form-wrapper::before,
+.form-wrapper::after,
+.form-wrapper .claw-decor-1,
+.form-wrapper .claw-decor-2 {
   content: '';
-  position: fixed;
-  width: 150px;
-  height: 150px;
+  position: absolute;
+  width: 20px;
+  height: 20px;
   background-image: url('https://png.pngtree.com/png-vector/20230410/ourmid/pngtree-black-claws-vector-png-image_6698691.png');
   background-size: contain;
   background-repeat: no-repeat;
-  opacity: 0.15;
-  z-index: 1;
-  pointer-events: none;
+  opacity: 0.1;
+  z-index: 0;
 }
 
-body::before {
-  top: 20px;
-  left: 20px;
-  transform: rotate(-30deg);
+.form-wrapper::before {
+  top: 8px;
+  left: 8px;
+  transform: rotate(-20deg);
 }
 
-body::after {
-  bottom: 20px;
-  right: 20px;
-  transform: rotate(120deg);
+.form-wrapper::after {
+  bottom: 8px;
+  right: 8px;
+  transform: rotate(100deg);
+}
+
+.claw-decor-1 {
+  top: 8px;
+  right: 8px;
+  transform: rotate(20deg);
+}
+
+.claw-decor-2 {
+  bottom: 8px;
+  left: 8px;
+  transform: rotate(-70deg);
 }
 
 .header {
   text-align: center;
   margin-bottom: 24px;
   position: relative;
+  z-index: 1;
 }
 
 .dino-icon {
@@ -106,6 +125,7 @@ body::after {
 .form-group {
   margin-bottom: 18px;
   position: relative;
+  z-index: 1;
 }
 
 .form-group label {
@@ -169,6 +189,7 @@ body::after {
   letter-spacing: 0.5px;
   text-transform: uppercase;
   box-shadow: 0 4px 12px rgba(39, 174, 96, 0.3);
+  z-index: 1;
 }
 
 .submit-btn:hover {
@@ -245,6 +266,8 @@ body::after {
   margin-bottom: 20px;
   animation: fadeIn 0.4s;
   box-shadow: 0 4px 12px rgba(39, 174, 96, 0.3);
+  position: relative;
+  z-index: 1;
 }
 
 @keyframes fadeIn {
@@ -256,17 +279,19 @@ body::after {
 @media (max-width: 480px) {
   body {
     padding: 12px;
-    background-size: 200px;
-  }
-  
-  body::before,
-  body::after {
-    width: 100px;
-    height: 100px;
   }
   
   .form-wrapper {
     padding: 18px;
+    background-size: 20px, 15px, 10px;
+  }
+  
+  .form-wrapper::before,
+  .form-wrapper::after,
+  .claw-decor-1,
+  .claw-decor-2 {
+    width: 15px;
+    height: 15px;
   }
   
   .title {
