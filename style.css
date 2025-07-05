@@ -58,11 +58,13 @@ body {
 }
 
 .dino-footprint {
+  background-image: url('https://i.yapx.cc/ZwfT9.png');
   width: 80px;
   height: 80px;
-  margin: 0 auto 16px;
-  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="%232d6a4f" d="M256 32c-141.4 0-256 114.6-256 256s114.6 256 256 256s256-114.6 256-256S397.4 32 256 32zM127 311.6c-5.4-7.1-15.5-8.5-22.6-3.1s-8.5 15.5-3.1 22.6l16 21.3c5.4 7.1 15.5 8.5 22.6 3.1s8.5-15.5 3.1-22.6L127 311.6zM256 384c-17.7 0-32-14.3-32-32s14.3-32 32-32s32 14.3 32 32s-14.3 32-32 32zm-96-96c-17.7 0-32-14.3-32-32s14.3-32 32-32s32 14.3 32 32s-14.3 32-32 32zm192 0c-17.7 0-32-14.3-32-32s14.3-32 32-32s32 14.3 32 32s-14.3 32-32 32zm96-96c-17.7 0-32-14.3-32-32s14.3-32 32-32s32 14.3 32 32s-14.3 32-32 32z"/></svg>');  background-size: contain;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  filter: brightness(0) saturate(100%) invert(23%) sepia(50%) saturate(638%) hue-rotate(103deg) brightness(92%) contrast(89%);
 }
 
 .title {
