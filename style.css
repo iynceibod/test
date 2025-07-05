@@ -31,66 +31,60 @@ body {
 
 .form-wrapper {
   background: rgba(255, 255, 255, 0.97);
-  border-radius: 14px;
-  padding: 22px;
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.15);
-  border: 2px solid var(--dino-green);
-  position: relative;
-  overflow: hidden;
-  
-  /* Текстура когтей на всю форму */
+  /* Текстура когтей - теперь более заметная */
   background-image: 
     url('https://png.pngtree.com/png-vector/20230410/ourmid/pngtree-black-claws-vector-png-image_6698691.png'),
     url('https://png.pngtree.com/png-vector/20230410/ourmid/pngtree-black-claws-vector-png-image_6698691.png'),
+    url('https://png.pngtree.com/png-vector/20230410/ourmid/pngtree-black-claws-vector-png-image_6698691.png'),
     url('https://png.pngtree.com/png-vector/20230410/ourmid/pngtree-black-claws-vector-png-image_6698691.png');
-  background-size: 30px, 20px, 15px;
+  background-size: 40px;
   background-position: 
-    10% 20%,
-    80% 70%,
-    30% 90%;
+    10% 10%,
+    90% 10%,
+    10% 90%,
+    90% 90%;
   background-repeat: no-repeat;
-  background-blend-mode: overlay;
+  background-blend-mode: multiply;
   background-attachment: scroll;
 }
 
-/* Маленькие когти по углам формы */
+/* Угловые когти - теперь темнее и больше */
 .form-wrapper::before,
 .form-wrapper::after,
 .form-wrapper .claw-decor-1,
 .form-wrapper .claw-decor-2 {
   content: '';
   position: absolute;
-  width: 20px;
-  height: 20px;
+  width: 30px;
+  height: 30px;
   background-image: url('https://png.pngtree.com/png-vector/20230410/ourmid/pngtree-black-claws-vector-png-image_6698691.png');
   background-size: contain;
   background-repeat: no-repeat;
-  opacity: 0.1;
+  opacity: 0.3; /* Увеличил прозрачность */
   z-index: 0;
+  filter: brightness(0.7); /* Делаем темнее */
 }
 
+/* Позиции когтей */
 .form-wrapper::before {
-  top: 8px;
-  left: 8px;
-  transform: rotate(-20deg);
+  top: 10px;
+  left: 10px;
+  transform: rotate(-30deg);
 }
-
 .form-wrapper::after {
-  bottom: 8px;
-  right: 8px;
-  transform: rotate(100deg);
+  bottom: 10px;
+  right: 10px;
+  transform: rotate(120deg);
 }
-
 .claw-decor-1 {
-  top: 8px;
-  right: 8px;
-  transform: rotate(20deg);
+  top: 10px;
+  right: 10px;
+  transform: rotate(30deg);
 }
-
 .claw-decor-2 {
-  bottom: 8px;
-  left: 8px;
-  transform: rotate(-70deg);
+  bottom: 10px;
+  left: 10px;
+  transform: rotate(-60deg);
 }
 
 .header {
