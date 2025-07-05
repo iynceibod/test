@@ -2,57 +2,167 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>🦕 Регистрация</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <title>Регистрация</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .form-container {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      width: 350px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+
+    input {
+      width: 100%;
+      padding: 8px 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+
+    .error {
+      color: #e53935;
+      font-size: 13px;
+      margin-top: 5px;
+      display: none;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      background-color: #9e9e9e;
+      cursor: not-allowed;
+    }
+  </style>
 </head>
 <body>
-  <div class="container">
-    <div class="form-wrapper">
-      <div class="header">
-        <div class="dino-icon">🦖</div>
-        <h1 class="title">Dino Guard</h1>
-        <p class="subtitle">🦕 Добро пожаловать в доисторическую модерацию 🦕</p>
+  <div class="form-container">
+    <form id="registerForm" novalidate>
+      <div class="form-group">
+        <label for="nick">Игровой ник</label>
+        <input type="text" id="nick" name="nick" placeholder="Nick_Name">
+        <div class="error" id="nick-error">Ник должен содержать "_"</div>
       </div>
 
-      <form id="regForm">
-<div class="form-group">
-  <label for="nick">Игровой ник</label>
-  <input type="text" id="nick" placeholder="Nick_Name" required>
-  <div class="error" id="nick-error"></div>
-</div>
+      <div class="form-group">
+        <label for="fa">Форумный аккаунт</label>
+        <input type="text" id="fa" name="fa" placeholder="Ссылка на форум">
+        <div class="error" id="fa-error">Введите корректную ссылку</div>
+      </div>
 
-<div class="form-group">
-  <label for="fa">Форумный аккаунт</label>
-  <input type="text" id="fa" placeholder="Ссылка на Arizona Guard" required>
-  <div class="error" id="fa-error"></div>
-</div>
+      <div class="form-group">
+        <label for="discord_id">Discord ID</label>
+        <input type="text" id="discord_id" name="discord_id" placeholder="Ваш Discord ID">
+        <div class="error" id="discord-error">ID должен содержать только цифры</div>
+      </div>
 
-<div class="form-group">
-  <label for="discord_id">Discord ID</label>
-  <input type="text" id="discord_id" placeholder="Ваш Discord ID" required>
-  <div class="error" id="discord-error"></div>
-</div>
+      <div class="form-group">
+        <label for="vozrast">Возраст</label>
+        <input type="number" id="vozrast" name="vozrast" placeholder="Ваш возраст">
+        <div class="error" id="vozrast-error">Укажите возраст</div>
+      </div>
 
-<div class="form-group">
-  <label for="vozrast">Возраст</label>
-  <input type="number" id="vozrast" placeholder="Сколько вам лет?" required>
-  <div class="error" id="vozrast-error"></div>
-</div>
+      <div class="form-group">
+        <label for="gorod">Местоположение</label>
+        <input type="text" id="gorod" name="gorod" placeholder="Страна, город">
+        <div class="error" id="gorod-error">Укажите местоположение</div>
+      </div>
 
-<div class="form-group">
-  <label for="gorod">Местоположение</label>
-  <input type="text" id="gorod" placeholder="Страна, город" required>
-  <div class="error" id="gorod-error"></div>
-</div>
-
-
-        <button type="submit" class="submit-btn">Отправить заявку</button>
-      </form>
-    </div>
+      <button type="submit" id="submitBtn" disabled>Отправить</button>
+    </form>
   </div>
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
-  <script src="script.js"></script>
+
+  <script>
+    const form = document.getElementById('registerForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const fields = ['nick', 'fa', 'discord_id', 'vozrast', 'gorod'];
+    const touched = {};
+
+    fields.forEach(id => {
+      touched[id] = false;
+      const input = document.getElementById(id);
+      input.addEventListener('input', () => {
+        touched[id] = true;
+        validateField(id);
+        validateForm();
+      });
+    });
+
+    function validateField(id) {
+      const value = document.getElementById(id).value.trim();
+      const error = document.getElementById(`${id}-error`);
+      let isValid = true;
+
+      switch (id) {
+        case 'nick':
+          isValid = value.includes('_');
+          break;
+        case 'fa':
+          isValid = value.startsWith('http');
+          break;
+        case 'discord_id':
+          isValid = /^\d+$/.test(value);
+          break;
+        case 'vozrast':
+        case 'gorod':
+          isValid = value.length > 0;
+          break;
+      }
+
+      if (!isValid && touched[id]) {
+        error.style.display = 'block';
+      } else {
+        error.style.display = 'none';
+      }
+
+      return isValid;
+    }
+
+    function validateForm() {
+      const isFormValid = fields.every(id => validateField(id));
+      submitBtn.disabled = !isFormValid;
+    }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (fields.every(id => validateField(id))) {
+        alert('Форма успешно отправлена!');
+        form.reset();
+        fields.forEach(id => {
+          document.getElementById(`${id}-error`).style.display = 'none';
+          touched[id] = false;
+        });
+        submitBtn.disabled = true;
+      }
+    });
+  </script>
 </body>
 </html>
