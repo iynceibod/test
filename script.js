@@ -4,22 +4,15 @@ const tg = window.Telegram?.WebApp;
 if (!tg) {
   console.warn('Telegram WebApp не найден');
 } else {
-  // Настройка WebApp
   tg.expand();
-  tg.setHeaderColor('#ffffff');
-  tg.setBackgroundColor('#ffffff');
-  
-  // Показываем главную кнопку
-  tg.MainButton.setText('Отправить заявку');
-  tg.MainButton.color = '#0088cc';
-  tg.MainButton.show();
+  tg.setHeaderColor('#667eea');
 }
 
 // Получение элементов формы
 const form = document.getElementById('regForm');
 const submitBtn = form.querySelector('.submit-btn');
 
-// Валидация формы
+// Валидация в реальном времени
 function validateForm() {
   const nick = document.getElementById('nick').value.trim();
   const fa = document.getElementById('fa').value.trim();
@@ -27,27 +20,18 @@ function validateForm() {
   const vozrast = document.getElementById('vozrast').value;
   const gorod = document.getElementById('gorod').value.trim();
   
-  return nick && fa && discord_id && vozrast && gorod;
-}
-
-// Обновление состояния кнопки
-function updateButtonState() {
-  const isValid = validateForm();
-  
-  if (tg) {
-    if (isValid) {
-      tg.MainButton.enable();
-    } else {
-      tg.MainButton.disable();
-    }
-  }
-  
+  const isValid = nick && fa && discord_id && vozrast && gorod;
   submitBtn.disabled = !isValid;
+  
+  return isValid;
 }
 
 // Добавляем слушатели для валидации
-form.addEventListener('input', updateButtonState);
-form.addEventListener('change', updateButtonState);
+const inputs = form.querySelectorAll('input');
+inputs.forEach(input => {
+  input.addEventListener('input', validateForm);
+  input.addEventListener('blur', validateForm);
+});
 
 // Функция отправки данных
 function submitForm() {
@@ -59,10 +43,6 @@ function submitForm() {
   submitBtn.classList.add('loading');
   submitBtn.disabled = true;
   
-  if (tg) {
-    tg.MainButton.showProgress();
-  }
-  
   // Собираем данные
   const data = {
     nick: document.getElementById('nick').value.trim(),
@@ -73,12 +53,11 @@ function submitForm() {
     timestamp: new Date().toISOString()
   };
   
-  // Имитация отправки
+  // Отправка через Telegram WebApp
   setTimeout(() => {
     try {
       if (tg) {
         tg.sendData(JSON.stringify(data));
-        tg.close();
       } else {
         // Для тестирования вне Telegram
         console.log('Данные формы:', data);
@@ -86,19 +65,14 @@ function submitForm() {
       }
     } catch (err) {
       console.error('Ошибка отправки:', err);
-      showError('Ошибка отправки данных');
-    } finally {
+      alert('❌ Ошибка отправки данных');
       submitBtn.classList.remove('loading');
       submitBtn.disabled = false;
-      
-      if (tg) {
-        tg.MainButton.hideProgress();
-      }
     }
-  }, 1000);
+  }, 800);
 }
 
-// Показать сообщение об успехе
+// Показать сообщение об успехе (для тестирования)
 function showSuccessMessage() {
   const successDiv = document.createElement('div');
   successDiv.className = 'success-message';
@@ -107,16 +81,6 @@ function showSuccessMessage() {
   
   submitBtn.textContent = '✅ Готово!';
   submitBtn.style.background = '#22c55e';
-  
-  // Скрываем форму через 2 секунды
-  setTimeout(() => {
-    form.style.display = 'none';
-  }, 2000);
-}
-
-// Показать ошибку
-function showError(message) {
-  alert('❌ ' + message);
 }
 
 // Обработка отправки формы
@@ -125,10 +89,5 @@ form.addEventListener('submit', function(e) {
   submitForm();
 });
 
-// Обработка главной кнопки Telegram
-if (tg) {
-  tg.MainButton.onClick(submitForm);
-}
-
-// Инициализация состояния
-updateButtonState();
+// Инициализация валидации
+validateForm();
