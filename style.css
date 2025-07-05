@@ -69,6 +69,14 @@ body {
 #1f2937;
   transition: all 0.3s ease;
 }
+
+.error {
+  color: #dc2626; /* Красный */
+  font-size: 13px;
+  margin-top: 4px;
+  min-height: 16px;
+}
+
 .form-group input:focus {
   outline: none;
   border-color: 
