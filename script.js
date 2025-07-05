@@ -11,9 +11,20 @@ if (!tg) {
 const form = document.getElementById('regForm');
 const submitBtn = form.querySelector('.submit-btn');
 
+// Флаги для отслеживания "чистоты" полей
+const fieldTouched = {
+  nick: false,
+  fa: false,
+  discord_id: false,
+  vozrast: false,
+  gorod: false
+};
+
 // Функции валидации
 function validateNick(nick) {
   const errorElement = document.getElementById('nick-error');
+  
+  if (!fieldTouched.nick) return true;
   
   if (!nick) {
     showError(errorElement, 'Введите ник');
@@ -32,6 +43,8 @@ function validateNick(nick) {
 function validateForumAccount(url) {
   const errorElement = document.getElementById('fa-error');
   
+  if (!fieldTouched.fa) return true;
+  
   if (!url) {
     showError(errorElement, 'Введите URL форума');
     return false;
@@ -48,6 +61,8 @@ function validateForumAccount(url) {
 
 function validateDiscordId(id) {
   const errorElement = document.getElementById('discord-error');
+  
+  if (!fieldTouched.discord_id) return true;
   
   if (!id) {
     showError(errorElement, 'Введите Discord ID');
@@ -66,6 +81,8 @@ function validateDiscordId(id) {
 function validateAge(age) {
   const errorElement = document.getElementById('age-error');
   
+  if (!fieldTouched.vozrast) return true;
+  
   if (!age) {
     showError(errorElement, 'Введите возраст');
     return false;
@@ -82,6 +99,8 @@ function validateAge(age) {
 
 function validateLocation(location) {
   const errorElement = document.getElementById('location-error');
+  
+  if (!fieldTouched.gorod) return true;
   
   if (!location) {
     showError(errorElement, 'Введите местоположение');
@@ -126,6 +145,7 @@ function validateForm() {
 const inputs = form.querySelectorAll('input');
 inputs.forEach(input => {
   input.addEventListener('input', function() {
+    fieldTouched[this.id] = true;
     validateForm();
     // Убираем класс ошибки при вводе
     if (this.classList.contains('invalid')) {
@@ -134,10 +154,10 @@ inputs.forEach(input => {
   });
   
   input.addEventListener('blur', function() {
-    const id = this.id;
+    fieldTouched[this.id] = true;
     const value = this.value.trim();
     
-    switch(id) {
+    switch(this.id) {
       case 'nick':
         validateNick(value);
         if (!validateNick(value)) this.classList.add('invalid');
@@ -205,22 +225,28 @@ function submitForm() {
 function showSuccessMessage() {
   const successDiv = document.createElement('div');
   successDiv.className = 'success-message';
-  successDiv.textContent = 'Заявка успешно отправлена!';
+  successDiv.innerHTML = `
+    <div class="success-icon"></div>
+    <div>Заявка успешно отправлена!</div>
+  `;
   form.parentNode.insertBefore(successDiv, form);
   
   submitBtn.textContent = 'Готово!';
   submitBtn.classList.remove('loading');
   submitBtn.style.background = '#22c55e';
-  submitBtn.classList.add('pulse');
   
   // Очищаем форму
   setTimeout(() => {
     form.reset();
-    submitBtn.classList.remove('pulse');
     submitBtn.style.background = '';
     submitBtn.textContent = 'Отправить заявку';
     successDiv.remove();
     validateForm();
+    
+    // Сбрасываем флаги touched
+    for (const key in fieldTouched) {
+      fieldTouched[key] = false;
+    }
   }, 3000);
 }
 
