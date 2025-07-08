@@ -2,44 +2,60 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Список модерации Yava</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Список модеров</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body { background: #111; color: #fff; font-family: sans-serif; padding: 20px; }
+        h1 { text-align: center; }
+        h2 { margin-top: 20px; }
+        ul { list-style: none; padding: 0; }
+        li { margin: 5px 0; }
+        a { color: #4fc3f7; text-decoration: none; }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <div class="moders-wrapper">
-            <div class="header">
-                <div class="dino-footprint"></div>
-                <h1 class="title">Список модерации</h1>
-                <p class="subtitle">Актуальный состав команды Yava</p>
-            </div>
+<h1>⚔️ Список модерации Yava ⚔️</h1>
+<div id="moders"></div>
 
-            <div class="moders-container">
-                <div class="loading-spinner">
-                    <div class="spinner"></div>
-                    <p>Загрузка данных...</p>
-                </div>
+<script>
+    const tg = window.Telegram.WebApp;
 
-                <div class="moders-list" id="modersList">
-                    <!-- Список будет заполнен через JavaScript -->
-                </div>
+    // Запрашиваем данные у бота
+    tg.ready();
+    tg.expand();
 
-                <div class="stats">
-                    <div class="stat-item">
-                        <span class="stat-label">Всего модерации:</span>
-                        <span class="stat-value" id="totalModers">0</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-label">Без руководства:</span>
-                        <span class="stat-value" id="modersUpTo3">0</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    // Отправляем запрос в бота (это вызовет handle_web_app_data)
+    tg.sendData("get_moders");
 
-    <script src="script.js"></script>
+    // Слушаем ответ — ты можешь использовать postMessage + JSON.stringify, если хочешь передавать всё сразу
+    window.addEventListener("message", function(event) {
+        const data = event.data;
+
+        const container = document.getElementById("moders");
+        for (const [group, moders] of Object.entries(data.grouped)) {
+            const section = document.createElement("div");
+            section.innerHTML = `<h2>${group}</h2>`;
+            const ul = document.createElement("ul");
+
+            moders.forEach(m => {
+                const li = document.createElement("li");
+                if (m.nick.link) {
+                    li.innerHTML = `📌 <a href="${m.nick.link}" target="_blank">${m.nick.text}</a> [${m.role}]`;
+                } else {
+                    li.innerHTML = `📌 ${m.nick.text} [${m.role}]`;
+                }
+                ul.appendChild(li);
+            });
+
+            section.appendChild(ul);
+            container.appendChild(section);
+        }
+
+        const stats = document.createElement("p");
+        stats.innerHTML = `<br><b>📑 Общее количество модерации:</b> ${data.total}<br>
+                           <b>📃 Без учета руководства:</b> ${data.up_to_3}`;
+        container.appendChild(stats);
+    });
+</script>
 </body>
 </html>
