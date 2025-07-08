@@ -482,3 +482,179 @@ body {
 .form-group input[type="number"] {
   -moz-appearance: textfield;
 }
+
+
+/* Ваш существующий CSS остается без изменений */
+
+/* Добавляем новые стили для списка модераторов */
+.moders-wrapper {
+    background: var(--surface);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    box-shadow: var(--shadow), 0 0 20px rgba(46, 139, 87, 0.1);
+    border: 1px solid rgba(46, 139, 87, 0.2);
+    position: relative;
+    backdrop-filter: blur(10px);
+}
+
+.moders-container {
+    margin-top: 20px;
+}
+
+.moder-group {
+    margin-bottom: 24px;
+}
+
+.moder-group-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--primary-green);
+    margin-bottom: 12px;
+    padding-bottom: 6px;
+    border-bottom: 2px solid rgba(46, 139, 87, 0.2);
+    display: flex;
+    align-items: center;
+}
+
+.moder-group-title i {
+    margin-right: 8px;
+}
+
+.moder-item {
+    display: flex;
+    align-items: center;
+    padding: 10px 12px;
+    margin-bottom: 8px;
+    background: rgba(46, 139, 87, 0.05);
+    border-radius: var(--radius);
+    transition: all 0.2s ease;
+}
+
+.moder-item:hover {
+    background: rgba(46, 139, 87, 0.1);
+    transform: translateX(4px);
+}
+
+.moder-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary-green), var(--accent-orange));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 14px;
+    margin-right: 12px;
+    flex-shrink: 0;
+}
+
+.moder-info {
+    flex-grow: 1;
+}
+
+.moder-name {
+    font-weight: 600;
+    margin-bottom: 2px;
+}
+
+.moder-level {
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.moder-tg {
+    color: var(--primary-green);
+    text-decoration: none;
+    font-size: 12px;
+    display: block;
+    margin-top: 2px;
+}
+
+.moder-tg:hover {
+    text-decoration: underline;
+}
+
+.stats {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(46, 139, 87, 0.2);
+}
+
+.stat-item {
+    text-align: center;
+    flex: 1;
+}
+
+.stat-label {
+    display: block;
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-bottom: 4px;
+}
+
+.stat-value {
+    display: block;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--primary-green);
+}
+
+.loading-spinner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 0;
+    text-align: center;
+    color: var(--text-secondary);
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid rgba(46, 139, 87, 0.1);
+    border-top: 4px solid var(--primary-green);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 16px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.error-message {
+    color: var(--error);
+    text-align: center;
+    padding: 20px;
+    font-weight: 500;
+}
+
+/* Адаптация для мобильных */
+@media (max-width: 480px) {
+    .moders-wrapper {
+        padding: 20px;
+    }
+    
+    .moder-item {
+        padding: 8px 10px;
+    }
+    
+    .moder-icon {
+        width: 28px;
+        height: 28px;
+        font-size: 12px;
+    }
+    
+    .stats {
+        flex-direction: column;
+    }
+    
+    .stat-item {
+        margin-bottom: 12px;
+    }
+}
