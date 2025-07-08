@@ -3,48 +3,12 @@ if (!tg) {
   console.warn('Telegram WebApp не найден');
 } else {
   tg.expand();
-  tg.setHeaderColor('#1a5c1a');
+  tg.setHeaderColor('
+#667eea');
 }
-
 // Получение элементов формы
 const form = document.getElementById('regForm');
 const submitBtn = form.querySelector('.submit-btn');
-
-// Функции валидации
-function validateNick(nick) {
-  if (!nick) return 'Укажите игровой ник';
-  if (!nick.includes('_')) return 'Ник должен содержать символ "_"';
-  return null;
-}
-
-function validateFA(fa) {
-  if (!fa) return 'Укажите ссылку на форумный аккаунт';
-  if (!fa.startsWith('http://') && !fa.startsWith('https://')) {
-    return 'Ссылка должна начинаться с http:// или https://';
-  }
-  return null;
-}
-
-function validateDiscordID(id) {
-  if (!id) return 'Укажите Discord ID';
-  if (!/^\d+$/.test(id)) return 'Discord ID должен содержать только цифры';
-  return null;
-}
-
-// Функция показа ошибок
-function showError(fieldId, message) {
-  const field = document.getElementById(fieldId);
-  const errorDiv = document.getElementById(fieldId + '-error');
-  
-  if (message) {
-    field.classList.add('error');
-    errorDiv.textContent = message;
-  } else {
-    field.classList.remove('error');
-    errorDiv.textContent = '';
-  }
-}
-
 // Валидация в реальном времени
 function validateForm() {
   const nick = document.getElementById('nick').value.trim();
@@ -53,41 +17,27 @@ function validateForm() {
   const vozrast = document.getElementById('vozrast').value;
   const gorod = document.getElementById('gorod').value.trim();
 
-  // Проверяем каждое поле
-  const nickError = validateNick(nick);
-  const faError = validateFA(fa);
-  const discordError = validateDiscordID(discord_id);
+  const isValid = nick && fa && discord_id && vozrast && gorod;
+  submitBtn.disabled = !isValid;
 
-  // Показываем ошибки
-  showError('nick', nickError);
-  showError('fa', faError);
-  showError('discord_id', discordError);
-
-  // Проверяем, есть ли ошибки
-  const hasErrors = nickError || faError || discordError;
-  const allFilled = nick && fa && discord_id && vozrast && gorod;
-
-  submitBtn.disabled = hasErrors || !allFilled;
-  return !hasErrors && allFilled;
+  return isValid;
 }
-
 // Добавляем слушатели для валидации
 const inputs = form.querySelectorAll('input');
 inputs.forEach(input => {
   input.addEventListener('input', validateForm);
   input.addEventListener('blur', validateForm);
 });
-
 // Функция отправки данных
 function submitForm() {
   if (!validateForm()) {
     return;
   }
-  
+
   // Показываем загрузку
   submitBtn.classList.add('loading');
   submitBtn.disabled = true;
-  
+
   // Собираем данные
   const data = {
     nick: document.getElementById('nick').value.trim(),
@@ -97,7 +47,7 @@ function submitForm() {
     gorod: document.getElementById('gorod').value.trim(),
     timestamp: new Date().toISOString()
   };
-  
+
   // Отправка через Telegram WebApp
   setTimeout(() => {
     try {
@@ -114,26 +64,23 @@ function submitForm() {
       submitBtn.classList.remove('loading');
       submitBtn.disabled = false;
     }
-  }, 1000);
+  }, 800);
 }
-
-// Показать сообщение об успехе
+// Показать сообщение об успехе (для тестирования)
 function showSuccessMessage() {
   const successDiv = document.createElement('div');
   successDiv.className = 'success-message';
-  successDiv.innerHTML = '🦕 Заявка отправлена! Добро пожаловать в команду!';
+  successDiv.innerHTML = '✅ Заявка успешно отправлена!';
   form.parentNode.insertBefore(successDiv, form);
-  
-  submitBtn.innerHTML = '🎉 Готово!';
-  submitBtn.style.background = 'linear-gradient(135deg, #32cd32, #228b22)';
-  submitBtn.classList.remove('loading');
-}
 
+  submitBtn.textContent = '✅ Готово!';
+  submitBtn.style.background = '
+#22c55e';
+}
 // Обработка отправки формы
 form.addEventListener('submit', function(e) {
   e.preventDefault();
   submitForm();
 });
-
 // Инициализация валидации
 validateForm();
