@@ -3,7 +3,7 @@ if (!tg) {
   console.warn('Telegram WebApp не найден');
 } else {
   tg.expand();
-  tg.setHeaderColor('#2d5016');
+  tg.setHeaderColor('#000000');
 }
 
 const form = document.getElementById('regForm');
