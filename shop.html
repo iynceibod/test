@@ -6,238 +6,427 @@
     <title>Yava Shop</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
+        /* Минималистичная тёмная тема */
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #1a1a1a;
+            --bg-tertiary: #2a2a2a;
+            --text-primary: #ffffff;
+            --text-secondary: #b3b3b3;
+            --accent: #3b82f6;
+            --accent-hover: #2563eb;
+            --error: #ff6b6b;
+            --success: #51cf66;
+            --border: rgba(255, 255, 255, 0.1);
+            --radius: 12px;
+            --shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+            --transition: all 0.2s ease;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, system-ui, sans-serif;
         }
-        
+
         body {
-            background-color: #1e1e2e;
-            color: #fff;
-            padding: 15px;
-            max-width: 100%;
-            overflow-x: hidden;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding: 16px;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
         }
-        
+
+        .container {
+            max-width: 420px;
+            margin: 0 auto;
+        }
+
         .header {
             text-align: center;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 4px;
+            background: linear-gradient(90deg, #3b82f6, #9ca3af);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .balance {
+            background: var(--bg-secondary);
+            border-radius: var(--radius);
+            padding: 16px;
+            margin-bottom: 20px;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+
+        .balance-amount {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--accent);
+            margin-top: 4px;
+        }
+
+        .shop-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
             margin-bottom: 20px;
         }
-        
-        .header h1 {
-            font-size: 24px;
-            color: #7aa2f7;
-            margin-bottom: 5px;
-        }
-        
-        .header p {
-            color: #a9b1d6;
-            font-size: 14px;
-        }
-        
-        .balance {
-            background: #2a2a3a;
-            border-radius: 10px;
-            padding: 12px;
-            margin-bottom: 15px;
-            text-align: center;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-        }
-        
-        .balance h3 {
-            font-size: 16px;
-            margin-bottom: 5px;
-            color: #7aa2f7;
-        }
-        
-        .balance .amount {
-            font-size: 24px;
-            font-weight: bold;
-            color: #9ece6a;
-        }
-        
+
         .shop-item {
-            background: #2a2a3a;
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 12px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-            transition: transform 0.2s;
-        }
-        
-        .shop-item:hover {
-            transform: translateY(-3px);
-        }
-        
-        .shop-item h3 {
-            font-size: 16px;
-            margin-bottom: 8px;
-            color: #7aa2f7;
-        }
-        
-        .shop-item p {
-            font-size: 14px;
-            color: #a9b1d6;
-            margin-bottom: 12px;
-        }
-        
-        .shop-item .price {
-            display: inline-block;
-            background: #414868;
-            color: #f7768e;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 14px;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-        
-        .shop-item input {
-            width: 100%;
-            padding: 10px;
-            background: #414868;
-            border: none;
-            border-radius: 5px;
-            color: #fff;
-            margin-bottom: 10px;
-            outline: none;
-        }
-        
-        .shop-item button {
-            width: 100%;
-            padding: 10px;
-            background: #7aa2f7;
-            color: #1e1e2e;
-            border: none;
-            border-radius: 5px;
-            font-weight: bold;
+            background: var(--bg-secondary);
+            border-radius: var(--radius);
+            padding: 16px;
+            transition: var(--transition);
             cursor: pointer;
-            transition: background 0.2s;
-        }
-        
-        .shop-item button:hover {
-            background: #9ece6a;
-        }
-        
-        .shop-item button:disabled {
-            background: #414868;
-            color: #565f89;
-            cursor: not-allowed;
-        }
-        
-        .footer {
+            border: 1px solid var(--border);
             text-align: center;
-            margin-top: 20px;
-            font-size: 12px;
-            color: #565f89;
+        }
+
+        .shop-item:hover {
+            transform: translateY(-2px);
+            border-color: var(--accent);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .shop-item-icon {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+        .shop-item-title {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .shop-item-price {
+            color: var(--accent);
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        /* Модальное окно */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            opacity: 0;
+            pointer-events: none;
+            transition: var(--transition);
+            padding: 16px;
+        }
+
+        .modal.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .modal-content {
+            background: var(--bg-secondary);
+            border-radius: var(--radius);
+            width: 100%;
+            max-width: 360px;
+            padding: 24px;
+            position: relative;
+            box-shadow: var(--shadow);
+            transform: translateY(20px);
+            transition: var(--transition);
+        }
+
+        .modal.active .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal-title {
+            font-size: 20px;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 16px;
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            color: var(--text-primary);
+            font-size: 16px;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .btn {
+            padding: 12px 16px;
+            border-radius: var(--radius);
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            flex: 1;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-hover);
+        }
+
+        .btn-secondary {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--border);
+        }
+
+        /* Адаптив */
+        @media (max-width: 480px) {
+            .shop-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .title {
+                font-size: 22px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1>⛱ Yava Moderation Shop</h1>
-        <p>Трать баллы с умом!</p>
+    <div class="container">
+        <div class="header">
+            <h1 class="title">Yava Shop</h1>
+            <p>Используйте баллы для улучшений</p>
+        </div>
+        
+        <div class="balance">
+            <div>Ваш баланс</div>
+            <div class="balance-amount" id="userBalance">0 баллов</div>
+        </div>
+        
+        <div class="shop-grid">
+            <div class="shop-item" data-item="remove_warn" data-cost="130">
+                <div class="shop-item-icon">🚩</div>
+                <div class="shop-item-title">Снятие выговора</div>
+                <div class="shop-item-price">130 баллов</div>
+            </div>
+            
+            <div class="shop-item" data-item="remove_pred" data-cost="65">
+                <div class="shop-item-icon">⚠️</div>
+                <div class="shop-item-title">Снятие предупреждения</div>
+                <div class="shop-item-price">65 баллов</div>
+            </div>
+            
+            <div class="shop-item" data-item="change_nickname" data-cost="50">
+                <div class="shop-item-icon">🖋️</div>
+                <div class="shop-item-title">Изменить никнейм</div>
+                <div class="shop-item-price">50 баллов</div>
+            </div>
+            
+            <div class="shop-item" data-item="exchange_exp" data-cost="10">
+                <div class="shop-item-icon">💱</div>
+                <div class="shop-item-title">Обмен на опыт</div>
+                <div class="shop-item-price">10+ баллов</div>
+            </div>
+            
+            <div class="shop-item" data-item="create_role" data-cost="200">
+                <div class="shop-item-icon">🎨</div>
+                <div class="shop-item-title">Личная роль</div>
+                <div class="shop-item-price">200 баллов</div>
+            </div>
+            
+            <div class="shop-item" data-item="extend_family" data-cost="300">
+                <div class="shop-item-icon">👨‍👩‍👧‍👦</div>
+                <div class="shop-item-title">Продление семьи</div>
+                <div class="shop-item-price">300 баллов</div>
+            </div>
+        </div>
     </div>
     
-    <div class="balance">
-        <h3>Ваш баланс:</h3>
-        <div class="amount" id="userBalance">0 баллов</div>
-    </div>
-    
-    <div class="shop-item">
-        <h3>🚩 Снятие выговора</h3>
-        <p>Уберите один выговор из вашего профиля.</p>
-        <div class="price">130 баллов</div>
-        <button onclick="purchase('remove_warn', 130)">Купить</button>
-    </div>
-    
-    <div class="shop-item">
-        <h3>⚠️ Снятие предупреждения</h3>
-        <p>Уберите одно предупреждение.</p>
-        <div class="price">65 баллов</div>
-        <button onclick="purchase('remove_pred', 65)">Купить</button>
-    </div>
-    
-    <div class="shop-item">
-        <h3>🖋️ Изменить никнейм</h3>
-        <p>Установите новый никнейм.</p>
-        <div class="price">50 баллов</div>
-        <input type="text" id="newNickname" placeholder="Введите новый ник">
-        <button onclick="purchaseWithData('change_nickname', 50, { new_nickname: document.getElementById('newNickname').value })">Купить</button>
-    </div>
-    
-    <div class="shop-item">
-        <h3>💱 Обмен баллов на опыт</h3>
-        <p>10 баллов = 2500 опыта.</p>
-        <div class="price">10+ баллов</div>
-        <input type="number" id="expAmount" placeholder="Количество баллов" min="10">
-        <button onclick="purchaseWithData('exchange_exp', parseInt(document.getElementById('expAmount').value), { amount: parseInt(document.getElementById('expAmount').value) })">Обменять</button>
-    </div>
-    
-    <div class="shop-item">
-        <h3>🎨 Создать личную роль</h3>
-        <p>Уникальная роль на 30 дней.</p>
-        <div class="price">200 баллов</div>
-        <input type="text" id="roleName" placeholder="Название роли">
-        <input type="text" id="roleColor" placeholder="Цвет (например, #FF0000)">
-        <button onclick="purchaseWithData('create_personal_role', 200, { role_name: document.getElementById('roleName').value, role_color: document.getElementById('roleColor').value })">Создать</button>
-    </div>
-    
-    <div class="footer">
-        <p>Yava Moderation © 2024</p>
+    <!-- Модальное окно для ввода данных -->
+    <div class="modal" id="purchaseModal">
+        <div class="modal-content">
+            <button class="modal-close" id="modalClose">&times;</button>
+            <h3 class="modal-title" id="modalTitle">Подтверждение покупки</h3>
+            
+            <div id="modalContent">
+                <div class="form-group">
+                    <label id="inputLabel">Введите данные</label>
+                    <input type="text" id="modalInput" placeholder="">
+                </div>
+                
+                <div class="modal-actions">
+                    <button class="btn btn-secondary" id="cancelBtn">Отмена</button>
+                    <button class="btn btn-primary" id="confirmBtn">Купить</button>
+                </div>
+            </div>
+        </div>
     </div>
     
     <script>
-        // Получаем данные пользователя (можно через Telegram WebApp.initData)
         const tg = window.Telegram.WebApp;
+        const modal = document.getElementById('purchaseModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalInput = document.getElementById('modalInput');
+        const inputLabel = document.getElementById('inputLabel');
+        const confirmBtn = document.getElementById('confirmBtn');
+        const cancelBtn = document.getElementById('cancelBtn');
+        const modalClose = document.getElementById('modalClose');
         
-        // Если есть доступ к данным пользователя (например, через бота)
-        if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
-            const userId = tg.initDataUnsafe.user.id;
-            // Можно запросить баланс через API или передать его заранее
-        }
+        // Текущий выбранный товар
+        let currentItem = null;
+        let currentCost = 0;
         
-        // Функции для отправки данных в бота
-        function purchase(type, cost) {
-            if (!confirm(`Подтвердить покупку за ${cost} баллов?`)) return;
+        // Инициализация WebApp
+        tg.expand();
+        tg.enableClosingConfirmation();
+        
+        // Загрузка баланса (пример)
+        document.getElementById('userBalance').textContent = '1500 баллов';
+        
+        // Обработчики кликов по товарам
+        document.querySelectorAll('.shop-item').forEach(item => {
+            item.addEventListener('click', () => {
+                currentItem = item.dataset.item;
+                currentCost = parseInt(item.dataset.cost);
+                
+                // Настройка модального окна в зависимости от товара
+                switch(currentItem) {
+                    case 'change_nickname':
+                        modalTitle.textContent = 'Изменение никнейма';
+                        inputLabel.textContent = 'Новый никнейм';
+                        modalInput.placeholder = 'Введите новый ник';
+                        modalInput.type = 'text';
+                        break;
+                        
+                    case 'exchange_exp':
+                        modalTitle.textContent = 'Обмен баллов на опыт';
+                        inputLabel.textContent = 'Количество баллов (мин. 10)';
+                        modalInput.placeholder = 'Введите количество';
+                        modalInput.type = 'number';
+                        break;
+                        
+                    case 'create_role':
+                        modalTitle.textContent = 'Создание личной роли';
+                        inputLabel.textContent = 'Название роли';
+                        modalInput.placeholder = 'Введите название';
+                        modalInput.type = 'text';
+                        break;
+                        
+                    default:
+                        // Для товаров без дополнительных данных
+                        modalTitle.textContent = `Покупка: ${item.querySelector('.shop-item-title').textContent}`;
+                        inputLabel.textContent = 'Подтвердите покупку';
+                        modalInput.style.display = 'none';
+                }
+                
+                modal.classList.add('active');
+            });
+        });
+        
+        // Подтверждение покупки
+        confirmBtn.addEventListener('click', () => {
+            let data = {};
             
-            tg.sendData(JSON.stringify({
-                type: 'shop_purchase',
-                purchase_type: type,
-                cost: cost
-            }));
-            
-            tg.close();
-        }
-        
-        function purchaseWithData(type, cost, data) {
-            if (cost <= 0 || isNaN(cost)) {
-                alert("Укажите корректную сумму!");
-                return;
+            // Собираем данные в зависимости от типа товара
+            switch(currentItem) {
+                case 'change_nickname':
+                    data.new_nickname = modalInput.value;
+                    break;
+                    
+                case 'exchange_exp':
+                    data.amount = parseInt(modalInput.value);
+                    if (data.amount < 10) {
+                        alert('Минимальная сумма - 10 баллов');
+                        return;
+                    }
+                    currentCost = data.amount; // Обновляем стоимость
+                    break;
+                    
+                case 'create_role':
+                    data.role_name = modalInput.value;
+                    break;
             }
             
-            if (type === 'change_nickname' && !data.new_nickname) {
-                alert("Введите новый никнейм!");
-                return;
-            }
-            
-            if (!confirm(`Подтвердить покупку за ${cost} баллов?`)) return;
-            
+            // Отправляем данные в бота
             tg.sendData(JSON.stringify({
                 type: 'shop_purchase',
-                purchase_type: type,
-                cost: cost,
+                purchase_type: currentItem,
+                cost: currentCost,
                 ...data
             }));
             
-            tg.close();
+            // Закрываем модальное окно
+            modal.classList.remove('active');
+        });
+        
+        // Закрытие модального окна
+        function closeModal() {
+            modal.classList.remove('active');
+            modalInput.style.display = '';
+            modalInput.value = '';
         }
         
-        // Можно добавить загрузку баланса при открытии
-        tg.expand(); // Раскрываем WebApp на весь экран
-        tg.enableClosingConfirmation(); // Подтверждение закрытия
+        modalClose.addEventListener('click', closeModal);
+        cancelBtn.addEventListener('click', closeModal);
+        
+        // Закрытие по клику вне окна
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
     </script>
 </body>
 </html>
