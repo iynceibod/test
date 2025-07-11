@@ -5,318 +5,56 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Заявка на неактив</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --tg-bg: var(--tg-theme-bg-color, #ffffff);
-            --tg-text: var(--tg-theme-text-color, #000000);
-            --tg-hint: var(--tg-theme-hint-color, #999999);
-            --tg-secondary-bg: var(--tg-theme-secondary-bg-color, #f8f9fa);
-            --tg-button: var(--tg-theme-button-color, #3390ec);
-            --tg-button-text: var(--tg-theme-button-text-color, #ffffff);
-            --tg-accent: #6c5ce7;
-            --tg-success: #00b894;
-            --tg-warning: #fdcb6e;
-            --tg-error: #ff7675;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--tg-bg);
-            color: var(--tg-text);
-            padding: 20px;
-            min-height: 100vh;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
-
-        .container {
-            max-width: 420px;
-            margin: 0 auto;
-            background: var(--tg-secondary-bg);
-            border-radius: 16px;
-            padding: 28px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
-            transform: translateY(0);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .container:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 28px;
-            animation: fadeIn 0.6s ease-out;
-        }
-
-        .header h1 {
-            font-size: 26px;
-            font-weight: 700;
-            color: var(--tg-text);
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .header p {
-            font-size: 15px;
-            color: var(--tg-hint);
-            line-height: 1.5;
-        }
-
-        .form-group {
-            margin-bottom: 24px;
-            animation: slideUp 0.5s ease-out;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 15px;
-            font-weight: 500;
-            color: var(--tg-text);
-            margin-bottom: 12px;
-            transition: all 0.2s;
-        }
-
-        .form-group input,
-        .form-group textarea,
-        .form-group select {
-            width: 100%;
-            padding: 14px 16px;
-            border: 2px solid var(--tg-hint);
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 500;
-            background: var(--tg-bg);
-            color: var(--tg-text);
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .form-group input:focus,
-        .form-group textarea:focus,
-        .form-group select:focus {
-            outline: none;
-            border-color: var(--tg-button);
-            box-shadow: 0 0 0 4px rgba(51, 144, 236, 0.2);
-            transform: scale(1.01);
-        }
-
-        .form-group textarea {
-            min-height: 120px;
-            resize: vertical;
-            line-height: 1.5;
-        }
-
-        .error {
-            color: var(--tg-error);
-            font-size: 13px;
-            margin-top: 8px;
-            display: none;
-            animation: shake 0.4s ease;
-        }
-
-        .submit-btn {
-            width: 100%;
-            padding: 16px;
-            background: var(--tg-button);
-            color: var(--tg-button-text);
-            border: none;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            box-shadow: 0 4px 12px rgba(51, 144, 236, 0.3);
-        }
-
-        .submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(51, 144, 236, 0.4);
-        }
-
-        .submit-btn:active {
-            transform: translateY(0);
-        }
-
-        .submit-btn:disabled {
-            opacity: 0.7;
-            transform: none !important;
-            box-shadow: none !important;
-            cursor: not-allowed;
-        }
-
-        .days-selector {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-            margin-top: 8px;
-        }
-
-        .day-option {
-            padding: 12px;
-            text-align: center;
-            border: 2px solid var(--tg-hint);
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            background: var(--tg-bg);
-            color: var(--tg-text);
-            font-weight: 500;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-        }
-
-        .day-option:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            border-color: var(--tg-button);
-        }
-
-        .day-option.selected {
-            background: var(--tg-button);
-            color: var(--tg-button-text);
-            border-color: var(--tg-button);
-            transform: scale(1.05);
-            box-shadow: 0 4px 12px rgba(51, 144, 236, 0.3);
-        }
-
-        .info-box {
-            background: rgba(108, 92, 231, 0.08);
-            border: 2px solid rgba(108, 92, 231, 0.15);
-            border-radius: 12px;
-            padding: 16px;
-            margin-bottom: 24px;
-            animation: fadeIn 0.6s ease-out 0.2s both;
-        }
-
-        .info-box p {
-            font-size: 14px;
-            color: var(--tg-text);
-            margin: 0;
-            display: flex;
-            align-items: flex-start;
-            gap: 8px;
-            line-height: 1.5;
-        }
-
-        .info-box p::before {
-            content: "ℹ️";
-            font-size: 16px;
-            flex-shrink: 0;
-        }
-
-        .char-counter {
-            text-align: right;
-            font-size: 12px;
-            color: var(--tg-hint);
-            margin-top: 4px;
-        }
-
-        /* Анимации */
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        @keyframes slideUp {
-            from { 
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to { 
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            20%, 60% { transform: translateX(-5px); }
-            40%, 80% { transform: translateX(5px); }
-        }
-
-        /* Адаптивность */
-        @media (max-width: 480px) {
-            .container {
-                padding: 20px;
-                border-radius: 14px;
-            }
-            
-            .days-selector {
-                grid-template-columns: repeat(3, 1fr);
-            }
-            
-            .header h1 {
-                font-size: 24px;
-            }
-        }
-
-        @media (max-width: 360px) {
-            .days-selector {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-    </style>
+    <!-- Подключаем внешний CSS файл -->
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <h1><span>🏝️</span> Заявка на неактив</h1>
-            <p>Заполните форму для подачи заявки на временное отсутствие</p>
-        </div>
+        <div class="form-wrapper">
+            <div class="header">
+                <h1 class="title">Заявка на неактив</h1>
+                <p class="subtitle">Заполните форму для временного отсутствия</p>
+            </div>
 
-        <div class="info-box">
-            <p>Неактив может быть предоставлен на срок от 1 до 7 дней. Пожалуйста, укажите точное количество дней и обоснованную причину.</p>
-        </div>
+            <div class="info-box">
+                <p>Неактив может быть предоставлен на срок от 1 до 7 дней. Пожалуйста, укажите точное количество дней и обоснованную причину.</p>
+            </div>
 
-        <form id="inactiveForm">
-            <div class="form-group">
-                <label for="days">Количество дней неактива:</label>
-                <div class="days-selector">
-                    <div class="day-option" data-days="1">1 день</div>
-                    <div class="day-option" data-days="2">2 дня</div>
-                    <div class="day-option" data-days="3">3 дня</div>
-                    <div class="day-option" data-days="4">4 дня</div>
-                    <div class="day-option" data-days="5">5 дней</div>
-                    <div class="day-option" data-days="6">6 дней</div>
-                    <div class="day-option" data-days="7">7 дней</div>
+            <form id="inactiveForm">
+                <div class="form-group">
+                    <label for="days">Количество дней неактива:</label>
+                    <div class="days-selector">
+                        <div class="day-option" data-days="1">1 день</div>
+                        <div class="day-option" data-days="2">2 дня</div>
+                        <div class="day-option" data-days="3">3 дня</div>
+                        <div class="day-option" data-days="4">4 дня</div>
+                        <div class="day-option" data-days="5">5 дней</div>
+                        <div class="day-option" data-days="6">6 дней</div>
+                        <div class="day-option" data-days="7">7 дней</div>
+                    </div>
+                    <div class="error" id="daysError">Выберите количество дней</div>
                 </div>
-                <div class="error" id="daysError">Выберите количество дней</div>
-            </div>
 
-            <div class="form-group">
-                <label for="reason">Причина неактива:</label>
-                <textarea 
-                    id="reason" 
-                    placeholder="Укажите причину получения неактива (например: отпуск, болезнь, командировка, личные обстоятельства)"
-                    maxlength="500"
-                ></textarea>
-                <div class="char-counter"><span id="charCount">0</span>/500</div>
-                <div class="error" id="reasonError">Укажите причину неактива</div>
-            </div>
+                <div class="form-group">
+                    <label for="reason">Причина неактива:</label>
+                    <textarea 
+                        id="reason" 
+                        placeholder="Укажите причину получения неактива (например: отпуск, болезнь, командировка, личные обстоятельства)"
+                        maxlength="500"
+                    ></textarea>
+                    <div class="char-counter"><span id="charCount">0</span>/500</div>
+                    <div class="error" id="reasonError">Укажите причину неактива</div>
+                </div>
 
-            <button type="submit" class="submit-btn">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M22 2L11 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-                Подать заявку
-            </button>
-        </form>
+                <button type="submit" class="submit-btn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M22 2L11 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Подать заявку
+                </button>
+            </form>
+        </div>
     </div>
 
     <script>
@@ -362,11 +100,14 @@
             
             // Изменяем цвет при приближении к лимиту
             if (count > 450) {
-                charCount.style.color = '#ff7675';
+                charCount.style.color = 'var(--error)';
+                charCount.parentElement.classList.add('warning');
             } else if (count > 400) {
-                charCount.style.color = '#fdcb6e';
+                charCount.style.color = 'var(--warning)';
+                charCount.parentElement.classList.add('warning');
             } else {
                 charCount.style.color = '';
+                charCount.parentElement.classList.remove('warning');
             }
             
             // Скрываем ошибку при вводе
@@ -447,7 +188,7 @@
         // Настройка главной кнопки
         tg.MainButton.setParams({
             text: "ПОДАТЬ ЗАЯВКУ",
-            color: tg.themeParams.button_color || '#6c5ce7',
+            color: tg.themeParams.button_color || 'var(--accent)',
             text_color: tg.themeParams.button_text_color || '#ffffff'
         });
         
