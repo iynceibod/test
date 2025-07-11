@@ -153,6 +153,12 @@
             opacity: 1;
         }
 
+        .shop-item.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
         .item-icon {
             font-size: 32px;
             margin-bottom: 12px;
@@ -180,7 +186,11 @@
             display: inline-block;
         }
 
-        /* Модальное окно */
+        .item-price.expensive {
+            color: var(--error);
+            background: rgba(255, 85, 85, 0.1);
+        }
+
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -325,18 +335,13 @@
             background: var(--border);
         }
 
-        /* Анимации */
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        .insufficient-funds {
+            color: var(--error);
+            font-size: 14px;
+            text-align: center;
+            margin-top: 10px;
         }
 
-        @keyframes slideUp {
-            from { transform: translateY(20px); }
-            to { transform: translateY(0); }
-        }
-
-        /* Адаптив */
         @media (max-width: 500px) {
             .shop-grid {
                 grid-template-columns: 1fr;
@@ -361,7 +366,7 @@
         
         <div class="balance-card">
             <div class="balance-label">ВАШ БАЛАНС</div>
-            <div class="balance-amount" id="userBalance">1,500</div>
+            <div class="balance-amount" id="userBalance">Загрузка...</div>
         </div>
         
         <div class="shop-grid">
@@ -371,203 +376,4 @@
                 <div class="item-price">130 баллов</div>
             </div>
             
-            <div class="shop-item" data-item="remove_pred" data-cost="65">
-                <div class="item-icon">⚠️</div>
-                <div class="item-title">Снятие предупреждения</div>
-                <div class="item-price">65 баллов</div>
-            </div>
-            
-            <div class="shop-item" data-item="change_nickname" data-cost="50">
-                <div class="item-icon">🖋️</div>
-                <div class="item-title">Изменить никнейм</div>
-                <div class="item-price">50 баллов</div>
-            </div>
-            
-            <div class="shop-item" data-item="exchange_exp" data-cost="10">
-                <div class="item-icon">💱</div>
-                <div class="item-title">Обмен на опыт</div>
-                <div class="item-price">10+ баллов</div>
-            </div>
-            
-            <div class="shop-item" data-item="create_role" data-cost="200">
-                <div class="item-icon">🎨</div>
-                <div class="item-title">Личная роль</div>
-                <div class="item-price">200 баллов</div>
-            </div>
-            
-            <div class="shop-item" data-item="extend_family" data-cost="300">
-                <div class="item-icon">👨‍👩‍👧‍👦</div>
-                <div class="item-title">Продление семьи</div>
-                <div class="item-price">300 баллов</div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Модальное окно -->
-    <div class="modal-overlay" id="modal">
-        <div class="modal-container">
-            <button class="modal-close" id="modalClose">&times;</button>
-            
-            <div class="modal-header">
-                <h3 class="modal-title" id="modalTitle">Изменение никнейма</h3>
-                <p class="modal-subtitle" id="modalSubtitle">Введите новый никнейм</p>
-            </div>
-            
-            <div class="form-group">
-                <label class="form-label" id="inputLabel">Новый никнейм</label>
-                <input type="text" class="form-input" id="modalInput" placeholder="Например: Yava_Moder">
-            </div>
-            
-            <div class="modal-actions">
-                <button class="btn btn-secondary" id="cancelBtn">Отмена</button>
-                <button class="btn btn-primary" id="confirmBtn">Подтвердить</button>
-            </div>
-        </div>
-    </div>
-    
-    <script>
-        const tg = window.Telegram.WebApp;
-        const modal = document.getElementById('modal');
-        const modalTitle = document.getElementById('modalTitle');
-        const modalSubtitle = document.getElementById('modalSubtitle');
-        const modalInput = document.getElementById('modalInput');
-        const inputLabel = document.getElementById('inputLabel');
-        const confirmBtn = document.getElementById('confirmBtn');
-        const cancelBtn = document.getElementById('cancelBtn');
-        const modalClose = document.getElementById('modalClose');
-        
-        // Текущий выбранный товар
-        let currentItem = null;
-        let currentCost = 0;
-        
-        // Инициализация WebApp
-        tg.expand();
-        tg.enableClosingConfirmation();
-        
-        // Обработчики кликов по товарам
-        document.querySelectorAll('.shop-item').forEach(item => {
-            item.addEventListener('click', () => {
-                currentItem = item.dataset.item;
-                currentCost = parseInt(item.dataset.cost);
-                
-                // Настройка модального окна в зависимости от товара
-                switch(currentItem) {
-                    case 'change_nickname':
-                        modalTitle.textContent = 'Изменение никнейма';
-                        modalSubtitle.textContent = 'Введите новый никнейм';
-                        inputLabel.textContent = 'Новый никнейм';
-                        modalInput.placeholder = 'Например: Yava_Moder';
-                        modalInput.type = 'text';
-                        modalInput.style.display = 'block';
-                        break;
-                        
-                    case 'exchange_exp':
-                        modalTitle.textContent = 'Обмен баллов';
-                        modalSubtitle.textContent = '10 баллов = 2500 опыта';
-                        inputLabel.textContent = 'Количество баллов';
-                        modalInput.placeholder = 'Минимум 10';
-                        modalInput.type = 'number';
-                        modalInput.style.display = 'block';
-                        break;
-                        
-                    case 'create_role':
-                        modalTitle.textContent = 'Создание роли';
-                        modalSubtitle.textContent = 'Уникальная роль на 30 дней';
-                        inputLabel.textContent = 'Название роли';
-                        modalInput.placeholder = 'Придумайте название';
-                        modalInput.type = 'text';
-                        modalInput.style.display = 'block';
-                        break;
-                        
-                    default:
-                        // Для товаров без дополнительных данных
-                        modalTitle.textContent = item.querySelector('.item-title').textContent;
-                        modalSubtitle.textContent = `Стоимость: ${currentCost} баллов`;
-                        inputLabel.textContent = 'Подтвердите покупку';
-                        modalInput.style.display = 'none';
-                }
-                
-                modal.classList.add('active');
-                modalInput.focus();
-            });
-        });
-        
-        // Подтверждение покупки
-        confirmBtn.addEventListener('click', () => {
-            let data = {};
-            let isValid = true;
-            
-            // Валидация в зависимости от типа товара
-            switch(currentItem) {
-                case 'change_nickname':
-                    const newNick = modalInput.value.trim();
-                    if (!newNick || newNick.length < 3) {
-                        alert('Никнейм должен содержать минимум 3 символа');
-                        isValid = false;
-                    } else {
-                        data.new_nickname = newNick;
-                    }
-                    break;
-                    
-                case 'exchange_exp':
-                    const amount = parseInt(modalInput.value);
-                    if (isNaN(amount) || amount < 10) {
-                        alert('Минимальная сумма - 10 баллов');
-                        isValid = false;
-                    } else {
-                        data.amount = amount;
-                        currentCost = amount; // Обновляем стоимость
-                    }
-                    break;
-                    
-                case 'create_role':
-                    const roleName = modalInput.value.trim();
-                    if (!roleName || roleName.length < 3) {
-                        alert('Название роли должно содержать минимум 3 символа');
-                        isValid = false;
-                    } else {
-                        data.role_name = roleName;
-                    }
-                    break;
-            }
-            
-            if (!isValid) return;
-            
-            // Отправляем данные в бота
-            tg.sendData(JSON.stringify({
-                type: 'shop_purchase',
-                purchase_type: currentItem,
-                cost: currentCost,
-                ...data
-            }));
-            
-            // Закрываем модальное окно
-            closeModal();
-        });
-        
-        // Закрытие модального окна
-        function closeModal() {
-            modal.classList.remove('active');
-            modalInput.value = '';
-        }
-        
-        // Обработчики закрытия
-        modalClose.addEventListener('click', closeModal);
-        cancelBtn.addEventListener('click', closeModal);
-        
-        // Закрытие по клику вне окна
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                closeModal();
-            }
-        });
-        
-        // Закрытие по Escape
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                closeModal();
-            }
-        });
-    </script>
-</body>
-</html>
+            <div class="shop-item" data-item="remove_pred" data-cost
