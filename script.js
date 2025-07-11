@@ -179,7 +179,6 @@ function submitForm() {
   submitBtn.classList.add('loading');
   submitBtn.disabled = true;
   
-  // Собираем данные
   const data = {
     nick: document.getElementById('nick').value.trim(),
     fa: document.getElementById('fa').value.trim(),
@@ -237,7 +236,6 @@ form.addEventListener('submit', function(e) {
   submitForm();
 });
 
-// Инициализация валидации
 validateForm();
 
 class InactiveForm {
@@ -257,17 +255,13 @@ class InactiveForm {
         
         dayOptions.forEach(option => {
             option.addEventListener('click', (e) => {
-                // Убираем выделение с других опций
                 dayOptions.forEach(opt => opt.classList.remove('selected'));
                 
-                // Выделяем выбранную опцию
                 e.target.classList.add('selected');
                 this.selectedDays = parseInt(e.target.dataset.days);
                 
-                // Скрываем ошибку
                 this.hideError('daysError');
                 
-                // Обновляем состояние главной кнопки
                 this.updateMainButton();
             });
         });
@@ -295,7 +289,6 @@ class InactiveForm {
             this.submitForm();
         });
 
-        // Слушаем изменения в текстовом поле
         const reasonTextarea = document.getElementById('reason');
         if (reasonTextarea) {
             reasonTextarea.addEventListener('input', () => {
@@ -303,7 +296,6 @@ class InactiveForm {
             });
         }
 
-        // Первоначальная настройка кнопки
         this.updateMainButton();
     }
 
@@ -323,13 +315,11 @@ class InactiveForm {
     validateForm() {
         let isValid = true;
         
-        // Проверка выбора дней
         if (!this.selectedDays) {
             this.showError('daysError', 'Выберите количество дней');
             isValid = false;
         }
 
-        // Проверка причины
         const reason = document.getElementById('reason')?.value.trim();
         if (!reason) {
             this.showError('reasonError', 'Укажите причину неактива');
@@ -365,24 +355,20 @@ class InactiveForm {
     }
 
     submitForm() {
-        // Скрываем все ошибки
         this.hideAllErrors();
 
-        // Валидация
         if (!this.validateForm()) {
             return;
         }
 
         const reason = document.getElementById('reason').value.trim();
 
-        // Подготовка данных для отправки
         const formData = {
             type: 'inactive_request',
             vacation_days: this.selectedDays,
             reason: reason
         };
 
-        // Отправка данных в Telegram
         if (window.Telegram?.WebApp) {
             window.Telegram.WebApp.sendData(JSON.stringify(formData));
         } else {
@@ -392,25 +378,20 @@ class InactiveForm {
     }
 }
 
-// Функция для инициализации формы неактива
 function initInactiveForm() {
-    // Проверяем, есть ли форма неактива на странице
     if (document.getElementById('inactiveForm')) {
         new InactiveForm();
     }
 }
 
-// Инициализация при загрузке страницы
 document.addEventListener('DOMContentLoaded', function() {
     initInactiveForm();
 });
 
-// Также инициализируем при инициализации Telegram WebApp
 if (window.Telegram?.WebApp) {
     window.Telegram.WebApp.ready();
     window.Telegram.WebApp.expand();
     
-    // Дополнительная инициализация после готовности WebApp
     setTimeout(() => {
         initInactiveForm();
     }, 100);
