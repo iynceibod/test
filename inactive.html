@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Заявка на неактив</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--tg-theme-bg-color, #ffffff);
+            color: var(--tg-theme-text-color, #000000);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            background: var(--tg-theme-secondary-bg-color, #f8f9fa);
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--tg-theme-text-color, #000000);
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            font-size: 14px;
+            color: var(--tg-theme-hint-color, #999999);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--tg-theme-text-color, #000000);
+            margin-bottom: 8px;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--tg-theme-hint-color, #e0e0e0);
+            border-radius: 8px;
+            font-size: 16px;
+            background: var(--tg-theme-bg-color, #ffffff);
+            color: var(--tg-theme-text-color, #000000);
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--tg-theme-button-color, #3390ec);
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .error {
+            color: #ff4444;
+            font-size: 12px;
+            margin-top: 4px;
+            display: none;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 14px;
+            background: var(--tg-theme-button-color, #3390ec);
+            color: var(--tg-theme-button-text-color, #ffffff);
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .submit-btn:hover {
+            opacity: 0.9;
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .days-selector {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .day-option {
+            padding: 10px;
+            text-align: center;
+            border: 1px solid var(--tg-theme-hint-color, #e0e0e0);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: var(--tg-theme-bg-color, #ffffff);
+            color: var(--tg-theme-text-color, #000000);
+        }
+
+        .day-option:hover {
+            background: var(--tg-theme-secondary-bg-color, #f8f9fa);
+        }
+
+        .day-option.selected {
+            background: var(--tg-theme-button-color, #3390ec);
+            color: var(--tg-theme-button-text-color, #ffffff);
+            border-color: var(--tg-theme-button-color, #3390ec);
+        }
+
+        .info-box {
+            background: rgba(51, 144, 236, 0.1);
+            border: 1px solid rgba(51, 144, 236, 0.3);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 20px;
+        }
+
+        .info-box p {
+            font-size: 14px;
+            color: var(--tg-theme-text-color, #000000);
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏝️ Заявка на неактив</h1>
+            <p>Заполните форму для подачи заявки</p>
+        </div>
+
+        <div class="info-box">
+            <p>📅 Неактив может быть предоставлен на срок от 1 до 7 дней</p>
+        </div>
+
+        <form id="inactiveForm">
+            <div class="form-group">
+                <label for="days">Количество дней неактива:</label>
+                <div class="days-selector">
+                    <div class="day-option" data-days="1">1 день</div>
+                    <div class="day-option" data-days="2">2 дня</div>
+                    <div class="day-option" data-days="3">3 дня</div>
+                    <div class="day-option" data-days="4">4 дня</div>
+                    <div class="day-option" data-days="5">5 дней</div>
+                    <div class="day-option" data-days="6">6 дней</div>
+                    <div class="day-option" data-days="7">7 дней</div>
+                </div>
+                <div class="error" id="daysError">Выберите количество дней</div>
+            </div>
+
+            <div class="form-group">
+                <label for="reason">Причина неактива:</label>
+                <textarea 
+                    id="reason" 
+                    placeholder="Укажите причину получения неактива (например: отпуск, болезнь, личные обстоятельства)"
+                    maxlength="500"
+                ></textarea>
+                <div class="error" id="reasonError">Укажите причину неактива</div>
+            </div>
+
+            <button type="submit" class="submit-btn">
+                📝 Подать заявку
+            </button>
+        </form>
+    </div>
+
+    <script>
+        const tg = window.Telegram.WebApp;
+        
+        // Инициализация Telegram WebApp
+        tg.ready();
+        tg.expand();
+
+        let selectedDays = null;
+
+        // Обработчики для выбора дней
+        document.querySelectorAll('.day-option').forEach(option => {
+            option.addEventListener('click', function() {
+                // Убираем выделение с других опций
+                document.querySelectorAll('.day-option').forEach(opt => 
+                    opt.classList.remove('selected')
+                );
+                
+                // Выделяем выбранную опцию
+                this.classList.add('selected');
+                selectedDays = parseInt(this.dataset.days);
+                
+                // Скрываем ошибку
+                document.getElementById('daysError').style.display = 'none';
+            });
+        });
+
+        // Обработчик отправки формы
+        document.getElementById('inactiveForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const reason = document.getElementById('reason').value.trim();
+            let hasError = false;
+
+            // Сброс ошибок
+            document.querySelectorAll('.error').forEach(error => {
+                error.style.display = 'none';
+            });
+
+            // Валидация дней
+            if (!selectedDays) {
+                document.getElementById('daysError').style.display = 'block';
+                hasError = true;
+            }
+
+            // Валидация причины
+            if (!reason) {
+                document.getElementById('reasonError').style.display = 'block';
+                hasError = true;
+            }
+
+            if (hasError) {
+                return;
+            }
+
+            // Подготовка данных для отправки
+            const formData = {
+                type: 'inactive_request',
+                vacation_days: selectedDays,
+                reason: reason
+            };
+
+            // Отправка данных в Telegram
+            tg.sendData(JSON.stringify(formData));
+        });
+
+        // Настройка главной кнопки
+        tg.MainButton.text = "Подать заявку";
+        tg.MainButton.show();
+        
+        tg.MainButton.onClick(() => {
+            document.getElementById('inactiveForm').dispatchEvent(new Event('submit'));
+        });
+
+        // Обработка изменений в форме для активации кнопки
+        function updateMainButton() {
+            const reason = document.getElementById('reason').value.trim();
+            
+            if (selectedDays && reason) {
+                tg.MainButton.enable();
+            } else {
+                tg.MainButton.disable();
+            }
+        }
+
+        // Слушатели изменений
+        document.getElementById('reason').addEventListener('input', updateMainButton);
+        
+        // Первоначальная настройка кнопки
+        updateMainButton();
+    </script>
+</body>
+</html>
