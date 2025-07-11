@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Заявка на неактив</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <!-- Подключаем внешний CSS файл -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -13,11 +12,11 @@
         <div class="form-wrapper">
             <div class="header">
                 <h1 class="title">Заявка на неактив</h1>
-                <p class="subtitle">Заполните форму для временного отсутствия</p>
+                <p class="subtitle">Заполните форму для подачи заявки на получение неактива</p>
             </div>
 
             <div class="info-box">
-                <p>Неактив может быть предоставлен на срок от 1 до 7 дней. Пожалуйста, укажите точное количество дней и обоснованную причину.</p>
+                <p>Неактив может быть предоставлен на срок от 1 до 7 дней.</p>
             </div>
 
             <form id="inactiveForm">
@@ -60,17 +59,14 @@
     <script>
         const tg = window.Telegram.WebApp;
         
-        // Инициализация Telegram WebApp
         tg.ready();
         tg.expand();
         tg.enableClosingConfirmation();
 
         let selectedDays = null;
 
-        // Обработчики для выбора дней
         document.querySelectorAll('.day-option').forEach(option => {
             option.addEventListener('click', function() {
-                // Убираем выделение с других опций
                 document.querySelectorAll('.day-option').forEach(opt => {
                     opt.classList.remove('selected');
                     opt.style.transform = '';
@@ -78,19 +74,15 @@
                     opt.style.borderColor = '';
                 });
                 
-                // Выделяем выбранную опцию
                 this.classList.add('selected');
                 selectedDays = parseInt(this.dataset.days);
                 
-                // Скрываем ошибку
                 document.getElementById('daysError').style.display = 'none';
                 
-                // Обновляем состояние кнопки
                 updateMainButton();
             });
         });
 
-        // Счетчик символов
         const reasonTextarea = document.getElementById('reason');
         const charCount = document.getElementById('charCount');
         
@@ -98,7 +90,6 @@
             const count = this.value.length;
             charCount.textContent = count;
             
-            // Изменяем цвет при приближении к лимиту
             if (count > 450) {
                 charCount.style.color = 'var(--error)';
                 charCount.parentElement.classList.add('warning');
@@ -110,7 +101,6 @@
                 charCount.parentElement.classList.remove('warning');
             }
             
-            // Скрываем ошибку при вводе
             if (count > 0) {
                 document.getElementById('reasonError').style.display = 'none';
             }
@@ -118,25 +108,21 @@
             updateMainButton();
         });
 
-        // Обработчик отправки формы
         document.getElementById('inactiveForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
             const reason = reasonTextarea.value.trim();
             let hasError = false;
 
-            // Сброс ошибок
             document.querySelectorAll('.error').forEach(error => {
                 error.style.display = 'none';
             });
 
-            // Валидация дней
             if (!selectedDays) {
                 const errorElement = document.getElementById('daysError');
                 errorElement.style.display = 'block';
                 hasError = true;
                 
-                // Анимация для дней
                 document.querySelectorAll('.day-option').forEach(opt => {
                     opt.style.animation = 'shake 0.4s ease';
                     setTimeout(() => {
@@ -145,13 +131,11 @@
                 });
             }
 
-            // Валидация причины
             if (!reason) {
                 const errorElement = document.getElementById('reasonError');
                 errorElement.style.display = 'block';
                 hasError = true;
                 
-                // Анимация для текстового поля
                 reasonTextarea.style.animation = 'shake 0.4s ease';
                 setTimeout(() => {
                     reasonTextarea.style.animation = '';
@@ -159,7 +143,6 @@
             }
 
             if (hasError) {
-                // Анимация всей формы при ошибке
                 this.style.animation = 'shake 0.4s ease';
                 setTimeout(() => {
                     this.style.animation = '';
@@ -167,25 +150,20 @@
                 return;
             }
 
-            // Подготовка данных для отправки
             const formData = {
                 type: 'inactive_request',
                 vacation_days: selectedDays,
                 reason: reason
             };
 
-            // Показываем индикатор загрузки
             tg.MainButton.showProgress();
             
-            // Имитация задержки для демонстрации
             setTimeout(() => {
-                // Отправка данных в Telegram
                 tg.sendData(JSON.stringify(formData));
                 tg.MainButton.hideProgress();
             }, 1000);
         });
 
-        // Настройка главной кнопки
         tg.MainButton.setParams({
             text: "ПОДАТЬ ЗАЯВКУ",
             color: tg.themeParams.button_color || 'var(--accent)',
@@ -196,7 +174,6 @@
             document.getElementById('inactiveForm').dispatchEvent(new Event('submit'));
         });
 
-        // Обработка изменений в форме для активации кнопки
         function updateMainButton() {
             const reason = reasonTextarea.value.trim();
             
@@ -207,17 +184,14 @@
             }
         }
 
-        // Первоначальная настройка кнопки
         updateMainButton();
         
-        // Добавляем вибрацию при взаимодействии (если поддерживается)
         function vibrate() {
             if ('vibrate' in navigator) {
                 navigator.vibrate(10);
             }
         }
         
-        // Добавляем вибрацию к интерактивным элементам
         document.querySelectorAll('.day-option, .submit-btn').forEach(el => {
             el.addEventListener('click', vibrate);
         });
