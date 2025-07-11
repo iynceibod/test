@@ -239,3 +239,179 @@ form.addEventListener('submit', function(e) {
 
 // Инициализация валидации
 validateForm();
+
+class InactiveForm {
+    constructor() {
+        this.selectedDays = null;
+        this.init();
+    }
+
+    init() {
+        this.setupDaySelectors();
+        this.setupFormSubmission();
+        this.setupMainButton();
+    }
+
+    setupDaySelectors() {
+        const dayOptions = document.querySelectorAll('.day-option');
+        
+        dayOptions.forEach(option => {
+            option.addEventListener('click', (e) => {
+                // Убираем выделение с других опций
+                dayOptions.forEach(opt => opt.classList.remove('selected'));
+                
+                // Выделяем выбранную опцию
+                e.target.classList.add('selected');
+                this.selectedDays = parseInt(e.target.dataset.days);
+                
+                // Скрываем ошибку
+                this.hideError('daysError');
+                
+                // Обновляем состояние главной кнопки
+                this.updateMainButton();
+            });
+        });
+    }
+
+    setupFormSubmission() {
+        const form = document.getElementById('inactiveForm');
+        if (!form) return;
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            this.submitForm();
+        });
+    }
+
+    setupMainButton() {
+        if (!window.Telegram?.WebApp) return;
+
+        const tg = window.Telegram.WebApp;
+        
+        tg.MainButton.text = "Подать заявку";
+        tg.MainButton.show();
+        
+        tg.MainButton.onClick(() => {
+            this.submitForm();
+        });
+
+        // Слушаем изменения в текстовом поле
+        const reasonTextarea = document.getElementById('reason');
+        if (reasonTextarea) {
+            reasonTextarea.addEventListener('input', () => {
+                this.updateMainButton();
+            });
+        }
+
+        // Первоначальная настройка кнопки
+        this.updateMainButton();
+    }
+
+    updateMainButton() {
+        if (!window.Telegram?.WebApp) return;
+
+        const tg = window.Telegram.WebApp;
+        const reason = document.getElementById('reason')?.value.trim();
+        
+        if (this.selectedDays && reason) {
+            tg.MainButton.enable();
+        } else {
+            tg.MainButton.disable();
+        }
+    }
+
+    validateForm() {
+        let isValid = true;
+        
+        // Проверка выбора дней
+        if (!this.selectedDays) {
+            this.showError('daysError', 'Выберите количество дней');
+            isValid = false;
+        }
+
+        // Проверка причины
+        const reason = document.getElementById('reason')?.value.trim();
+        if (!reason) {
+            this.showError('reasonError', 'Укажите причину неактива');
+            isValid = false;
+        }
+
+        return isValid;
+    }
+
+    showError(elementId, message) {
+        const errorElement = document.getElementById(elementId);
+        if (errorElement) {
+            errorElement.textContent = message;
+            errorElement.classList.add('show');
+            errorElement.style.display = 'block';
+        }
+    }
+
+    hideError(elementId) {
+        const errorElement = document.getElementById(elementId);
+        if (errorElement) {
+            errorElement.classList.remove('show');
+            errorElement.style.display = 'none';
+        }
+    }
+
+    hideAllErrors() {
+        const errors = document.querySelectorAll('.error-message');
+        errors.forEach(error => {
+            error.classList.remove('show');
+            error.style.display = 'none';
+        });
+    }
+
+    submitForm() {
+        // Скрываем все ошибки
+        this.hideAllErrors();
+
+        // Валидация
+        if (!this.validateForm()) {
+            return;
+        }
+
+        const reason = document.getElementById('reason').value.trim();
+
+        // Подготовка данных для отправки
+        const formData = {
+            type: 'inactive_request',
+            vacation_days: this.selectedDays,
+            reason: reason
+        };
+
+        // Отправка данных в Telegram
+        if (window.Telegram?.WebApp) {
+            window.Telegram.WebApp.sendData(JSON.stringify(formData));
+        } else {
+            console.log('Данные для отправки:', formData);
+            alert('Данные подготовлены для отправки');
+        }
+    }
+}
+
+// Функция для инициализации формы неактива
+function initInactiveForm() {
+    // Проверяем, есть ли форма неактива на странице
+    if (document.getElementById('inactiveForm')) {
+        new InactiveForm();
+    }
+}
+
+// Инициализация при загрузке страницы
+document.addEventListener('DOMContentLoaded', function() {
+    initInactiveForm();
+});
+
+// Также инициализируем при инициализации Telegram WebApp
+if (window.Telegram?.WebApp) {
+    window.Telegram.WebApp.ready();
+    window.Telegram.WebApp.expand();
+    
+    // Дополнительная инициализация после готовности WebApp
+    setTimeout(() => {
+        initInactiveForm();
+    }, 100);
+}
