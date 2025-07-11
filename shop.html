@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Yava Shop</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        .item {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 5px;
+            border-radius: 5px;
+        }
+        button {
+            background: #0088cc;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Yava Moderation Shop</h1>
+    
+    <div class="item">
+        <h3>🚩 Снятие выговора (130 баллов)</h3>
+        <button onclick="purchase('remove_warn', 130)">Купить</button>
+    </div>
+    
+    <div class="item">
+        <h3>⚠️ Снятие предупреждения (65 баллов)</h3>
+        <button onclick="purchase('remove_pred', 65)">Купить</button>
+    </div>
+    
+    <div class="item">
+        <h3>🖋️ Изменить никнейм (50 баллов)</h3>
+        <input type="text" id="new_nickname" placeholder="Новый никнейм">
+        <button onclick="purchaseWithData('change_nickname', 50, {new_nickname: document.getElementById('new_nickname').value})">Купить</button>
+    </div>
+    
+    <script>
+        function purchase(type, cost) {
+            Telegram.WebApp.sendData(JSON.stringify({
+                type: 'shop_purchase',
+                purchase_type: type,
+                cost: cost
+            }));
+        }
+        
+        function purchaseWithData(type, cost, data) {
+            Telegram.WebApp.sendData(JSON.stringify({
+                type: 'shop_purchase',
+                purchase_type: type,
+                cost: cost,
+                ...data
+            }));
+        }
+    </script>
+</body>
+</html>
