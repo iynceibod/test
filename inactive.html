@@ -79,7 +79,6 @@
                 
                 document.getElementById('daysError').style.display = 'none';
                 
-                updateMainButton();
             });
         });
 
@@ -105,7 +104,6 @@
                 document.getElementById('reasonError').style.display = 'none';
             }
             
-            updateMainButton();
         });
 
         document.getElementById('inactiveForm').addEventListener('submit', function(e) {
@@ -156,35 +154,11 @@
                 reason: reason
             };
 
-            tg.MainButton.showProgress();
             
             setTimeout(() => {
                 tg.sendData(JSON.stringify(formData));
-                tg.MainButton.hideProgress();
             }, 1000);
         });
-
-        tg.MainButton.setParams({
-            text: "ПОДАТЬ ЗАЯВКУ",
-            color: tg.themeParams.button_color || 'var(--accent)',
-            text_color: tg.themeParams.button_text_color || '#ffffff'
-        });
-        
-        tg.MainButton.onClick(() => {
-            document.getElementById('inactiveForm').dispatchEvent(new Event('submit'));
-        });
-
-        function updateMainButton() {
-            const reason = reasonTextarea.value.trim();
-            
-            if (selectedDays && reason) {
-                tg.MainButton.enable().show();
-            } else {
-                tg.MainButton.disable();
-            }
-        }
-
-        updateMainButton();
         
         function vibrate() {
             if ('vibrate' in navigator) {
