@@ -1,61 +1,243 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yava Shop</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        .item {
-            border: 1px solid #ccc;
-            padding: 10px;
-            margin: 5px;
-            border-radius: 5px;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        button {
-            background: #0088cc;
-            color: white;
+        
+        body {
+            background-color: #1e1e2e;
+            color: #fff;
+            padding: 15px;
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .header h1 {
+            font-size: 24px;
+            color: #7aa2f7;
+            margin-bottom: 5px;
+        }
+        
+        .header p {
+            color: #a9b1d6;
+            font-size: 14px;
+        }
+        
+        .balance {
+            background: #2a2a3a;
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 15px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        
+        .balance h3 {
+            font-size: 16px;
+            margin-bottom: 5px;
+            color: #7aa2f7;
+        }
+        
+        .balance .amount {
+            font-size: 24px;
+            font-weight: bold;
+            color: #9ece6a;
+        }
+        
+        .shop-item {
+            background: #2a2a3a;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s;
+        }
+        
+        .shop-item:hover {
+            transform: translateY(-3px);
+        }
+        
+        .shop-item h3 {
+            font-size: 16px;
+            margin-bottom: 8px;
+            color: #7aa2f7;
+        }
+        
+        .shop-item p {
+            font-size: 14px;
+            color: #a9b1d6;
+            margin-bottom: 12px;
+        }
+        
+        .shop-item .price {
+            display: inline-block;
+            background: #414868;
+            color: #f7768e;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .shop-item input {
+            width: 100%;
+            padding: 10px;
+            background: #414868;
             border: none;
-            padding: 8px 15px;
             border-radius: 5px;
+            color: #fff;
+            margin-bottom: 10px;
+            outline: none;
+        }
+        
+        .shop-item button {
+            width: 100%;
+            padding: 10px;
+            background: #7aa2f7;
+            color: #1e1e2e;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
             cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .shop-item button:hover {
+            background: #9ece6a;
+        }
+        
+        .shop-item button:disabled {
+            background: #414868;
+            color: #565f89;
+            cursor: not-allowed;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 12px;
+            color: #565f89;
         }
     </style>
 </head>
 <body>
-    <h1>Yava Moderation Shop</h1>
+    <div class="header">
+        <h1>⛱ Yava Moderation Shop</h1>
+        <p>Трать баллы с умом!</p>
+    </div>
     
-    <div class="item">
-        <h3>🚩 Снятие выговора (130 баллов)</h3>
+    <div class="balance">
+        <h3>Ваш баланс:</h3>
+        <div class="amount" id="userBalance">0 баллов</div>
+    </div>
+    
+    <div class="shop-item">
+        <h3>🚩 Снятие выговора</h3>
+        <p>Уберите один выговор из вашего профиля.</p>
+        <div class="price">130 баллов</div>
         <button onclick="purchase('remove_warn', 130)">Купить</button>
     </div>
     
-    <div class="item">
-        <h3>⚠️ Снятие предупреждения (65 баллов)</h3>
+    <div class="shop-item">
+        <h3>⚠️ Снятие предупреждения</h3>
+        <p>Уберите одно предупреждение.</p>
+        <div class="price">65 баллов</div>
         <button onclick="purchase('remove_pred', 65)">Купить</button>
     </div>
     
-    <div class="item">
-        <h3>🖋️ Изменить никнейм (50 баллов)</h3>
-        <input type="text" id="new_nickname" placeholder="Новый никнейм">
-        <button onclick="purchaseWithData('change_nickname', 50, {new_nickname: document.getElementById('new_nickname').value})">Купить</button>
+    <div class="shop-item">
+        <h3>🖋️ Изменить никнейм</h3>
+        <p>Установите новый никнейм.</p>
+        <div class="price">50 баллов</div>
+        <input type="text" id="newNickname" placeholder="Введите новый ник">
+        <button onclick="purchaseWithData('change_nickname', 50, { new_nickname: document.getElementById('newNickname').value })">Купить</button>
+    </div>
+    
+    <div class="shop-item">
+        <h3>💱 Обмен баллов на опыт</h3>
+        <p>10 баллов = 2500 опыта.</p>
+        <div class="price">10+ баллов</div>
+        <input type="number" id="expAmount" placeholder="Количество баллов" min="10">
+        <button onclick="purchaseWithData('exchange_exp', parseInt(document.getElementById('expAmount').value), { amount: parseInt(document.getElementById('expAmount').value) })">Обменять</button>
+    </div>
+    
+    <div class="shop-item">
+        <h3>🎨 Создать личную роль</h3>
+        <p>Уникальная роль на 30 дней.</p>
+        <div class="price">200 баллов</div>
+        <input type="text" id="roleName" placeholder="Название роли">
+        <input type="text" id="roleColor" placeholder="Цвет (например, #FF0000)">
+        <button onclick="purchaseWithData('create_personal_role', 200, { role_name: document.getElementById('roleName').value, role_color: document.getElementById('roleColor').value })">Создать</button>
+    </div>
+    
+    <div class="footer">
+        <p>Yava Moderation © 2024</p>
     </div>
     
     <script>
+        // Получаем данные пользователя (можно через Telegram WebApp.initData)
+        const tg = window.Telegram.WebApp;
+        
+        // Если есть доступ к данным пользователя (например, через бота)
+        if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
+            const userId = tg.initDataUnsafe.user.id;
+            // Можно запросить баланс через API или передать его заранее
+        }
+        
+        // Функции для отправки данных в бота
         function purchase(type, cost) {
-            Telegram.WebApp.sendData(JSON.stringify({
+            if (!confirm(`Подтвердить покупку за ${cost} баллов?`)) return;
+            
+            tg.sendData(JSON.stringify({
                 type: 'shop_purchase',
                 purchase_type: type,
                 cost: cost
             }));
+            
+            tg.close();
         }
         
         function purchaseWithData(type, cost, data) {
-            Telegram.WebApp.sendData(JSON.stringify({
+            if (cost <= 0 || isNaN(cost)) {
+                alert("Укажите корректную сумму!");
+                return;
+            }
+            
+            if (type === 'change_nickname' && !data.new_nickname) {
+                alert("Введите новый никнейм!");
+                return;
+            }
+            
+            if (!confirm(`Подтвердить покупку за ${cost} баллов?`)) return;
+            
+            tg.sendData(JSON.stringify({
                 type: 'shop_purchase',
                 purchase_type: type,
                 cost: cost,
                 ...data
             }));
+            
+            tg.close();
         }
+        
+        // Можно добавить загрузку баланса при открытии
+        tg.expand(); // Раскрываем WebApp на весь экран
+        tg.enableClosingConfirmation(); // Подтверждение закрытия
     </script>
 </body>
 </html>
