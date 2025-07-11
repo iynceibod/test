@@ -6,23 +6,29 @@
 }
 
 :root {
-    --bg-primary: var(--tg-theme-bg-color, #ffffff);
-    --bg-secondary: var(--tg-theme-secondary-bg-color, #f8f9fa);
-    --text-primary: var(--tg-theme-text-color, #1f2937);
-    --text-secondary: var(--tg-theme-hint-color, #6b7280);
-    --text-muted: var(--tg-theme-hint-color, #9ca3af);
-    --accent: var(--tg-theme-button-color, #3b82f6);
-    --accent-hover: var(--tg-theme-button-color, #2563eb);
-    --border: rgba(0, 0, 0, 0.08);
-    --border-focus: var(--tg-theme-button-color, #3b82f6);
+    /* Основные цвета */
+    --bg-primary: #000000;
+    --bg-secondary: #1a1a1a;
+    --text-primary: #ffffff;
+    --text-secondary: #b3b3b3;
+    --text-muted: #808080;
+    
+    /* Акцентные цвета */
+    --accent: #3b82f6;
+    --accent-hover: #2563eb;
+    --error: #ff6b6b;
+    --success: #51cf66;
+    --warning: #fcc419;
+    
+    /* Границы и тени */
+    --border: rgba(255, 255, 255, 0.1);
+    --border-focus: #3b82f6;
+    --shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.5);
+    
+    /* Остальные параметры */
     --radius: 12px;
     --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-    --shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
-    --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.08);
-    --error: #ef4444;
-    --success: #10b981;
-    --warning: #f59e0b;
-    --info: #3b82f6;
 }
 
 body {
@@ -403,40 +409,6 @@ body {
     }
 }
 
-/* Темная тема */
-@media (prefers-color-scheme: dark) {
-    :root {
-        --bg-primary: var(--tg-theme-bg-color, #1f2937);
-        --bg-secondary: var(--tg-theme-secondary-bg-color, #374151);
-        --text-primary: var(--tg-theme-text-color, #ffffff);
-        --text-secondary: var(--tg-theme-hint-color, #d1d5db);
-        --text-muted: var(--tg-theme-hint-color, #9ca3af);
-        --accent: var(--tg-theme-button-color, #3b82f6);
-        --accent-hover: var(--tg-theme-button-color, #2563eb);
-        --border: rgba(255, 255, 255, 0.1);
-        --shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-        --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.3);
-    }
-    
-    .form-group input,
-    .form-group textarea {
-        background: var(--bg-primary);
-    }
-    
-    .form-group input:focus,
-    .form-group textarea:focus {
-        background: var(--bg-secondary);
-    }
-    
-    .day-option {
-        background: var(--bg-primary);
-    }
-    
-    .info-box {
-        background: rgba(59, 130, 246, 0.15);
-        border-color: rgba(59, 130, 246, 0.3);
-    }
-}
 
 /* Улучшение доступности */
 .form-group input:focus-visible,
