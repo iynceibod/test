@@ -6,117 +6,182 @@
     <title>Yava Shop</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        /* Минималистичная тёмная тема */
         :root {
             --bg-primary: #0a0a0a;
-            --bg-secondary: #1a1a1a;
-            --bg-tertiary: #2a2a2a;
+            --bg-secondary: #161616;
+            --bg-tertiary: #222222;
             --text-primary: #ffffff;
-            --text-secondary: #b3b3b3;
+            --text-secondary: #aaaaaa;
             --accent: #3b82f6;
-            --accent-hover: #2563eb;
-            --error: #ff6b6b;
-            --success: #51cf66;
-            --border: rgba(255, 255, 255, 0.1);
-            --radius: 12px;
-            --shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
-            --transition: all 0.2s ease;
+            --accent-hover: #2b72e6;
+            --error: #ff5555;
+            --success: #4caf50;
+            --border: rgba(255, 255, 255, 0.08);
+            --radius: 14px;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, system-ui, sans-serif;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
         }
 
         body {
             background: var(--bg-primary);
             color: var(--text-primary);
             min-height: 100vh;
-            padding: 16px;
+            padding: 20px;
             line-height: 1.5;
             -webkit-font-smoothing: antialiased;
         }
 
         .container {
-            max-width: 420px;
+            max-width: 480px;
             margin: 0 auto;
         }
 
         .header {
             text-align: center;
-            margin-bottom: 24px;
-            padding-bottom: 16px;
-            border-bottom: 1px solid var(--border);
+            margin-bottom: 28px;
+            position: relative;
+            padding-bottom: 20px;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 25%;
+            right: 25%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            opacity: 0.3;
         }
 
         .title {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 4px;
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 6px;
             background: linear-gradient(90deg, #3b82f6, #9ca3af);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
         }
 
-        .balance {
-            background: var(--bg-secondary);
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 15px;
+            opacity: 0.8;
+        }
+
+        .balance-card {
+            background: linear-gradient(135deg, #1a1a1a, #222222);
             border-radius: var(--radius);
-            padding: 16px;
-            margin-bottom: 20px;
-            text-align: center;
+            padding: 20px;
+            margin-bottom: 24px;
             box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .balance-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #3b82f6, #9ca3af);
+        }
+
+        .balance-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
         }
 
         .balance-amount {
-            font-size: 28px;
+            font-size: 36px;
             font-weight: 700;
-            color: var(--accent);
-            margin-top: 4px;
+            color: var(--text-primary);
+            letter-spacing: -1px;
         }
 
         .shop-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            margin-bottom: 20px;
+            gap: 16px;
+            margin-bottom: 24px;
         }
 
         .shop-item {
             background: var(--bg-secondary);
             border-radius: var(--radius);
-            padding: 16px;
+            padding: 20px;
             transition: var(--transition);
             cursor: pointer;
             border: 1px solid var(--border);
             text-align: center;
+            position: relative;
+            overflow: hidden;
         }
 
         .shop-item:hover {
-            transform: translateY(-2px);
-            border-color: var(--accent);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow);
+            border-color: rgba(59, 130, 246, 0.3);
         }
 
-        .shop-item-icon {
-            font-size: 24px;
-            margin-bottom: 8px;
+        .shop-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--accent);
+            opacity: 0;
+            transition: var(--transition);
         }
 
-        .shop-item-title {
+        .shop-item:hover::before {
+            opacity: 1;
+        }
+
+        .item-icon {
+            font-size: 32px;
+            margin-bottom: 12px;
+            display: inline-block;
+            transition: var(--transition);
+        }
+
+        .shop-item:hover .item-icon {
+            transform: scale(1.1);
+        }
+
+        .item-title {
             font-weight: 600;
-            margin-bottom: 4px;
+            margin-bottom: 8px;
+            font-size: 16px;
         }
 
-        .shop-item-price {
+        .item-price {
             color: var(--accent);
             font-weight: 700;
-            font-size: 14px;
+            font-size: 15px;
+            background: rgba(59, 130, 246, 0.1);
+            padding: 4px 10px;
+            border-radius: 20px;
+            display: inline-block;
         }
 
         /* Модальное окно */
-        .modal {
+        .modal-overlay {
             position: fixed;
             top: 0;
             left: 0;
@@ -126,38 +191,33 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 100;
+            z-index: 1000;
             opacity: 0;
             pointer-events: none;
             transition: var(--transition);
-            padding: 16px;
+            backdrop-filter: blur(5px);
         }
 
-        .modal.active {
+        .modal-overlay.active {
             opacity: 1;
             pointer-events: all;
         }
 
-        .modal-content {
+        .modal-container {
             background: var(--bg-secondary);
             border-radius: var(--radius);
-            width: 100%;
-            max-width: 360px;
+            width: 90%;
+            max-width: 380px;
             padding: 24px;
-            position: relative;
             box-shadow: var(--shadow);
-            transform: translateY(20px);
+            transform: translateY(30px);
             transition: var(--transition);
+            border: 1px solid var(--border);
+            position: relative;
         }
 
-        .modal.active .modal-content {
+        .modal-overlay.active .modal-container {
             transform: translateY(0);
-        }
-
-        .modal-title {
-            font-size: 20px;
-            margin-bottom: 16px;
-            text-align: center;
         }
 
         .modal-close {
@@ -167,33 +227,65 @@
             background: none;
             border: none;
             color: var(--text-secondary);
-            font-size: 20px;
+            font-size: 24px;
             cursor: pointer;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: var(--transition);
         }
 
-        .form-group {
-            margin-bottom: 16px;
+        .modal-close:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
         }
 
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
+        .modal-header {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .modal-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: var(--text-primary);
+        }
+
+        .modal-subtitle {
+            color: var(--text-secondary);
             font-size: 14px;
         }
 
-        .form-group input {
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .form-input {
             width: 100%;
-            padding: 12px 16px;
-            background: var(--bg-primary);
+            padding: 14px 16px;
+            background: var(--bg-tertiary);
             border: 1px solid var(--border);
             border-radius: var(--radius);
             color: var(--text-primary);
             font-size: 16px;
+            transition: var(--transition);
         }
 
-        .form-group input:focus {
+        .form-input:focus {
             outline: none;
             border-color: var(--accent);
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
         }
 
         .modal-actions {
@@ -203,7 +295,7 @@
         }
 
         .btn {
-            padding: 12px 16px;
+            padding: 14px 20px;
             border-radius: var(--radius);
             border: none;
             font-weight: 600;
@@ -211,6 +303,7 @@
             transition: var(--transition);
             flex: 1;
             text-align: center;
+            font-size: 16px;
         }
 
         .btn-primary {
@@ -220,6 +313,7 @@
 
         .btn-primary:hover {
             background: var(--accent-hover);
+            transform: translateY(-2px);
         }
 
         .btn-secondary {
@@ -231,14 +325,29 @@
             background: var(--border);
         }
 
+        /* Анимации */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(20px); }
+            to { transform: translateY(0); }
+        }
+
         /* Адаптив */
-        @media (max-width: 480px) {
+        @media (max-width: 500px) {
             .shop-grid {
                 grid-template-columns: 1fr;
             }
             
             .title {
-                font-size: 22px;
+                font-size: 24px;
+            }
+            
+            .balance-amount {
+                font-size: 32px;
             }
         }
     </style>
@@ -246,78 +355,81 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1 class="title">Yava Shop</h1>
-            <p>Используйте баллы для улучшений</p>
+            <h1 class="title">YAVA SHOP</h1>
+            <p class="subtitle">Используйте баллы для улучшений</p>
         </div>
         
-        <div class="balance">
-            <div>Ваш баланс</div>
-            <div class="balance-amount" id="userBalance">0 баллов</div>
+        <div class="balance-card">
+            <div class="balance-label">ВАШ БАЛАНС</div>
+            <div class="balance-amount" id="userBalance">1,500</div>
         </div>
         
         <div class="shop-grid">
             <div class="shop-item" data-item="remove_warn" data-cost="130">
-                <div class="shop-item-icon">🚩</div>
-                <div class="shop-item-title">Снятие выговора</div>
-                <div class="shop-item-price">130 баллов</div>
+                <div class="item-icon">🚩</div>
+                <div class="item-title">Снятие выговора</div>
+                <div class="item-price">130 баллов</div>
             </div>
             
             <div class="shop-item" data-item="remove_pred" data-cost="65">
-                <div class="shop-item-icon">⚠️</div>
-                <div class="shop-item-title">Снятие предупреждения</div>
-                <div class="shop-item-price">65 баллов</div>
+                <div class="item-icon">⚠️</div>
+                <div class="item-title">Снятие предупреждения</div>
+                <div class="item-price">65 баллов</div>
             </div>
             
             <div class="shop-item" data-item="change_nickname" data-cost="50">
-                <div class="shop-item-icon">🖋️</div>
-                <div class="shop-item-title">Изменить никнейм</div>
-                <div class="shop-item-price">50 баллов</div>
+                <div class="item-icon">🖋️</div>
+                <div class="item-title">Изменить никнейм</div>
+                <div class="item-price">50 баллов</div>
             </div>
             
             <div class="shop-item" data-item="exchange_exp" data-cost="10">
-                <div class="shop-item-icon">💱</div>
-                <div class="shop-item-title">Обмен на опыт</div>
-                <div class="shop-item-price">10+ баллов</div>
+                <div class="item-icon">💱</div>
+                <div class="item-title">Обмен на опыт</div>
+                <div class="item-price">10+ баллов</div>
             </div>
             
             <div class="shop-item" data-item="create_role" data-cost="200">
-                <div class="shop-item-icon">🎨</div>
-                <div class="shop-item-title">Личная роль</div>
-                <div class="shop-item-price">200 баллов</div>
+                <div class="item-icon">🎨</div>
+                <div class="item-title">Личная роль</div>
+                <div class="item-price">200 баллов</div>
             </div>
             
             <div class="shop-item" data-item="extend_family" data-cost="300">
-                <div class="shop-item-icon">👨‍👩‍👧‍👦</div>
-                <div class="shop-item-title">Продление семьи</div>
-                <div class="shop-item-price">300 баллов</div>
+                <div class="item-icon">👨‍👩‍👧‍👦</div>
+                <div class="item-title">Продление семьи</div>
+                <div class="item-price">300 баллов</div>
             </div>
         </div>
     </div>
     
-    <!-- Модальное окно для ввода данных -->
-    <div class="modal" id="purchaseModal">
-        <div class="modal-content">
+    <!-- Модальное окно -->
+    <div class="modal-overlay" id="modal">
+        <div class="modal-container">
             <button class="modal-close" id="modalClose">&times;</button>
-            <h3 class="modal-title" id="modalTitle">Подтверждение покупки</h3>
             
-            <div id="modalContent">
-                <div class="form-group">
-                    <label id="inputLabel">Введите данные</label>
-                    <input type="text" id="modalInput" placeholder="">
-                </div>
-                
-                <div class="modal-actions">
-                    <button class="btn btn-secondary" id="cancelBtn">Отмена</button>
-                    <button class="btn btn-primary" id="confirmBtn">Купить</button>
-                </div>
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalTitle">Изменение никнейма</h3>
+                <p class="modal-subtitle" id="modalSubtitle">Введите новый никнейм</p>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label" id="inputLabel">Новый никнейм</label>
+                <input type="text" class="form-input" id="modalInput" placeholder="Например: Yava_Moder">
+            </div>
+            
+            <div class="modal-actions">
+                <button class="btn btn-secondary" id="cancelBtn">Отмена</button>
+                <button class="btn btn-primary" id="confirmBtn">Подтвердить</button>
             </div>
         </div>
     </div>
     
     <script>
         const tg = window.Telegram.WebApp;
-        const modal = document.getElementById('purchaseModal');
+        const modal = document.getElementById('modal');
         const modalTitle = document.getElementById('modalTitle');
+        const modalSubtitle = document.getElementById('modalSubtitle');
         const modalInput = document.getElementById('modalInput');
         const inputLabel = document.getElementById('inputLabel');
         const confirmBtn = document.getElementById('confirmBtn');
@@ -332,9 +444,6 @@
         tg.expand();
         tg.enableClosingConfirmation();
         
-        // Загрузка баланса (пример)
-        document.getElementById('userBalance').textContent = '1500 баллов';
-        
         // Обработчики кликов по товарам
         document.querySelectorAll('.shop-item').forEach(item => {
             item.addEventListener('click', () => {
@@ -345,59 +454,84 @@
                 switch(currentItem) {
                     case 'change_nickname':
                         modalTitle.textContent = 'Изменение никнейма';
+                        modalSubtitle.textContent = 'Введите новый никнейм';
                         inputLabel.textContent = 'Новый никнейм';
-                        modalInput.placeholder = 'Введите новый ник';
+                        modalInput.placeholder = 'Например: Yava_Moder';
                         modalInput.type = 'text';
+                        modalInput.style.display = 'block';
                         break;
                         
                     case 'exchange_exp':
-                        modalTitle.textContent = 'Обмен баллов на опыт';
-                        inputLabel.textContent = 'Количество баллов (мин. 10)';
-                        modalInput.placeholder = 'Введите количество';
+                        modalTitle.textContent = 'Обмен баллов';
+                        modalSubtitle.textContent = '10 баллов = 2500 опыта';
+                        inputLabel.textContent = 'Количество баллов';
+                        modalInput.placeholder = 'Минимум 10';
                         modalInput.type = 'number';
+                        modalInput.style.display = 'block';
                         break;
                         
                     case 'create_role':
-                        modalTitle.textContent = 'Создание личной роли';
+                        modalTitle.textContent = 'Создание роли';
+                        modalSubtitle.textContent = 'Уникальная роль на 30 дней';
                         inputLabel.textContent = 'Название роли';
-                        modalInput.placeholder = 'Введите название';
+                        modalInput.placeholder = 'Придумайте название';
                         modalInput.type = 'text';
+                        modalInput.style.display = 'block';
                         break;
                         
                     default:
                         // Для товаров без дополнительных данных
-                        modalTitle.textContent = `Покупка: ${item.querySelector('.shop-item-title').textContent}`;
+                        modalTitle.textContent = item.querySelector('.item-title').textContent;
+                        modalSubtitle.textContent = `Стоимость: ${currentCost} баллов`;
                         inputLabel.textContent = 'Подтвердите покупку';
                         modalInput.style.display = 'none';
                 }
                 
                 modal.classList.add('active');
+                modalInput.focus();
             });
         });
         
         // Подтверждение покупки
         confirmBtn.addEventListener('click', () => {
             let data = {};
+            let isValid = true;
             
-            // Собираем данные в зависимости от типа товара
+            // Валидация в зависимости от типа товара
             switch(currentItem) {
                 case 'change_nickname':
-                    data.new_nickname = modalInput.value;
+                    const newNick = modalInput.value.trim();
+                    if (!newNick || newNick.length < 3) {
+                        alert('Никнейм должен содержать минимум 3 символа');
+                        isValid = false;
+                    } else {
+                        data.new_nickname = newNick;
+                    }
                     break;
                     
                 case 'exchange_exp':
-                    data.amount = parseInt(modalInput.value);
-                    if (data.amount < 10) {
+                    const amount = parseInt(modalInput.value);
+                    if (isNaN(amount) || amount < 10) {
                         alert('Минимальная сумма - 10 баллов');
-                        return;
+                        isValid = false;
+                    } else {
+                        data.amount = amount;
+                        currentCost = amount; // Обновляем стоимость
                     }
-                    currentCost = data.amount; // Обновляем стоимость
                     break;
                     
                 case 'create_role':
-                    data.role_name = modalInput.value;
+                    const roleName = modalInput.value.trim();
+                    if (!roleName || roleName.length < 3) {
+                        alert('Название роли должно содержать минимум 3 символа');
+                        isValid = false;
+                    } else {
+                        data.role_name = roleName;
+                    }
                     break;
             }
+            
+            if (!isValid) return;
             
             // Отправляем данные в бота
             tg.sendData(JSON.stringify({
@@ -408,22 +542,29 @@
             }));
             
             // Закрываем модальное окно
-            modal.classList.remove('active');
+            closeModal();
         });
         
         // Закрытие модального окна
         function closeModal() {
             modal.classList.remove('active');
-            modalInput.style.display = '';
             modalInput.value = '';
         }
         
+        // Обработчики закрытия
         modalClose.addEventListener('click', closeModal);
         cancelBtn.addEventListener('click', closeModal);
         
         // Закрытие по клику вне окна
         modal.addEventListener('click', (e) => {
             if (e.target === modal) {
+                closeModal();
+            }
+        });
+        
+        // Закрытие по Escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
                 closeModal();
             }
         });
