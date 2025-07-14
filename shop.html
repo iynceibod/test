@@ -14,13 +14,15 @@
   <button onclick="buy('exchange')">💱 Обменять баллы (10 баллов → 2500 опыта)</button>
 
   <script>
-    function buy(item) {
-      Telegram.WebApp.sendData(JSON.stringify({
-        type: "shop_purchase",
-        item: item
-      }));
-      Telegram.WebApp.close();
-    }
+function buy(item) {
+  alert("Вы выбрали: " + item);  // Покажет всплывающее окно
+  Telegram.WebApp.sendData(JSON.stringify({
+    type: "shop_purchase",
+    item: item
+  }));
+  Telegram.WebApp.close();
+}
+
   </script>
 </body>
 </html>
