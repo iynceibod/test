@@ -380,7 +380,6 @@
             }
         }
 
-        /* Улучшение доступности */
         .shop-item:focus-visible,
         .exchange-input:focus-visible,
         .nickname-input:focus-visible,
@@ -391,7 +390,6 @@
             outline-offset: 2px;
         }
 
-        /* Темная тема для Telegram */
         .telegram-dark .container {
             background: var(--bg-secondary);
         }
@@ -413,14 +411,13 @@
         </div>
 
         <div class="shop-grid">
-            <!-- Снятие нарушений -->
             <div class="shop-item" onclick="buyItem('remove_warn', 130)">
                 <div class="item-header">
                     <span class="item-icon">🚩</span>
                     <span class="item-title">Снятие выговора</span>
                     <span class="item-price">130 баллов</span>
                 </div>
-                <div class="item-description">Снять один выговор с вашего аккаунта</div>
+                <div class="item-description">Снять один выговор</div>
             </div>
 
             <div class="shop-item" onclick="buyItem('remove_pred', 65)">
@@ -429,7 +426,7 @@
                     <span class="item-title">Снятие предупреждения</span>
                     <span class="item-price">65 баллов</span>
                 </div>
-                <div class="item-description">Снять одно предупреждение с вашего аккаунта</div>
+                <div class="item-description">Снять одно предупреждение</div>
             </div>
 
             <!-- Семья и роли -->
@@ -464,7 +461,7 @@
             <div class="shop-item" onclick="buyItem('reduce_days', 30)">
                 <div class="item-header">
                     <span class="item-icon">📅</span>
-                    <span class="item-title">Ускорение повышения</span>
+                    <span class="item-title">Снижение срока повышения [1-2 LVL]</span>
                     <span class="item-price">30 баллов</span>
                 </div>
                 <div class="item-description">Минус 3 дня к повышению</div>
@@ -493,7 +490,6 @@
             <button class="exchange-btn" onclick="buyExchange()">Обменять баллы</button>
         </div>
 
-        <!-- Форма смены никнейма -->
         <div id="nicknameForm" class="exchange-section hidden">
             <div class="item-header">
                 <span class="item-icon">🖋️</span>
@@ -506,7 +502,6 @@
             </div>
         </div>
 
-        <!-- Форма создания роли -->
         <div id="roleForm" class="exchange-section hidden">
             <div class="item-header">
                 <span class="item-icon">🎨</span>
@@ -520,7 +515,6 @@
             </div>
         </div>
 
-        <!-- Загрузка -->
         <div id="loading" class="loading">
             <div class="spinner"></div>
             <p>Обработка запроса...</p>
@@ -528,12 +522,10 @@
     </div>
 
     <script>
-        // Инициализация Telegram WebApp
         const tg = window.Telegram.WebApp;
         tg.ready();
         tg.expand();
 
-        // Применение темы Telegram
         if (tg.themeParams.bg_color) {
             document.body.style.backgroundColor = tg.themeParams.bg_color;
         }
@@ -541,7 +533,6 @@
             document.body.style.color = tg.themeParams.text_color;
         }
 
-        // Определение темной темы
         if (tg.colorScheme === 'dark') {
             document.body.classList.add('telegram-dark');
         }
@@ -666,7 +657,6 @@
                 return;
             }
             
-            // Проверка цвета
             const colorRegex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
             if (!colorRegex.test(roleColor)) {
                 alert('❌ Неверный формат цвета. Используйте формат #RRGGBB');
@@ -687,7 +677,6 @@
             }, 500);
         }
 
-        // Обработка Enter в полях ввода
         document.getElementById('exchangeAmount').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
                 calculateExchange();
@@ -712,7 +701,6 @@
             }
         });
 
-        // Обработка ошибок
         window.addEventListener('error', function(e) {
             console.error('Ошибка:', e.error);
             hideLoading();
