@@ -5,8 +5,289 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yava Shop</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <link rel="stylesheet" href="style.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            padding: 20px 16px;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .header p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .shop-grid {
+            display: grid;
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .shop-item {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(5px);
+            border-radius: 16px;
+            padding: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .shop-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .shop-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #4CAF50, #2196F3, #FF9800);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .shop-item:hover::before {
+            opacity: 1;
+        }
+
+        .special-item {
+            background: rgba(255, 193, 7, 0.2);
+            border: 1px solid rgba(255, 193, 7, 0.3);
+        }
+
+        .special-item::before {
+            background: linear-gradient(90deg, #FFD700, #FFA500, #FF6347);
+        }
+
+        .item-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .item-icon {
+            font-size: 20px;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+        }
+
+        .item-title {
+            font-size: 16px;
+            font-weight: 600;
+            flex: 1;
+        }
+
+        .item-price {
+            font-size: 14px;
+            font-weight: 700;
+            background: rgba(76, 175, 80, 0.2);
+            padding: 4px 8px;
+            border-radius: 12px;
+            border: 1px solid rgba(76, 175, 80, 0.3);
+        }
+
+        .item-description {
+            font-size: 14px;
+            opacity: 0.9;
+            line-height: 1.4;
+        }
+
+        .exchange-section {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .exchange-input, .nickname-input, .role-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: none;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            font-size: 16px;
+            margin-bottom: 12px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .exchange-input::placeholder, .nickname-input::placeholder, .role-input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .exchange-input:focus, .nickname-input:focus, .role-input:focus {
+            outline: none;
+            border-color: #4CAF50;
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+        }
+
+        .exchange-btn, .form-btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(45deg, #4CAF50, #2196F3);
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 8px;
+        }
+
+        .exchange-btn:hover, .form-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .exchange-btn:active, .form-btn:active {
+            transform: translateY(0);
+        }
+
+        .exchange-result {
+            background: rgba(76, 175, 80, 0.2);
+            border: 1px solid rgba(76, 175, 80, 0.3);
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 12px;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .form-section {
+            margin-top: 16px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .loading.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid #4CAF50;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 16px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .success-animation {
+            animation: success-pulse 0.6s ease-in-out;
+        }
+
+        @keyframes success-pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .error-result {
+            background: rgba(244, 67, 54, 0.2);
+            border: 1px solid rgba(244, 67, 54, 0.3);
+        }
+
+        .success-result {
+            background: rgba(76, 175, 80, 0.2);
+            border: 1px solid rgba(76, 175, 80, 0.3);
+        }
+
+        .cancel-btn {
+            background: linear-gradient(45deg, #f44336, #d32f2f) !important;
+        }
+
+        .exchange-btn:last-child {
+            background: linear-gradient(45deg, #FF9800, #F57C00);
+        }
+
+        /* Темная тема для Telegram */
+        .telegram-dark {
+            background: linear-gradient(135deg, #1e1e1e 0%, #2d2d2d 100%);
+        }
+
+        .telegram-dark .container {
+            background: rgba(45, 45, 45, 0.9);
+        }
+
+        .telegram-dark .shop-item {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .telegram-dark .shop-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -89,11 +370,11 @@
                 <span class="item-icon">💱</span>
                 <span class="item-title">Обменять баллы на опыт</span>
             </div>
-            <div class="item-description" style="margin-bottom: 10px;">10 баллов = 2500 опыта (минимум 10 баллов)</div>
+            <div class="item-description" style="margin-bottom: 16px;">10 баллов = 2500 опыта (минимум 10 баллов)</div>
             <input type="number" id="exchangeAmount" class="exchange-input" placeholder="Количество баллов для обмена" min="10">
-            <div id="exchangeResult" class="exchange-result" style="display: none;"></div>
+            <div id="exchangeResult" class="exchange-result hidden"></div>
             <button class="exchange-btn" onclick="calculateExchange()">Рассчитать обмен</button>
-            <button class="exchange-btn" onclick="buyExchange()" style="margin-top: 10px; background: linear-gradient(45deg, #FF9800, #F57C00);">Обменять баллы</button>
+            <button class="exchange-btn" onclick="buyExchange()">Обменять баллы</button>
         </div>
 
         <!-- Форма смены никнейма -->
@@ -105,7 +386,7 @@
             <div class="form-section">
                 <input type="text" id="newNickname" class="nickname-input" placeholder="Новый никнейм">
                 <button class="form-btn" onclick="buyNickname()">Изменить за 50 баллов</button>
-                <button class="form-btn" onclick="hideNicknameForm()" style="background: linear-gradient(45deg, #f44336, #d32f2f);">Отмена</button>
+                <button class="form-btn cancel-btn" onclick="hideNicknameForm()">Отмена</button>
             </div>
         </div>
 
@@ -119,7 +400,7 @@
                 <input type="text" id="roleName" class="role-input" placeholder="Название роли">
                 <input type="text" id="roleColor" class="role-input" placeholder="Цвет роли (например, #FF5733)">
                 <button class="form-btn" onclick="buyRole()">Создать за 200 баллов</button>
-                <button class="form-btn" onclick="hideRoleForm()" style="background: linear-gradient(45deg, #f44336, #d32f2f);">Отмена</button>
+                <button class="form-btn cancel-btn" onclick="hideRoleForm()">Отмена</button>
             </div>
         </div>
 
@@ -137,8 +418,17 @@
         tg.expand();
 
         // Применение темы Telegram
-        document.body.style.backgroundColor = tg.themeParams.bg_color || '#667eea';
-        document.body.style.color = tg.themeParams.text_color || '#ffffff';
+        if (tg.themeParams.bg_color) {
+            document.body.style.backgroundColor = tg.themeParams.bg_color;
+        }
+        if (tg.themeParams.text_color) {
+            document.body.style.color = tg.themeParams.text_color;
+        }
+
+        // Определение темной темы
+        if (tg.colorScheme === 'dark') {
+            document.body.classList.add('telegram-dark');
+        }
 
         function showLoading() {
             document.getElementById('loading').classList.add('show');
@@ -166,16 +456,16 @@
             const resultDiv = document.getElementById('exchangeResult');
             
             if (!amount || amount < 10) {
-                resultDiv.style.display = 'block';
+                resultDiv.classList.remove('hidden', 'success-result');
+                resultDiv.classList.add('error-result');
                 resultDiv.innerHTML = '❌ Минимальное количество баллов для обмена — 10';
-                resultDiv.style.background = 'rgba(244, 67, 54, 0.2)';
                 return;
             }
             
             const experience = amount * 250;
-            resultDiv.style.display = 'block';
+            resultDiv.classList.remove('hidden', 'error-result');
+            resultDiv.classList.add('success-result');
             resultDiv.innerHTML = `✅ ${amount} баллов = ${experience.toLocaleString()} опыта`;
-            resultDiv.style.background = 'rgba(76, 175, 80, 0.2)';
         }
 
         function buyExchange() {
@@ -260,7 +550,7 @@
                 return;
             }
             
-            // Проверка цвета (базовая)
+            // Проверка цвета
             const colorRegex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
             if (!colorRegex.test(roleColor)) {
                 alert('❌ Неверный формат цвета. Используйте формат #RRGGBB');
@@ -281,7 +571,7 @@
             }, 500);
         }
 
-        // Обработка нажатия Enter в полях ввода
+        // Обработка Enter в полях ввода
         document.getElementById('exchangeAmount').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
                 calculateExchange();
