@@ -524,6 +524,12 @@
 
     <script>
         const tg = window.Telegram.WebApp;
+        const urlParams = new URLSearchParams(window.location.search);
+        const balls = urlParams.get('balls');
+
+        document.getElementById('user-balls').innerText = balls ? `${balls} баллов` : 'Недоступно';
+
+        
         tg.ready();
         tg.expand();
 
