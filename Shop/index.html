@@ -14,10 +14,9 @@
         <div class="box"></div>
         <h1 class="title">МАГАЗИН МОДЕРАЦИИ</h1>
         <div class="user-balance">
-          💰 <span id="user-balls">Загрузка...</span>
+          <span id="user-balls">Загрузка...</span> баллов
         </div>
         
-        <!-- Индикатор загрузки -->
         <div id="loading" class="loading-overlay">
           <div class="loading-spinner"></div>
         </div>
@@ -43,11 +42,10 @@
           </div>
         </section>
         
-        <!-- Форма создания роли -->
         <div id="roleForm" class="form-overlay hidden">
           <div class="form-content">
             <h3>Создание личной роли</h3>
-            <input type="text" id="roleName" placeholder="Название роли (3-30 символов)" maxlength="30" />
+            <input type="text" id="roleName" placeholder="Название роли" maxlength="30" />
             <input type="text" id="roleColor" placeholder="Цвет роли (#RRGGBB)" maxlength="7" />
             <div class="form-buttons">
               <button type="button" onclick="buyRole()">Создать роль</button>
@@ -67,11 +65,10 @@
           </button>
         </section>
         
-        <!-- Форма изменения никнейма -->
         <div id="nicknameForm" class="form-overlay hidden">
           <div class="form-content">
             <h3>Изменение никнейма</h3>
-            <input type="text" id="newNickname" placeholder="Новый никнейм (3-20 символов)" maxlength="20" />
+            <input type="text" id="newNickname" placeholder="Новый никнейм" maxlength="20" />
             <div class="form-buttons">
               <button type="button" onclick="buyNickname()">Изменить никнейм</button>
               <button type="button" onclick="hideNicknameForm()">Отмена</button>
@@ -92,7 +89,6 @@
           <div id="exchangeResult" class="exchange-result hidden"></div>
         </section>
         
-        <!-- Уведомления -->
         <div id="notification" class="notification hidden"></div>
         
         <footer class="footer">
@@ -200,11 +196,6 @@
                 return;
             }
             
-            if (nickname.length < 3 || nickname.length > 20) {
-                showNotification('❌ Никнейм должен быть от 3 до 20 символов');
-                return;
-            }
-            
             showLoading();
             
             setTimeout(() => {
@@ -238,10 +229,6 @@
                 return;
             }
             
-            if (roleName.length < 3 || roleName.length > 30) {
-                showNotification('❌ Название роли должно быть от 3 до 30 символов');
-                return;
-            }
             
             const colorRegex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
             if (!colorRegex.test(roleColor)) {
@@ -295,7 +282,6 @@
     </script>
 
     <style>
-        /* Убираем отступы для Telegram Mini App */
         * {
             margin: 0;
             padding: 0;
@@ -313,7 +299,6 @@
             margin: 0;
         }
 
-        /* Дополнительные стили для новых элементов */
         .user-balance {
             text-align: center;
             font-weight: bold;
