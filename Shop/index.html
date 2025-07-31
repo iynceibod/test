@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <link rel="stylesheet" href="style.css" />
     <title>Магазин модерации</title>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
   </head>
   <body>
     <main class="frame">
@@ -13,7 +13,7 @@
         <div class="box"></div>
         <h1 class="title">МАГАЗИН МОДЕРАЦИИ</h1>
         <div class="user-balance">
-          <span id="user-balls">Загрузка...</span>
+          💰 <span id="user-balls">Загрузка...</span>
         </div>
         
         <!-- Индикатор загрузки -->
@@ -22,26 +22,22 @@
         </div>
         
         <section class="actions-grid">
-          <button type="button" class="action-item highlighted left-button" onclick="buyItem('remove_warning', 50)">
+          <button type="button" class="action-item highlighted left-button" onclick="buyItem('remove_warn', 130)">
             <span class="action-title">СНЯТЬ ВЫГОВОР</span>
             <img class="action-icon-warn" src="img/warn.svg" alt="Иконка снятия выговора" />
-            <span class="action-cost">50 баллов</span>
           </button>
           <div class="right-column">
-            <button type="button" class="action-item" onclick="buyItem('remove_caution', 30)">
+            <button type="button" class="action-item" onclick="buyItem('remove_pred', 65)">
               <span class="action-title">СНЯТЬ ПРЕДУПРЕЖДЕНИЕ</span>
               <img class="action-icon" src="img/pred.svg" alt="Иконка снятия предупреждения" />
-              <span class="action-cost">30 баллов</span>
             </button>
-            <button type="button" class="action-item" onclick="buyItem('extend_family_role', 100)">
+            <button type="button" class="action-item" onclick="buyItem('extend_family', 300)">
               <span class="action-title">ПРОДЛЕНИЕ СЕМЕЙНОЙ РОЛИ</span>
               <img class="action-icon" src="img/family.svg" alt="Иконка продления семейной роли" />
-              <span class="action-cost">100 баллов</span>
             </button>
             <button type="button" class="action-item" onclick="showRoleForm()">
               <span class="action-title">СОЗДАНИЕ ЛИЧНОЙ РОЛИ</span>
               <img class="action-icon" src="img/role.svg" alt="Иконка создания личной роли" />
-              <span class="action-cost">200 баллов</span>
             </button>
           </div>
         </section>
@@ -60,15 +56,13 @@
         </div>
         
         <section class="actions">
-          <button type="button" class="action-item wide" onclick="buyItem('reduce_promotion_time', 75)">
+          <button type="button" class="action-item wide" onclick="buyItem('reduce_days', 30)">
             <span class="action-title">СНИЖЕНИЕ СРОКА ПОВЫШЕНИЯ ДЛЯ 1-2 УРОВНЯ</span>
             <img class="action-icon" src="img/up.svg" alt="Иконка снижения срока повышения" />
-            <span class="action-cost">75 баллов</span>
           </button>
           <button type="button" class="action-item wide" onclick="showNicknameForm()">
             <span class="action-title">ИЗМЕНИТЬ НИК-НЕЙМ</span>
             <img class="action-icon" src="img/nick.svg" alt="Иконка изменения ник-нейма" />
-            <span class="action-cost">50 баллов</span>
           </button>
         </section>
         
@@ -104,7 +98,13 @@
     </main>
 
     <script>
-        const tg = window.Telegram.WebApp;
+        const tg = {
+            ready: () => {},
+            expand: () => {},
+            sendData: (data) => console.log('TG Data:', data),
+            themeParams: {},
+            colorScheme: 'light'
+        };
         const urlParams = new URLSearchParams(window.location.search);
         const balls = urlParams.get('balls');
 
@@ -113,17 +113,6 @@
         
         tg.ready();
         tg.expand();
-
-        if (tg.themeParams.bg_color) {
-            document.body.style.backgroundColor = tg.themeParams.bg_color;
-        }
-        if (tg.themeParams.text_color) {
-            document.body.style.color = tg.themeParams.text_color;
-        }
-
-        if (tg.colorScheme === 'dark') {
-            document.body.classList.add('telegram-dark');
-        }
 
         function showLoading() {
             document.getElementById('loading').classList.add('show');
@@ -297,19 +286,31 @@
     </script>
 
     <style>
+        /* Убираем отступы для Telegram Mini App */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        .frame {
+            padding: 10px;
+            margin: 0;
+        }
+
         /* Дополнительные стили для новых элементов */
         .user-balance {
             text-align: center;
             font-weight: bold;
             margin-bottom: 20px;
             font-size: 18px;
-        }
-
-        .action-cost {
-            font-size: 12px;
-            opacity: 0.8;
-            margin-top: 5px;
-            display: block;
+            color: #2c3e50;
         }
 
         .loading-overlay {
@@ -318,7 +319,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.7);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -353,7 +354,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.85);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -365,56 +366,84 @@
         }
 
         .form-content {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
+            background: #2c3e50;
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
             width: 90%;
             max-width: 400px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
         }
 
         .form-content h3 {
             margin-top: 0;
             text-align: center;
+            color: #ecf0f1;
+            margin-bottom: 20px;
         }
 
         .form-content input {
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             margin: 10px 0;
-            border: 1px solid #ddd;
-            border-radius: 5px;
+            border: none;
+            border-radius: 8px;
             box-sizing: border-box;
+            background: #34495e;
+            color: #ecf0f1;
+            font-size: 16px;
+        }
+
+        .form-content input::placeholder {
+            color: #bdc3c7;
+        }
+
+        .form-content input:focus {
+            outline: none;
+            background: #3a526b;
         }
 
         .form-buttons {
             display: flex;
             gap: 10px;
-            margin-top: 15px;
+            margin-top: 20px;
         }
 
         .form-buttons button {
             flex: 1;
-            padding: 10px;
+            padding: 12px;
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
             cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background 0.3s;
         }
 
         .form-buttons button:first-child {
-            background: #3498db;
+            background: #27ae60;
             color: white;
+        }
+
+        .form-buttons button:first-child:hover {
+            background: #229954;
         }
 
         .form-buttons button:last-child {
-            background: #95a5a6;
+            background: #e74c3c;
             color: white;
         }
 
+        .form-buttons button:last-child:hover {
+            background: #c0392b;
+        }
+
         .exchange-result {
-            margin-top: 10px;
-            padding: 10px;
-            border-radius: 5px;
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 8px;
             text-align: center;
+            font-weight: bold;
         }
 
         .exchange-result.hidden {
@@ -431,23 +460,6 @@
             background: #f8d7da;
             color: #721c24;
             border: 1px solid #f5c6cb;
-        }
-
-        /* Темная тема для Telegram */
-        .telegram-dark {
-            background-color: #17212b !important;
-            color: #ffffff !important;
-        }
-
-        .telegram-dark .form-content {
-            background: #2c3e50;
-            color: white;
-        }
-
-        .telegram-dark .form-content input {
-            background: #34495e;
-            border-color: #7f8c8d;
-            color: white;
         }
     </style>
   </body>
