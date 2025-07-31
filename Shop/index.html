@@ -92,6 +92,9 @@
           <div id="exchangeResult" class="exchange-result hidden"></div>
         </section>
         
+        <!-- Уведомления -->
+        <div id="notification" class="notification hidden"></div>
+        
         <footer class="footer">
           <img class="footer-image" src="img/стрелки-2.svg" alt="Декоративное изображение" />
         </footer>
@@ -113,8 +116,15 @@
             document.getElementById('loading').classList.add('show');
         }
 
-        function hideLoading() {
-            document.getElementById('loading').classList.remove('show');
+        function showNotification(message, type = 'error') {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = `notification ${type}`;
+            notification.classList.remove('hidden');
+            
+            setTimeout(() => {
+                notification.classList.add('hidden');
+            }, 3000);
         }
 
         function buyItem(item, cost) {
@@ -178,16 +188,20 @@
             document.getElementById('newNickname').value = '';
         }
 
+        function hideLoading() {
+            document.getElementById('loading').classList.remove('show');
+        }
+
         function buyNickname() {
             const nickname = document.getElementById('newNickname').value.trim();
             
             if (!nickname) {
-                alert('❌ Введите новый никнейм');
+                showNotification('❌ Введите новый никнейм');
                 return;
             }
             
             if (nickname.length < 3 || nickname.length > 20) {
-                alert('❌ Никнейм должен быть от 3 до 20 символов');
+                showNotification('❌ Никнейм должен быть от 3 до 20 символов');
                 return;
             }
             
@@ -220,18 +234,18 @@
             const roleColor = document.getElementById('roleColor').value.trim();
             
             if (!roleName || !roleColor) {
-                alert('❌ Заполните все поля');
+                showNotification('❌ Заполните все поля');
                 return;
             }
             
             if (roleName.length < 3 || roleName.length > 30) {
-                alert('❌ Название роли должно быть от 3 до 30 символов');
+                showNotification('❌ Название роли должно быть от 3 до 30 символов');
                 return;
             }
             
             const colorRegex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
             if (!colorRegex.test(roleColor)) {
-                alert('❌ Неверный формат цвета. Используйте формат #RRGGBB');
+                showNotification('❌ Неверный формат цвета. Используйте формат #RRGGBB');
                 return;
             }
             
