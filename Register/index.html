@@ -3,273 +3,8 @@
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta charset="utf-8" />
-    <style>
-      @import url("https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css");
-      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@200..900&display=swap");
-      * {
-        -webkit-font-smoothing: antialiased;
-        box-sizing: border-box;
-      }
-      html,
-      body {
-        margin: 0;
-        padding: 0;
-        height: 100%;
-      }
-      button:focus-visible,
-      input:focus-visible {
-        outline: 2px solid #4a90e2 !important;
-        outline: -webkit-focus-ring-color auto 5px !important;
-      }
-      a {
-        text-decoration: none;
-        color: inherit;
-      }
-      input,
-      button {
-        font: inherit;
-      }
-      :root {
-        --tlf-7p-c: rgba(255, 254, 249, 1);
-      }
-      body {
-        background-color: #000000;
-        color: #ffffff;
-        font-family: "Inter", sans-serif;
-      }
-      .screen {
-        position: relative;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
-        background-color: #000000;
-      }
-      .box {
-        position: absolute;
-        top: 40px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 100%;
-        max-width: 420px;
-        min-height: calc(100vh - 40px);
-        background-color: #000000;
-        border: 1.3px solid #252626;
-        border-radius: 70px 70px 0 0;
-        z-index: 0;
-      }
-      .container {
-        position: relative;
-        width: 100%;
-        max-width: 420px;
-        padding: 0 2px;
-        z-index: 1;
-      }
-      .registration-form {
-        background-image: url(./img/rectangle-8045.svg);
-        background-size: 100% 100%;
-        padding: 41px 24px;
-        border-radius: 14px;
-      }
-      .form-title {
-        font-family: "Inter", sans-serif;
-        font-weight: 700;
-        font-size: 14px;
-        margin-top: 40px;
-        margin-bottom: 50px;
-        text-align: center;
-      }
-      .form-group {
-        margin-bottom: 20px;
-      }
-      .form-label {
-        display: block;
-        font-weight: 700;
-        font-size: 14px;
-        margin-bottom: 13px;
-        margin-left: 5px;
-      }
-      .form-input {
-        width: 100%;
-        height: 53px;
-        background-color: #000000;
-        border-radius: 14px;
-        border: 1.3px solid #252626;
-        padding: 0 20px;
-        color: #ffffff;
-        font-weight: 200;
-        font-size: 13px;
-      }
-      .form-input::placeholder {
-        color: rgba(255, 255, 255, 0.3);
-      }
-      .submit-button {
-        width: 100%;
-        height: 55px;
-        border-radius: 14px;
-        border: 1.3px solid #659cff;
-        background: radial-gradient(
-          50% 50% at 50% 50%,
-          rgba(0, 83, 232, 1) 0%,
-          rgba(67, 134, 255, 1) 100%
-        );
-        box-shadow: 0px 0px 3.8px 1px #669dff, 0px 0px 6.6px #669dff, inset -1px 2px 4px #ffffff;
-        color: #ffffff;
-        font-weight: 700;
-        font-size: 15px;
-        cursor: pointer;
-        transition: background 0.3s ease;
-        margin-top: 60px; 
-      }
-      .submit-button:hover {
-        background: radial-gradient(
-          50% 50% at 50% 50%,
-          rgba(0, 73, 202, 1) 0%,
-          rgba(57, 124, 245, 1) 100%
-        );
-      }
-      .privacy-notice {
-        margin-top: 20px;
-        opacity: 0.2;
-        font-weight: 200;
-        font-size: 9px;
-        text-align: center;
-        line-height: 1.4;
-      }
-
-      /* Дополнительные стили для функциональности */
-      .error-message {
-        color: #ff4757;
-        font-size: 12px;
-        margin-top: 5px;
-        display: none;
-      }
-
-      .form-input.invalid {
-        border-color: #ff4757;
-        box-shadow: 0 0 10px rgba(255, 71, 87, 0.3);
-      }
-
-      .submit-button.loading {
-        position: relative;
-        pointer-events: none;
-      }
-
-      .submit-button.loading::after {
-        content: '';
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 20px;
-        height: 20px;
-        margin: -10px;
-        border: 2px solid transparent;
-        border-top: 2px solid #ffffff;
-        border-radius: 50%;
-        animation: spin 1s linear infinite;
-      }
-
-      @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-      }
-
-      .success-message {
-        background: linear-gradient(45deg, #22c55e, #16a34a);
-        padding: 20px;
-        border-radius: 10px;
-        margin-bottom: 20px;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        animation: slideIn 0.5s ease;
-        color: white;
-      }
-
-      .success-icon::before {
-        content: '✓';
-        font-size: 20px;
-        font-weight: bold;
-      }
-
-      @keyframes slideIn {
-        from {
-          opacity: 0;
-          transform: translateY(-20px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-    </style>
+    <link rel="stylesheet" href="style.css" />
     <title>Регистрация аккаунта модератора</title>
-    <style>
-      .error-message {
-        color: #ff4757;
-        font-size: 12px;
-        margin-top: 5px;
-        display: none;
-      }
-
-      .form-input.invalid {
-        border-color: #ff4757;
-        box-shadow: 0 0 10px rgba(255, 71, 87, 0.3);
-      }
-
-      .submit-button.loading {
-        position: relative;
-        pointer-events: none;
-      }
-
-      .submit-button.loading::after {
-        content: '';
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 20px;
-        height: 20px;
-        margin: -10px;
-        border: 2px solid transparent;
-        border-top: 2px solid #ffffff;
-        border-radius: 50%;
-        animation: spin 1s linear infinite;
-      }
-
-      @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-      }
-
-      .success-message {
-        background: linear-gradient(45deg, #22c55e, #16a34a);
-        padding: 20px;
-        border-radius: 10px;
-        margin-bottom: 20px;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        animation: slideIn 0.5s ease;
-        color: white;
-      }
-
-      .success-icon::before {
-        content: '✓';
-        font-size: 20px;
-        font-weight: bold;
-      }
-
-      @keyframes slideIn {
-        from {
-          opacity: 0;
-          transform: translateY(-20px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-    </style>
   </head>
   <body>
     <main class="screen">
@@ -295,7 +30,7 @@
                 <div id="discord-error" class="error-message"></div>
               </div>
               <div class="form-group">
-                <label for="vozrast" class="form-label">РЕАЛЬНЫЙ ВОЗВРАСТ</label>
+                <label for="vozrast" class="form-label">РЕАЛЬНЫЙ ВОЗРАСТ</label>
                 <input type="number" id="vozrast" class="form-input" placeholder="Пример: 16" required />
                 <div id="age-error" class="error-message"></div>
               </div>
@@ -314,248 +49,247 @@
         </section>
       </div>
     </main>
-
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script>
-      const tg = window.Telegram?.WebApp;
-      if (!tg) {
-        console.warn('Telegram WebApp не найден');
+const tg = window.Telegram?.WebApp;
+if (!tg) {
+  console.warn('Telegram WebApp не найден');
+} else {
+  tg.expand();
+  tg.setHeaderColor('#000000');
+}
+
+const form = document.getElementById('regForm');
+const submitBtn = form.querySelector('.submit-btn');
+
+const fieldTouched = {
+  nick: false,
+  fa: false,
+  discord_id: false,
+  vozrast: false,
+  gorod: false
+};
+
+function validateNick(nick) {
+  const errorElement = document.getElementById('nick-error');
+  
+  if (!fieldTouched.nick) return true;
+  
+  if (!nick) {
+    showError(errorElement, 'Введите ник');
+    return false;
+  }
+  
+  if (!nick.includes('_')) {
+    showError(errorElement, 'Ник должен быть в формате Nick_Name');
+    return false;
+  }
+  
+  hideError(errorElement);
+  return true;
+}
+
+function validateForumAccount(url) {
+  const errorElement = document.getElementById('fa-error');
+  
+  if (!fieldTouched.fa) return true;
+  
+  if (!url) {
+    showError(errorElement, 'Введите ссылку на форумный аккаунт');
+    return false;
+  }
+  
+  if (!url.startsWith('http://') && !url.startsWith('https://')) {
+    showError(errorElement, 'Введите корректную ссылку');
+    return false;
+  }
+  
+  hideError(errorElement);
+  return true;
+}
+
+function validateDiscordId(id) {
+  const errorElement = document.getElementById('discord-error');
+  
+  if (!fieldTouched.discord_id) return true;
+  
+  if (!id) {
+    showError(errorElement, 'Введите Discord ID');
+    return false;
+  }
+  
+  if (!/^\d+$/.test(id)) {
+    showError(errorElement, 'Discord ID должен состоять только из цифр');
+    return false;
+  }
+  
+  hideError(errorElement);
+  return true;
+}
+
+function validateAge(age) {
+  const errorElement = document.getElementById('age-error');
+  
+  if (!fieldTouched.vozrast) return true;
+  
+  if (!age) {
+    showError(errorElement, 'Введите возраст');
+    return false;
+  }
+  
+  
+  hideError(errorElement);
+  return true;
+}
+
+function validateLocation(location) {
+  const errorElement = document.getElementById('location-error');
+  
+  if (!fieldTouched.gorod) return true;
+  
+  if (!location) {
+    showError(errorElement, 'Введите место проживания');
+    return false;
+  }
+  
+  hideError(errorElement);
+  return true;
+}
+
+function showError(element, message) {
+  element.textContent = message;
+  element.style.display = 'block';
+}
+
+function hideError(element) {
+  element.textContent = '';
+  element.style.display = 'none';
+}
+
+function validateForm() {
+  const nick = document.getElementById('nick').value.trim();
+  const fa = document.getElementById('fa').value.trim();
+  const discord_id = document.getElementById('discord_id').value.trim();
+  const vozrast = document.getElementById('vozrast').value;
+  const gorod = document.getElementById('gorod').value.trim();
+  
+  const isNickValid = validateNick(nick);
+  const isFaValid = validateForumAccount(fa);
+  const isDiscordValid = validateDiscordId(discord_id);
+  const isAgeValid = validateAge(vozrast);
+  const isLocationValid = validateLocation(gorod);
+  
+  const isValid = isNickValid && isFaValid && isDiscordValid && isAgeValid && isLocationValid;
+  submitBtn.disabled = !isValid;
+  
+  return isValid;
+}
+
+const inputs = form.querySelectorAll('input');
+inputs.forEach(input => {
+  input.addEventListener('input', function() {
+    fieldTouched[this.id] = true;
+    validateForm();
+    if (this.classList.contains('invalid')) {
+      this.classList.remove('invalid');
+    }
+  });
+  
+  input.addEventListener('blur', function() {
+    fieldTouched[this.id] = true;
+    const value = this.value.trim();
+    
+    switch(this.id) {
+      case 'nick':
+        validateNick(value);
+        if (!validateNick(value)) this.classList.add('invalid');
+        break;
+      case 'fa':
+        validateForumAccount(value);
+        if (!validateForumAccount(value)) this.classList.add('invalid');
+        break;
+      case 'discord_id':
+        validateDiscordId(value);
+        if (!validateDiscordId(value)) this.classList.add('invalid');
+        break;
+      case 'vozrast':
+        validateAge(value);
+        if (!validateAge(value)) this.classList.add('invalid');
+        break;
+      case 'gorod':
+        validateLocation(value);
+        if (!validateLocation(value)) this.classList.add('invalid');
+        break;
+    }
+  });
+});
+
+function submitForm() {
+  if (!validateForm()) {
+    return;
+  }
+  
+  submitBtn.classList.add('loading');
+  submitBtn.disabled = true;
+  
+  const data = {
+    nick: document.getElementById('nick').value.trim(),
+    fa: document.getElementById('fa').value.trim(),
+    discord_id: document.getElementById('discord_id').value.trim(),
+    vozrast: parseInt(document.getElementById('vozrast').value),
+    gorod: document.getElementById('gorod').value.trim(),
+    timestamp: new Date().toISOString()
+  };
+  
+  setTimeout(() => {
+    try {
+      if (tg) {
+        tg.sendData(JSON.stringify(data));
       } else {
-        tg.expand();
-        tg.setHeaderColor('#000000');
+        console.log('Данные формы:', data);
+        showSuccessMessage();
       }
+    } catch (err) {
+      console.error('Ошибка отправки:', err);
+      alert('Ошибка отправки данных');
+      submitBtn.classList.remove('loading');
+      submitBtn.disabled = false;
+    }
+  }, 800);
+}
 
-      const form = document.getElementById('regForm');
-      const submitBtn = form.querySelector('.submit-btn');
+function showSuccessMessage() {
+  const successDiv = document.createElement('div');
+  successDiv.className = 'success-message';
+  successDiv.innerHTML = `
+    <div class="success-icon"></div>
+    <div>Заявка успешно отправлена!</div>
+  `;
+  form.parentNode.insertBefore(successDiv, form);
+  
+  submitBtn.textContent = 'Готово!';
+  submitBtn.classList.remove('loading');
+  submitBtn.style.background = '#22c55e';
+  
+  setTimeout(() => {
+    form.reset();
+    submitBtn.style.background = '';
+    submitBtn.textContent = 'Отправить заявку';
+    successDiv.remove();
+    validateForm();
+    
+    for (const key in fieldTouched) {
+      fieldTouched[key] = false;
+    }
+  }, 3000);
+}
 
-      const fieldTouched = {
-        nick: false,
-        fa: false,
-        discord_id: false,
-        vozrast: false,
-        gorod: false
-      };
+form.addEventListener('submit', function(e) {
+  e.preventDefault();
+  submitForm();
+});
 
-      function validateNick(nick) {
-        const errorElement = document.getElementById('nick-error');
-        
-        if (!fieldTouched.nick) return true;
-        
-        if (!nick) {
-          showError(errorElement, 'Введите ник');
-          return false;
-        }
-        
-        if (!nick.includes('_')) {
-          showError(errorElement, 'Ник должен быть в формате Nick_Name');
-          return false;
-        }
-        
-        hideError(errorElement);
-        return true;
-      }
-
-      function validateForumAccount(url) {
-        const errorElement = document.getElementById('fa-error');
-        
-        if (!fieldTouched.fa) return true;
-        
-        if (!url) {
-          showError(errorElement, 'Введите ссылку на форумный аккаунт');
-          return false;
-        }
-        
-        if (!url.startsWith('http://') && !url.startsWith('https://')) {
-          showError(errorElement, 'Введите корректную ссылку');
-          return false;
-        }
-        
-        hideError(errorElement);
-        return true;
-      }
-
-      function validateDiscordId(id) {
-        const errorElement = document.getElementById('discord-error');
-        
-        if (!fieldTouched.discord_id) return true;
-        
-        if (!id) {
-          showError(errorElement, 'Введите Discord ID');
-          return false;
-        }
-        
-        if (!/^\d+$/.test(id)) {
-          showError(errorElement, 'Discord ID должен состоять только из цифр');
-          return false;
-        }
-        
-        hideError(errorElement);
-        return true;
-      }
-
-      function validateAge(age) {
-        const errorElement = document.getElementById('age-error');
-        
-        if (!fieldTouched.vozrast) return true;
-        
-        if (!age) {
-          showError(errorElement, 'Введите возраст');
-          return false;
-        }
-        
-        
-        hideError(errorElement);
-        return true;
-      }
-
-      function validateLocation(location) {
-        const errorElement = document.getElementById('location-error');
-        
-        if (!fieldTouched.gorod) return true;
-        
-        if (!location) {
-          showError(errorElement, 'Введите место проживания');
-          return false;
-        }
-        
-        hideError(errorElement);
-        return true;
-      }
-
-      function showError(element, message) {
-        element.textContent = message;
-        element.style.display = 'block';
-      }
-
-      function hideError(element) {
-        element.textContent = '';
-        element.style.display = 'none';
-      }
-
-      function validateForm() {
-        const nick = document.getElementById('nick').value.trim();
-        const fa = document.getElementById('fa').value.trim();
-        const discord_id = document.getElementById('discord_id').value.trim();
-        const vozrast = document.getElementById('vozrast').value;
-        const gorod = document.getElementById('gorod').value.trim();
-        
-        const isNickValid = validateNick(nick);
-        const isFaValid = validateForumAccount(fa);
-        const isDiscordValid = validateDiscordId(discord_id);
-        const isAgeValid = validateAge(vozrast);
-        const isLocationValid = validateLocation(gorod);
-        
-        const isValid = isNickValid && isFaValid && isDiscordValid && isAgeValid && isLocationValid;
-        submitBtn.disabled = !isValid;
-        
-        return isValid;
-      }
-
-      const inputs = form.querySelectorAll('input');
-      inputs.forEach(input => {
-        input.addEventListener('input', function() {
-          fieldTouched[this.id] = true;
-          validateForm();
-          if (this.classList.contains('invalid')) {
-            this.classList.remove('invalid');
-          }
-        });
-        
-        input.addEventListener('blur', function() {
-          fieldTouched[this.id] = true;
-          const value = this.value.trim();
-          
-          switch(this.id) {
-            case 'nick':
-              validateNick(value);
-              if (!validateNick(value)) this.classList.add('invalid');
-              break;
-            case 'fa':
-              validateForumAccount(value);
-              if (!validateForumAccount(value)) this.classList.add('invalid');
-              break;
-            case 'discord_id':
-              validateDiscordId(value);
-              if (!validateDiscordId(value)) this.classList.add('invalid');
-              break;
-            case 'vozrast':
-              validateAge(value);
-              if (!validateAge(value)) this.classList.add('invalid');
-              break;
-            case 'gorod':
-              validateLocation(value);
-              if (!validateLocation(value)) this.classList.add('invalid');
-              break;
-          }
-        });
-      });
-
-      function submitForm() {
-        if (!validateForm()) {
-          return;
-        }
-        
-        submitBtn.classList.add('loading');
-        submitBtn.disabled = true;
-        
-        const data = {
-          nick: document.getElementById('nick').value.trim(),
-          fa: document.getElementById('fa').value.trim(),
-          discord_id: document.getElementById('discord_id').value.trim(),
-          vozrast: parseInt(document.getElementById('vozrast').value),
-          gorod: document.getElementById('gorod').value.trim(),
-          timestamp: new Date().toISOString()
-        };
-        
-        setTimeout(() => {
-          try {
-            if (tg) {
-              tg.sendData(JSON.stringify(data));
-              tg.close(); // ← ЗАКРЫВАЕМ МИНИАПП КАК В ТВОЕМ КОДЕ
-            } else {
-              console.log('Данные формы:', data);
-              showSuccessMessage();
-            }
-          } catch (err) {
-            console.error('Ошибка отправки:', err);
-            alert('Ошибка отправки данных');
-            submitBtn.classList.remove('loading');
-            submitBtn.disabled = false;
-          }
-        }, 800);
-      }
-
-      function showSuccessMessage() {
-        const successDiv = document.createElement('div');
-        successDiv.className = 'success-message';
-        successDiv.innerHTML = `
-          <div class="success-icon"></div>
-          <div>Заявка успешно отправлена!</div>
-        `;
-        form.parentNode.insertBefore(successDiv, form);
-        
-        submitBtn.textContent = 'Готово!';
-        submitBtn.classList.remove('loading');
-        submitBtn.style.background = '#22c55e';
-        
-        setTimeout(() => {
-          form.reset();
-          submitBtn.style.background = '';
-          submitBtn.textContent = 'ЗАКОНЧИТЬ РЕГИСТРАЦИЮ';
-          successDiv.remove();
-          validateForm();
-          
-          for (const key in fieldTouched) {
-            fieldTouched[key] = false;
-          }
-        }, 3000);
-      }
-
-      form.addEventListener('submit', function(e) {
-        e.preventDefault();
-        submitForm();
-      });
-
-      validateForm();
+validateForm();
     </script>
   </body>
 </html>
