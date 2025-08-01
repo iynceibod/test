@@ -311,6 +311,7 @@
           try {
             if (tg) {
               tg.sendData(JSON.stringify(data));
+              tg.close(); // ← ЗАКРЫВАЕМ МИНИАПП КАК В ТВОЕМ КОДЕ
             } else {
               console.log('Данные формы:', data);
               showSuccessMessage();
