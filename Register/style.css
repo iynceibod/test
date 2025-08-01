@@ -1,0 +1,153 @@
+
+@import url("https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@200..900&display=swap");
+
+* {
+  -webkit-font-smoothing: antialiased;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+button:focus-visible,
+input:focus-visible {
+  outline: 2px solid #4a90e2 !important;
+  outline: -webkit-focus-ring-color auto 5px !important;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+input,
+button {
+  font: inherit;
+}
+
+:root {
+  --tlf-7p-c: rgba(255, 254, 249, 1);
+}
+
+body {
+  background-color: #000000;
+  color: #ffffff;
+  font-family: "Inter", sans-serif;
+}
+
+.screen {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #000000;
+}
+
+.box {
+  position: absolute;
+  top: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 420px;
+  min-height: 100%;
+  background-color: #000000;
+  border: 1.3px solid #252626;
+  border-radius: 70px 70px 0 0;
+  z-index: 0;
+}
+
+.container {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  padding: 0 2px;
+  
+  z-index: 1;
+}
+
+.registration-form {
+  background-image: url(./img/rectangle-8045.svg);
+  background-size: 100% 100%;
+  padding: 41px 24px;
+  border-radius: 14px;
+}
+
+.form-title {
+  font-family: "Inter", sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  margin-top: 40px;
+  margin-bottom: 50px;
+  text-align: center;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-label {
+  display: block;
+  font-weight: 700;
+  font-size: 14px;
+  margin-bottom: 13px;
+  margin-left: 5px; /* ← убрать левый отступ */
+}
+
+.form-input {
+  width: 100%;
+  height: 53px;
+  background-color: #000000;
+  border-radius: 14px;
+  border: 1.3px solid #252626;
+  padding: 0 20px;
+  color: #ffffff;
+  font-weight: 200;
+  font-size: 13px;
+}
+
+.form-input::placeholder {
+  opacity: 0.2;
+}
+
+.submit-button {
+  width: 100%;
+  height: 55px;
+  border-radius: 14px;
+  border: 1.3px solid #659cff;
+  background: radial-gradient(
+    50% 50% at 50% 50%,
+    rgba(0, 83, 232, 1) 0%,
+    rgba(67, 134, 255, 1) 100%
+  );
+  box-shadow: 0px 0px 3.8px 1px #669dff, 0px 0px 6.6px #669dff, inset -1px 2px 4px #ffffff;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  margin-top: 60px; 
+}
+
+.submit-button:hover {
+  background: radial-gradient(
+    50% 50% at 50% 50%,
+    rgba(0, 73, 202, 1) 0%,
+    rgba(57, 124, 245, 1) 100%
+  );
+}
+
+.privacy-notice {
+  margin-top: 20px;
+  opacity: 0.2;
+  font-weight: 200;
+  font-size: 9px;
+  text-align: center;
+  line-height: 1.4;
+}
