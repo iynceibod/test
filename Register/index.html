@@ -302,25 +302,27 @@
           fa: document.getElementById('fa').value.trim(),
           discord_id: document.getElementById('discord_id').value.trim(),
           vozrast: parseInt(document.getElementById('vozrast').value),
-          gorod: document.getElementById('gorod').value.trim(),
-          timestamp: new Date().toISOString()
+          gorod: document.getElementById('gorod').value.trim()
         };
         
-        setTimeout(() => {
-          try {
-            if (tg) {
-              tg.sendData(JSON.stringify(data));
-            } else {
-              console.log('Данные формы:', data);
-              showSuccessMessage();
-            }
-          } catch (err) {
-            console.error('Ошибка отправки:', err);
-            alert('Ошибка отправки данных');
+        console.log('Отправляем данные:', data);
+        
+        try {
+          if (tg) {
+            tg.sendData(JSON.stringify(data));
+            console.log('Данные отправлены в Telegram WebApp');
+          } else {
+            console.log('Telegram WebApp не найден');
+            alert('Ошибка: Telegram WebApp не найден');
             submitBtn.classList.remove('loading');
             submitBtn.disabled = false;
           }
-        }, 800);
+        } catch (err) {
+          console.error('Ошибка отправки:', err);
+          alert('Ошибка отправки данных: ' + err.message);
+          submitBtn.classList.remove('loading');
+          submitBtn.disabled = false;
+        }
       }
 
       function showSuccessMessage() {
