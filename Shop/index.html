@@ -58,6 +58,29 @@
           </button>
         </section>
 
+        <div id="roleForm" class="form-overlay hidden">
+          <div class="form-content">
+            <h3>Создание личной роли</h3>
+            <input type="text" id="roleName" placeholder="Название роли" maxlength="30" />
+            <input type="text" id="roleColor" placeholder="Цвет роли (#RRGGBB)" maxlength="7" />
+            <div class="form-buttons">
+              <button type="button" onclick="buyRole()">Создать роль</button>
+              <button type="button" onclick="hideRoleForm()">Отмена</button>
+            </div>
+          </div>
+        </div>
+
+        <div id="nicknameForm" class="form-overlay hidden">
+          <div class="form-content">
+            <h3>Изменение никнейма</h3>
+            <input type="text" id="newNickname" placeholder="Новый никнейм" maxlength="20" />
+            <div class="form-buttons">
+              <button type="button" onclick="buyNickname()">Изменить никнейм</button>
+              <button type="button" onclick="hideNicknameForm()">Отмена</button>
+            </div>
+          </div>
+        </div>
+
         <section class="exchange-section">
           <h2 class="exchange-title">ОБМЕНЯТЬ БАЛЛЫ НА ОПЫТ</h2>
           <p class="exchange-rate">10 баллов = 2 500 опыта (минимум 10)</p>
