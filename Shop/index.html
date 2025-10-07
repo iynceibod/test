@@ -45,6 +45,13 @@
         </section>
 
         <section class="actions">
+
+          <button type="button" class="action-item wide" onclick="openRoulette()">
+            <span class="action-title">СПЕЦИАЛЬНАЯ РУЛЕТКА</span>
+            <img class="action-icon" src="img/up.svg" alt="up" />
+            <span class="action-cost">50 баллов</span>
+          </button>
+
           <button type="button" class="action-item wide" onclick="buyItem('reduce_days', 30)">
             <span class="action-title">СНИЖЕНИЕ СРОКА ПОВЫШЕНИЯ</span>
             <img class="action-icon" src="img/up.svg" alt="up" />
@@ -103,6 +110,32 @@
       </section>
     </main>
 
+        <div id="rouletteModal" class="roulette-overlay hidden">
+          <div class="roulette-box">
+            <div class="roulette-wrapper">
+              <div class="roulette-pointer"></div>
+              <canvas id="rouletteCanvas" width="300" height="300"></canvas>
+            </div>
+
+            <button id="spinButton" class="spin-button" onclick="spinRoulette()">КРУТИТЬ</button>
+            <div id="rouletteResult" class="roulette-result hidden"></div>
+
+            <div class="roulette-warning">
+              <div class="roulette-warning-text">
+                <span class="warning-icon">⚠️</span>
+                Перед открытием изучите список призов
+                <span class="warning-icon">⚠️</span>
+              </div>
+            </div>
+
+    <div class="prize-list">
+      <h4>🎁 Список призов:</h4>
+      <ul id="prizeList"></ul>
+    </div>
+
+    <button class="spin-close" onclick="closeRoulette()">ЗАКРЫТЬ</button>
+  </div>
+</div>
     <script src="script.js"></script>
   </body>
 </html>
