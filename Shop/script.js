@@ -157,13 +157,13 @@ let animationFrameId = null;
 const spinDuration = 5000;
 
 const prizes = [
-  { text: "500 DP", icon: "💰", weight: 30 },
-  { text: "1000 DP", icon: "💵", weight: 20 },
-  { text: "50 баллов", icon: "📅", weight: 15 },
+  { text: "500 DP", icon: "💰", weight: 70 },
+  { text: "1000 DP", icon: "💵", weight: 50 },
+  { text: "50 баллов", icon: "📅", weight: 30 },
   { text: "1 предупреждение", icon: "⭐", weight: 10 },
   { text: "Снятие любого наказания", icon: "🔓", weight: 3 },
-  { text: "Отсутствие нормы на неделю", icon: "📅", weight: 3 },
-  { text: "Персональная роль", icon: "🎭", weight: 3 },
+  { text: "Отсутствие нормы на неделю", icon: "📅", weight: 2 },
+  { text: "Персональная роль", icon: "🎭", weight: 2 },
   { text: "Понижение", icon: "📉", weight: 1 }
 ];
 
@@ -316,4 +316,5 @@ function renderPrizeList() {
     .map(p => `<li><span class="prize-icon">${p.icon}</span>${p.text}</li>`)
     .join("");
 }
+
 
