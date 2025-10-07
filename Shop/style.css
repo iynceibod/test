@@ -399,7 +399,6 @@ body {
     100% { transform: rotate(360deg); }
 }
 
-/* Адаптация для маленьких экранов */
 @media (max-width: 360px) {
     .form-content {
         padding: 15px;
@@ -426,4 +425,220 @@ body {
     .form-buttons button {
         padding: 10px;
     }
+}
+
+@media (max-width: 480px) {
+  .actions-grid,
+  .actions {
+    grid-template-columns: 1fr;
+  }
+
+  .action-item {
+    min-height: 110px;
+  }
+
+  .action-icon {
+    width: 44px;
+    height: 44px;
+  }
+
+  .action-title {
+    font-size: 12px;
+  }
+}
+
+.roulette-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(5, 5, 5, 0.95);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  backdrop-filter: blur(6px);
+  animation: fadeIn 0.3s ease;
+}
+
+.roulette-overlay.hidden {
+  display: none;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.roulette-box {
+  background: #0a0a0a;
+  border: none;
+  padding: 24px;
+  text-align: center;
+  color: #e7ebff;
+  max-width: 360px;
+  width: 90%;
+  font-family: "Inter", sans-serif;
+  transform: scale(0.95);
+  opacity: 0;
+  animation: modalPop 0.4s ease forwards;
+}
+
+@keyframes modalPop {
+  from { transform: scale(0.7); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.roulette-box h3 {
+  font-size: 14px;
+  font-weight: 900;
+  color: #e7ebff;
+  margin-bottom: 18px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+
+.roulette-wrapper {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+#rouletteCanvas {
+  border-radius: 50%;
+  box-shadow: 0 0 20px rgba(63, 123, 255, 0.25);
+}
+
+.roulette-pointer {
+  position: absolute;
+  top: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
+  border-top: 22px solid #3f7bff;
+  filter: drop-shadow(0 0 6px #3f7bff);
+  animation: pointerPulse 1.5s infinite ease-in-out;
+}
+
+@keyframes pointerPulse {
+  0%, 100% { transform: translateX(-50%) scale(1); }
+  50% { transform: translateX(-50%) scale(1.1); }
+}
+
+.spin-button {
+  background: linear-gradient(135deg, #0844c8 0%, #3a7cff 100%);
+  border: 1px solid #4d88ff;
+  color: #ffffff;
+  font-weight: 800;
+  padding: 11px 20px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  transition: all 0.25s ease;
+  width: 100%;
+}
+
+.spin-button:hover {
+  background: linear-gradient(135deg, #0a4ee0 0%, #4a8aff 100%);
+  box-shadow: 0 0 12px rgba(63, 123, 255, 0.4);
+}
+
+.spin-button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.spin-close {
+  background: #151515;
+  border: 1px solid #2c2c2c;
+  color: #9aa8ff;
+  border-radius: 12px;
+  margin-top: 10px;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 10.5px;
+  font-weight: 800;
+  transition: all 0.25s ease;
+  width: 100%;
+  text-transform: uppercase;
+}
+
+.spin-close:hover {
+  border-color: #3f7bff;
+  color: #e7ebff;
+}
+
+.roulette-result {
+  margin: 14px 0;
+  font-weight: 800;
+  color: #e7ebff;
+  font-size: 12px;
+  padding: 12px;
+  background: #0f0f0f;
+  border-radius: 12px;
+  border: 1px solid #2b2b2b;
+  box-shadow: inset 0 0 8px rgba(63, 123, 255, 0.15);
+}
+
+.prize-list {
+  margin-top: 16px;
+  background: #0a0a0a;
+  border-radius: 16px;
+  padding: 14px;
+  border: 1px solid #2b2b2b;
+  text-align: left;
+  box-shadow: 0 0 10px #000 inset;
+}
+
+.prize-list h4 {
+  text-align: center;
+  font-size: 10px;
+  font-weight: 900;
+  color: #9aa8ff;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+
+.prize-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 10px;
+  color: #bfc9ff;
+}
+
+.prize-list li {
+  display: flex;
+  align-items: center;
+  padding: 7px 0;
+  border-bottom: 1px solid #1a1a1a;
+}
+
+.prize-list li:last-child {
+  border-bottom: none;
+}
+
+.prize-icon {
+  font-size: 14px;
+  margin-right: 8px;
+  min-width: 18px;
+  text-align: center;
+}
+
+.roulette-warning {
+  margin: 14px 0;
+  padding: 10px;
+  background: rgba(63, 123, 255, 0.08);
+  border: 1px solid rgba(63, 123, 255, 0.3);
+  border-radius: 10px;
+  font-size: 10.5px;
+  color: #4a8aff;
+  text-align: center;
+  font-weight: 800;
 }
