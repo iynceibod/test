@@ -300,6 +300,14 @@ function showResult(index) {
     </div>`;
   resultDiv.classList.remove("hidden");
   document.getElementById("spinButton").style.display = "none";
+  
+  setTimeout(() => {
+    tg.sendData(JSON.stringify({
+      type: "shop_purchase",
+      item: "roulette_spin",
+      prize: `${prize.icon} ${prize.text}`
+    }));
+  }, 1000);
 }
 
 function renderPrizeList() {
@@ -308,3 +316,4 @@ function renderPrizeList() {
     .map(p => `<li><span class="prize-icon">${p.icon}</span>${p.text}</li>`)
     .join("");
 }
+
