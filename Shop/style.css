@@ -642,3 +642,129 @@ body {
   text-align: center;
   font-weight: 800;
 }
+
+@media (max-width: 1000px) {
+  .content {
+    max-width: 380px;
+    padding: 30px 14px 30px;
+  }
+
+  .action-item {
+    padding: 8px 6px;
+    border-radius: 12px;
+    min-height: 80px;
+  }
+
+  .action-icon {
+    width: 26px;
+    height: 26px;
+    margin: 3px 0;
+  }
+
+  .action-title {
+    font-size: 8.8px;
+  }
+
+  .action-cost {
+    font-size: 8px;
+    margin-top: 3px;
+  }
+
+  .action-item.wide {
+    padding: 10px 8px;
+  }
+
+  .exchange-section {
+    padding: 12px;
+    border-radius: 16px;
+  }
+
+  .exchange-title {
+    font-size: 10.5px;
+  }
+
+  .exchange-rate {
+    font-size: 9px;
+    margin-bottom: 8px;
+  }
+
+  .exchange-input {
+    font-size: 10px;
+    padding: 7px 8px;
+    border-radius: 8px;
+  }
+
+  .exchange-buttons {
+    gap: 8px;
+    margin-top: 10px;
+  }
+
+  .exchange-button {
+    font-size: 9.5px;
+    padding: 7px;
+    border-radius: 8px;
+  }
+
+  .roulette-box {
+    max-width: 320px;
+    padding: 16px;
+  }
+
+  #rouletteCanvas {
+    width: 260px !important;
+    height: 260px !important;
+  }
+
+  .spin-button {
+    font-size: 10px;
+    padding: 9px 0;
+    border-radius: 10px;
+  }
+
+  .spin-close {
+    font-size: 9.5px;
+    padding: 9px;
+    border-radius: 10px;
+  }
+
+  .prize-list {
+    padding: 10px;
+    border-radius: 12px;
+  }
+
+  .prize-list h4 {
+    font-size: 9px;
+  }
+
+  .prize-list li {
+    font-size: 9px;
+    padding: 5px 0;
+  }
+
+  .form-content {
+    max-width: 270px;
+    padding: 14px;
+    border-radius: 14px;
+  }
+
+  .form-content h3 {
+    font-size: 12px;
+  }
+
+  .form-content input {
+    font-size: 10.5px;
+    padding: 7px 10px;
+    border-radius: 8px;
+  }
+
+  .form-buttons button {
+    font-size: 9.5px;
+    padding: 8px;
+    border-radius: 8px;
+  }
+
+  .notification {
+    font-size: 10.5px;
+    padding: 10px 16px;
+  }
+}
