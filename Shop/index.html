@@ -18,7 +18,7 @@
           <span id="user-balls">Загрузка...</span>
         </div>
 
-        <section class="actions-grid">
+<section class="actions-grid">
           <button type="button" class="action-item" onclick="buyItem('remove_warn', 130)">
             <span class="action-title">СНЯТЬ ВЫГОВОР</span>
             <img class="action-icon" src="img/warn.svg" alt="warn" />
@@ -46,6 +46,11 @@
 
         <section class="actions">
 
+          <button type="button" class="action-item wide" onclick="openRoulette()">
+            <span class="action-title">СПЕЦИАЛЬНАЯ РУЛЕТКА</span>
+            <img class="action-icon" src="img/up.svg" alt="up" />
+            <span class="action-cost">50 баллов</span>
+          </button>
 
           <button type="button" class="action-item wide" onclick="buyItem('reduce_days', 30)">
             <span class="action-title">СНИЖЕНИЕ СРОКА ПОВЫШЕНИЯ</span>
@@ -59,6 +64,7 @@
             <span class="action-cost">50 баллов</span>
           </button>
         </section>
+
 
         <div id="roleForm" class="form-overlay hidden">
           <div class="form-content">
