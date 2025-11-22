@@ -7,6 +7,8 @@ document.getElementById("user-balls").innerText = balls ? `${balls} баллов
 tg.ready();
 tg.expand();
 
+tg.setBackgroundColor('#050505');
+
 function showLoading() {
   document.getElementById("loading").classList.remove("hidden");
 }
@@ -316,6 +318,7 @@ function renderPrizeList() {
     .map(p => `<li><span class="prize-icon">${p.icon}</span>${p.text}</li>`)
     .join("");
 }
+
 
 
 
