@@ -8,10 +8,10 @@ tg.ready();
 tg.expand();
 
 function showLoading() {
-  document.getElementById("loading").classList.add("show");
+  document.getElementById("loading").classList.remove("hidden");
 }
 function hideLoading() {
-  document.getElementById("loading").classList.remove("show");
+  document.getElementById("loading").classList.add("hidden");
 }
 
 function showNotification(message, type = "error") {
@@ -316,6 +316,7 @@ function renderPrizeList() {
     .map(p => `<li><span class="prize-icon">${p.icon}</span>${p.text}</li>`)
     .join("");
 }
+
 
 
 
