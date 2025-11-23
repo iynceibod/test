@@ -182,6 +182,7 @@ const prizes = [
 ];
 document.addEventListener("DOMContentLoaded", () => {
   renderPrizeList();
+  checkPendingPrize();
 });
 
 function openRoulette() {
@@ -199,6 +200,23 @@ function closeRoulette() {
   if (animationFrameId) cancelAnimationFrame(animationFrameId);
   isSpinning = false;
   if (timerInterval) clearInterval(timerInterval);
+}
+
+function checkPendingPrize() {
+    const savedPrizeJson = localStorage.getItem('pendingPrize');
+    
+    if (savedPrizeJson) {
+        const prize = JSON.parse(savedPrizeJson);
+        
+        const modal = document.getElementById("rouletteModal");
+        modal.classList.remove("hidden");
+        
+        const index = prizes.findIndex(p => p.text === prize.text);
+        
+        if (index !== -1) {
+            showResult(index);
+        }
+    }
 }
 
 function resetUI() {
@@ -369,8 +387,18 @@ function showResult(index) {
     const prize = prizes[index];
     const resultDiv = document.getElementById("rouletteResult");
     const spinBtn = document.getElementById("spinButton");
+    const closeBtn = document.querySelector(".spin-close"); 
+
+    const cooldownTime = 24 * 60 * 60 * 1000; 
+    const nextSpin = Date.now() + cooldownTime;
+    
+    if (!localStorage.getItem('pendingPrize')) {
+        localStorage.setItem('nextSpinTime', nextSpin);
+        localStorage.setItem('pendingPrize', JSON.stringify(prize));
+    }
 
     spinBtn.style.display = "none";
+    if (closeBtn) closeBtn.style.display = "none"; 
 
     resultDiv.innerHTML = `
         <div style="display:flex; flex-direction:column; align-items:center; justify-content:center;">
@@ -386,7 +414,8 @@ function showResult(index) {
             <span style="color: #fff; font-size: 15px; font-weight: 700; margin-bottom: 15px; letter-spacing: 0.5px;">
                 ${prize.text}
             </span>
-              <button onclick="claimPrize('${prize.text}')" 
+
+            <button onclick="claimPrize()" 
                 style="
                     background: linear-gradient(90deg, #4477ff, #3366ff);
                     border: none;
@@ -398,32 +427,39 @@ function showResult(index) {
                     cursor: pointer;
                     box-shadow: 0 4px 12px rgba(60, 100, 255, 0.3);
                     text-transform: uppercase;
+                    width: 100%;
                 ">
-                ЗАБРАТЬ
+                ЗАБРАТЬ ПРИЗ
             </button>
         </div>
     `;
 
     resultDiv.classList.add("visible");
-    resultDiv.classList.remove("hidden"); 
+    resultDiv.classList.remove("hidden");
+    
+    checkCooldown();
 }
 
-function claimPrize(prizeText) {
-    const cooldownTime = 24 * 60 * 60 * 1000; 
-    const nextSpin = Date.now() + cooldownTime;
+function claimPrize() {
+    const savedPrizeJson = localStorage.getItem('pendingPrize');
     
-    localStorage.setItem('nextSpinTime', nextSpin);
-
-    if (tg) {
-        tg.sendData(JSON.stringify({
-            type: "shop_purchase",
-            item: "roulette_spin",
-            prize: prizeText 
-        }));
-        tg.close(); 
-    } else {
-        closeRoulette();
-        checkCooldown(); 
+    if (savedPrizeJson) {
+        const prize = JSON.parse(savedPrizeJson);
+        
+        if (tg) {
+            tg.sendData(JSON.stringify({
+                type: "shop_purchase",
+                item: "roulette_spin",
+                prize: prize.text 
+            }));
+            
+            localStorage.removeItem('pendingPrize'); 
+            tg.close();
+        } else {
+            localStorage.removeItem('pendingPrize');
+            closeRoulette();
+            document.querySelector(".spin-close").style.display = "block"; 
+        }
     }
 }
 function renderPrizeList() {
@@ -439,5 +475,6 @@ function renderPrizeList() {
         `)
         .join("");
 }
+
 
 
