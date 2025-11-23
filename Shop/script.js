@@ -24,17 +24,15 @@ function showNotification(message, type = "error") {
   setTimeout(() => n.classList.add("hidden"), 3000);
 }
 
-function adminReset() {
-    localStorage.removeItem('nextSpinTime'); // Удаляем метку времени
+// function adminReset() {
+//     localStorage.removeItem('nextSpinTime'); 
     
-    // Останавливаем таймер, если он тикает
-    if (timerInterval) clearInterval(timerInterval);
+//     if (timerInterval) clearInterval(timerInterval);
     
-    // Включаем кнопку
-    enableSpinButton();
+//     enableSpinButton();
     
-    alert("Таймер сброшен! Можно крутить.");
-}
+//     alert("Таймер сброшен");
+// }
 
 function buyItem(item, cost) {
   showLoading();
@@ -475,6 +473,7 @@ function renderPrizeList() {
         `)
         .join("");
 }
+
 
 
 
