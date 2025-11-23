@@ -155,6 +155,7 @@ let isSpinning = false;
 let rotation = 0;
 let spinVelocity = 0;
 let animationFrameId = null;
+let timerInterval = null;
 const spinDuration = 5000;
 
 const prizes = [
@@ -174,14 +175,18 @@ document.addEventListener("DOMContentLoaded", () => {
 function openRoulette() {
   const modal = document.getElementById("rouletteModal");
   modal.classList.remove("hidden");
+  
   drawRoulette();
   resetUI();
+  checkCooldown(); 
 }
 
 function closeRoulette() {
   document.getElementById("rouletteModal").classList.add("hidden");
-  cancelAnimationFrame(animationFrameId);
+  
+  if (animationFrameId) cancelAnimationFrame(animationFrameId);
   isSpinning = false;
+  if (timerInterval) clearInterval(timerInterval);
 }
 
 function resetUI() {
@@ -192,6 +197,62 @@ function resetUI() {
   
   btn.disabled = false;
   btn.style.display = "block";
+}
+
+function checkCooldown() {
+    const nextSpinTime = localStorage.getItem('nextSpinTime');
+    const btn = document.getElementById("spinButton");
+
+    if (!nextSpinTime) return false;
+
+    const now = Date.now();
+    const timeLeft = parseInt(nextSpinTime) - now;
+
+    if (timeLeft > 0) {
+        btn.disabled = true;
+        btn.classList.add('cooldown');
+        
+        updateTimerText(timeLeft);
+        
+        if (timerInterval) clearInterval(timerInterval);
+        
+        timerInterval = setInterval(() => {
+            const newTimeLeft = parseInt(nextSpinTime) - Date.now();
+            if (newTimeLeft <= 0) {
+                clearInterval(timerInterval);
+                enableSpinButton();
+            } else {
+                updateTimerText(newTimeLeft);
+            }
+        }, 1000);
+
+        return true;
+    } else {
+        enableSpinButton();
+        return false;
+    }
+}
+
+function updateTimerText(ms) {
+    const btn = document.getElementById("spinButton");
+    
+    const hours = Math.floor(ms / (1000 * 60 * 60));
+    const minutes = Math.floor((ms % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((ms % (1000 * 60)) / 1000);
+
+    const h = hours < 10 ? "0" + hours : hours;
+    const m = minutes < 10 ? "0" + minutes : minutes;
+    const s = seconds < 10 ? "0" + seconds : seconds;
+
+    btn.innerHTML = `Повтроное открытие: ${h}:${m}:${s}`;
+}
+
+function enableSpinButton() {
+    const btn = document.getElementById("spinButton");
+    btn.disabled = false;
+    btn.classList.remove('cooldown');
+    btn.innerHTML = "КРУТИТЬ";
+    localStorage.removeItem('nextSpinTime'); 
 }
 
 function drawRoulette() {
@@ -313,6 +374,21 @@ function showResult(index) {
             <span style="color: #fff; font-size: 15px; font-weight: 700; margin-bottom: 15px; letter-spacing: 0.5px;">
                 ${prize.text}
             </span>
+              <button onclick="claimPrize('${prize.text}')" 
+                style="
+                    background: linear-gradient(90deg, #4477ff, #3366ff);
+                    border: none;
+                    color: white;
+                    padding: 8px 24px;
+                    border-radius: 8px;
+                    font-size: 12px;
+                    font-weight: 700;
+                    cursor: pointer;
+                    box-shadow: 0 4px 12px rgba(60, 100, 255, 0.3);
+                    text-transform: uppercase;
+                ">
+                ЗАБРАТЬ
+            </button>
         </div>
     `;
 
@@ -321,6 +397,11 @@ function showResult(index) {
 }
 
 function claimPrize(prizeText) {
+    const cooldownTime = 24 * 60 * 60 * 1000; 
+    const nextSpin = Date.now() + cooldownTime;
+    
+    localStorage.setItem('nextSpinTime', nextSpin);
+
     if (tg) {
         tg.sendData(JSON.stringify({
             type: "shop_purchase",
@@ -330,6 +411,7 @@ function claimPrize(prizeText) {
         tg.close(); 
     } else {
         closeRoulette();
+        checkCooldown(); 
     }
 }
 function renderPrizeList() {
