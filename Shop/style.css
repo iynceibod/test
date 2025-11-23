@@ -418,6 +418,19 @@ body {
   box-shadow: none;
 }
 
+
+.spin-button.cooldown {
+    background: #222;
+    color: #888;
+    cursor: not-allowed;
+    box-shadow: none;
+    border: 1px solid #333;
+}
+.spin-button.cooldown:hover {
+    filter: none;
+    box-shadow: none;
+}
+
 .roulette-result {
   margin: 14px 0;
   font-weight: 800;
