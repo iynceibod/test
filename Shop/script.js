@@ -132,7 +132,6 @@ function buyRole() {
     }, 500);
 }
 
-// Обработчики Enter для форм
 document.getElementById('newNickname').addEventListener('keypress', function(e) {
     if (e.key === 'Enter') {
         buyNickname();
@@ -159,17 +158,15 @@ let animationFrameId = null;
 const spinDuration = 5000;
 
 const prizes = [
-  { text: "500 DP", icon: "💰", weight: 100 },
-  { text: "1000 DP", icon: "💵", weight: 50 },
-  { text: "50 баллов", icon: "📅", weight: 30 },
-  { text: "1 предупреждение", icon: "⭐", weight: 10 },
-  { text: "Снятие любого наказания", icon: "🔓", weight: 3 },
-  { text: "Отсутствие нормы на неделю", icon: "📅", weight: 2 },
-  { text: "Персональная роль", icon: "🎭", weight: 2 },
-  { text: "Понижение", icon: "📉", weight: 1 }
+    { text: "500 DP", weight: 100, icon: "fa-solid fa-coins" },
+    { text: "1000 DP", weight: 50, icon: "fa-solid fa-sack-dollar" },
+    { text: "50 баллов", weight: 30, icon: "fa-solid fa-star" },
+    { text: "+1 предупреждение", weight: 10, icon: "fa-solid fa-triangle-exclamation" },
+    { text: "Снятие любого наказания", weight: 3, icon: "fa-solid fa-handcuffs" },
+    { text: "Отсутствие нормы на неделю", weight: 2, icon: "fa-solid fa-calendar-xmark" },
+    { text: "Персональная роль", weight: 2, icon: "fa-solid fa-user-tag" },
+    { text: "Понижение", weight: 1, icon: "fa-solid fa-arrow-trend-down" }
 ];
-
-
 document.addEventListener("DOMContentLoaded", () => {
   renderPrizeList();
 });
@@ -188,8 +185,11 @@ function closeRoulette() {
 }
 
 function resetUI() {
-  document.getElementById("rouletteResult").classList.add("hidden");
+  const resultDiv = document.getElementById("rouletteResult");
   const btn = document.getElementById("spinButton");
+  
+  resultDiv.classList.remove("visible");
+  
   btn.disabled = false;
   btn.style.display = "block";
 }
@@ -293,33 +293,56 @@ function spinRoulette() {
 }
 
 function showResult(index) {
-  const prize = prizes[index];
-  const resultDiv = document.getElementById("rouletteResult");
-  resultDiv.innerHTML = `
-    <div style="display:flex;align-items:center;justify-content:center;gap:8px;">
-      <span style="font-size:20px;">${prize.icon}</span>
-      <span>${prize.text}</span>
-    </div>`;
-  resultDiv.classList.remove("hidden");
-  document.getElementById("spinButton").style.display = "none";
-  
-  setTimeout(() => {
-    tg.sendData(JSON.stringify({
-      type: "shop_purchase",
-      item: "roulette_spin",
-      prize: `${prize.icon} ${prize.text}`
-    }));
-  }, 1000);
+    const prize = prizes[index];
+    const resultDiv = document.getElementById("rouletteResult");
+    const spinBtn = document.getElementById("spinButton");
+
+    spinBtn.style.display = "none";
+
+    resultDiv.innerHTML = `
+        <div style="display:flex; flex-direction:column; align-items:center; justify-content:center;">
+            
+            <div style="font-size: 32px; color: #5d8aff; margin-bottom: 10px; filter: drop-shadow(0 0 10px rgba(93, 138, 255, 0.4));">
+                <i class="${prize.icon}"></i>
+            </div>
+            
+            <span style="color: #888; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;">
+                Вам выпало:
+            </span>
+            
+            <span style="color: #fff; font-size: 15px; font-weight: 700; margin-bottom: 15px; letter-spacing: 0.5px;">
+                ${prize.text}
+            </span>
+        </div>
+    `;
+
+    resultDiv.classList.add("visible");
+    resultDiv.classList.remove("hidden"); 
 }
 
+function claimPrize(prizeText) {
+    if (tg) {
+        tg.sendData(JSON.stringify({
+            type: "shop_purchase",
+            item: "roulette_spin",
+            prize: prizeText 
+        }));
+        tg.close(); 
+    } else {
+        closeRoulette();
+    }
+}
 function renderPrizeList() {
-  const list = document.getElementById("prizeList");
-  list.innerHTML = prizes
-    .map(p => `<li><span class="prize-icon">${p.icon}</span>${p.text}</li>`)
-    .join("");
+    const list = document.getElementById("prizeList");
+    list.innerHTML = prizes
+        .map(p => `
+            <li>
+                <span class="prize-icon">
+                    <i class="${p.icon}"></i>
+                </span>
+                ${p.text}
+            </li>
+        `)
+        .join("");
 }
-
-
-
-
 
