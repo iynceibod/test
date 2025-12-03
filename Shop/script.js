@@ -174,9 +174,9 @@ const prizes = [
     { text: "50 баллов", weight: 30, icon: "fa-solid fa-star" },
     { text: "+1 предупреждение", weight: 10, icon: "fa-solid fa-triangle-exclamation" },
     { text: "Снятие любого наказания", weight: 3, icon: "fa-solid fa-handcuffs" },
-    { text: "Отсутствие нормы на неделю", weight: 2, icon: "fa-solid fa-calendar-xmark" },
+    { text: "Отсутствие нормы на неделю", weight: 1, icon: "fa-solid fa-calendar-xmark" },
     { text: "Персональная роль", weight: 2, icon: "fa-solid fa-user-tag" },
-    { text: "Понижение", weight: 1, icon: "fa-solid fa-arrow-trend-down" }
+    { text: "Понижение", weight: 0.01, icon: "fa-solid fa-arrow-trend-down" }
 ];
 document.addEventListener("DOMContentLoaded", () => {
   renderPrizeList();
@@ -473,6 +473,7 @@ function renderPrizeList() {
         `)
         .join("");
 }
+
 
 
 
