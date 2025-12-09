@@ -386,9 +386,7 @@ function showResult(index) {
     const resultDiv = document.getElementById("rouletteResult");
     const spinBtn = document.getElementById("spinButton");
     const closeBtn = document.querySelector(".spin-close");
-
-    spinBtn.style.display = "none";
-    if (closeBtn) closeBtn.style.display = "none";
+    const autoClaimDelay = 6000; // 6 секунд
 
     const cooldownTime = 24 * 60 * 60 * 1000;
     const nextSpin = Date.now() + cooldownTime;
@@ -397,6 +395,9 @@ function showResult(index) {
         localStorage.setItem('nextSpinTime', nextSpin);
         localStorage.setItem('pendingPrize', JSON.stringify(prize));
     }
+
+    spinBtn.style.display = "none";
+    if (closeBtn) closeBtn.style.display = "none";
 
     resultDiv.innerHTML = `
         <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; animation: fadeIn 0.5s;">
@@ -413,28 +414,12 @@ function showResult(index) {
                 ${prize.text}
             </span>
 
-            <button id="claimBtn" onclick="claimPrize()" 
-                style="
-                    background: linear-gradient(90deg, #4477ff, #3366ff);
-                    border: none;
-                    color: white;
-                    padding: 12px 30px;
-                    border-radius: 12px;
-                    font-size: 14px;
-                    font-weight: 700;
-                    cursor: pointer;
-                    box-shadow: 0 4px 15px rgba(60, 100, 255, 0.4);
-                    text-transform: uppercase;
-                    width: 100%;
-                    max-width: 200px;
-                    transition: transform 0.1s;
-                ">
-                ЗАБРАТЬ ПРИЗ
-            </button>
-            
-            <div id="autoLoading" style="margin-top:10px; font-size: 10px; color: #666; display: block;">
-                Обработка...
+            <div style="width: 100%; background: #222; height: 4px; border-radius: 2px; overflow: hidden; position: relative;">
+                <div id="autoClaimProgress" style="width: 100%; height: 100%; background: #4477ff; transition: width 6s linear;"></div>
             </div>
+            <span id="autoStatus" style="color: #555; font-size: 10px; margin-top: 8px;">
+                Приз выдан автоматически.
+            </span>
         </div>
     `;
 
@@ -444,26 +429,18 @@ function showResult(index) {
     checkCooldown();
 
     setTimeout(() => {
-        const btn = document.getElementById("claimBtn");
-        if (btn) {
-            btn.click(); 
-            
-            setTimeout(() => {
-                const loadingText = document.getElementById("autoLoading");
-                if (loadingText) loadingText.innerHTML = "Нажмите кнопку выше, чтобы забрать";
-            }, 1000);
-        }
-    }, 1500);
+        const bar = document.getElementById("autoClaimProgress");
+        if(bar) bar.style.width = "0%";
+    }, 50);
+
+    setTimeout(() => {
+        claimPrize();
+    }, autoClaimDelay); 
 }
 
 function claimPrize() {
     const savedPrizeJson = localStorage.getItem('pendingPrize');
-    const btn = document.getElementById("claimBtn");
-    
-    if (btn) {
-        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> ОТПРАВКА...';
-        btn.disabled = true;
-    }
+    const statusText = document.getElementById("autoStatus");
 
     if (savedPrizeJson) {
         const prize = JSON.parse(savedPrizeJson);
@@ -478,22 +455,17 @@ function claimPrize() {
                 
                 localStorage.removeItem('pendingPrize');
                 
-                setTimeout(() => tg.close(), 100);
+                if (statusText) statusText.innerHTML = "✅ Приз зачислен.";
+                setTimeout(() => tg.close(), 500);
                 
             } catch (e) {
-                alert("Ошибка связи с Telegram: " + e.message);
-                if (btn) {
-                    btn.innerHTML = "ПОВТОРИТЬ";
-                    btn.disabled = false;
-                }
+                if (statusText) statusText.innerHTML = "❌ ОШИБКА АВТО-ОТПРАВКИ! (См. консоль)";
             }
         } else {
             localStorage.removeItem('pendingPrize');
-            
-            document.getElementById("rouletteModal").classList.add("hidden");
-            document.getElementById("rouletteResult").classList.remove("visible");
+            if (statusText) statusText.innerHTML = "✅ Приз зачислен.";
+            closeRoulette();
             document.querySelector(".spin-close").style.display = "block";
-            
         }
     }
 }
@@ -511,6 +483,7 @@ function renderPrizeList() {
         `)
         .join("");
 }
+
 
 
 
