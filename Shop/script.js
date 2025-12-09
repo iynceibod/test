@@ -385,9 +385,9 @@ function showResult(index) {
     const prize = prizes[index];
     const resultDiv = document.getElementById("rouletteResult");
     const spinBtn = document.getElementById("spinButton");
-    const closeBtn = document.querySelector(".spin-close"); 
+    const closeBtn = document.querySelector(".spin-close");
 
-    const cooldownTime = 24 * 60 * 60 * 1000; 
+    const cooldownTime = 24 * 60 * 60 * 1000;
     const nextSpin = Date.now() + cooldownTime;
     
     if (!localStorage.getItem('pendingPrize')) {
@@ -396,39 +396,29 @@ function showResult(index) {
     }
 
     spinBtn.style.display = "none";
-    if (closeBtn) closeBtn.style.display = "none"; 
+    if (closeBtn) closeBtn.style.display = "none";
 
     resultDiv.innerHTML = `
-        <div style="display:flex; flex-direction:column; align-items:center; justify-content:center;">
+        <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; animation: fadeIn 0.5s;">
             
-            <div style="font-size: 32px; color: #5d8aff; margin-bottom: 10px; filter: drop-shadow(0 0 10px rgba(93, 138, 255, 0.4));">
-                <i class="${prize.icon}"></i>
+            <div style="font-size: 40px; color: #5d8aff; margin-bottom: 15px; filter: drop-shadow(0 0 15px rgba(93, 138, 255, 0.6));">
+                <i class="${prize.icon} fa-bounce"></i>
             </div>
             
-            <span style="color: #888; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;">
+            <span style="color: #888; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px;">
                 Вам выпало:
             </span>
             
-            <span style="color: #fff; font-size: 15px; font-weight: 700; margin-bottom: 15px; letter-spacing: 0.5px;">
+            <span style="color: #fff; font-size: 22px; font-weight: 800; margin-bottom: 20px; letter-spacing: 0.5px; text-align: center;">
                 ${prize.text}
             </span>
 
-            <button onclick="claimPrize()" 
-                style="
-                    background: linear-gradient(90deg, #4477ff, #3366ff);
-                    border: none;
-                    color: white;
-                    padding: 8px 24px;
-                    border-radius: 8px;
-                    font-size: 12px;
-                    font-weight: 700;
-                    cursor: pointer;
-                    box-shadow: 0 4px 12px rgba(60, 100, 255, 0.3);
-                    text-transform: uppercase;
-                    width: 100%;
-                ">
-                ЗАБРАТЬ ПРИЗ
-            </button>
+            <div style="width: 100%; background: #222; height: 4px; border-radius: 2px; overflow: hidden; position: relative;">
+                <div id="autoClaimProgress" style="width: 100%; height: 100%; background: #4477ff; transition: width 3s linear;"></div>
+            </div>
+            <span style="color: #555; font-size: 10px; margin-top: 8px;">
+                Автоматическая выдача...
+            </span>
         </div>
     `;
 
@@ -436,6 +426,15 @@ function showResult(index) {
     resultDiv.classList.remove("hidden");
     
     checkCooldown();
+
+    setTimeout(() => {
+        const bar = document.getElementById("autoClaimProgress");
+        if(bar) bar.style.width = "0%";
+    }, 50);
+
+    setTimeout(() => {
+        claimPrize();
+    }, 3000); 
 }
 
 function claimPrize() {
@@ -444,22 +443,24 @@ function claimPrize() {
     if (savedPrizeJson) {
         const prize = JSON.parse(savedPrizeJson);
         
-        if (tg) {
-            tg.sendData(JSON.stringify({
+        localStorage.removeItem('pendingPrize'); 
+
+        if (window.tg && window.tg.sendData) { 
+            window.tg.sendData(JSON.stringify({
                 type: "shop_purchase",
                 item: "roulette_spin",
                 prize: prize.text 
             }));
-            
-            localStorage.removeItem('pendingPrize'); 
-            tg.close();
+
+             setTimeout(() => window.tg.close(), 100);
         } else {
-            localStorage.removeItem('pendingPrize');
             closeRoulette();
-            document.querySelector(".spin-close").style.display = "block"; 
+            document.querySelector(".spin-close").style.display = "block";
+            alert(`[DEBUG] Отправлено боту: ${prize.text}`);
         }
     }
 }
+
 function renderPrizeList() {
     const list = document.getElementById("prizeList");
     list.innerHTML = prizes
@@ -473,6 +474,7 @@ function renderPrizeList() {
         `)
         .join("");
 }
+
 
 
 
