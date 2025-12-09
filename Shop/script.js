@@ -387,6 +387,9 @@ function showResult(index) {
     const spinBtn = document.getElementById("spinButton");
     const closeBtn = document.querySelector(".spin-close");
 
+    spinBtn.style.display = "none";
+    if (closeBtn) closeBtn.style.display = "none";
+
     const cooldownTime = 24 * 60 * 60 * 1000;
     const nextSpin = Date.now() + cooldownTime;
     
@@ -395,30 +398,43 @@ function showResult(index) {
         localStorage.setItem('pendingPrize', JSON.stringify(prize));
     }
 
-    spinBtn.style.display = "none";
-    if (closeBtn) closeBtn.style.display = "none";
-
     resultDiv.innerHTML = `
         <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; animation: fadeIn 0.5s;">
             
-            <div style="font-size: 40px; color: #5d8aff; margin-bottom: 15px; filter: drop-shadow(0 0 15px rgba(93, 138, 255, 0.6));">
-                <i class="${prize.icon} fa-bounce"></i>
+            <div style="font-size: 48px; color: #5d8aff; margin-bottom: 15px; filter: drop-shadow(0 0 20px rgba(93, 138, 255, 0.5));">
+                <i class="${prize.icon}"></i>
             </div>
             
-            <span style="color: #888; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px;">
-                Вам выпало:
+            <span style="color: #aaa; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px;">
+                Вы выиграли:
             </span>
             
-            <span style="color: #fff; font-size: 22px; font-weight: 800; margin-bottom: 20px; letter-spacing: 0.5px; text-align: center;">
+            <span style="color: #fff; font-size: 24px; font-weight: 800; margin-bottom: 25px; text-align: center; text-shadow: 0 2px 4px rgba(0,0,0,0.5);">
                 ${prize.text}
             </span>
 
-            <div style="width: 100%; background: #222; height: 4px; border-radius: 2px; overflow: hidden; position: relative;">
-                <div id="autoClaimProgress" style="width: 100%; height: 100%; background: #4477ff; transition: width 3s linear;"></div>
+            <button id="claimBtn" onclick="claimPrize()" 
+                style="
+                    background: linear-gradient(90deg, #4477ff, #3366ff);
+                    border: none;
+                    color: white;
+                    padding: 12px 30px;
+                    border-radius: 12px;
+                    font-size: 14px;
+                    font-weight: 700;
+                    cursor: pointer;
+                    box-shadow: 0 4px 15px rgba(60, 100, 255, 0.4);
+                    text-transform: uppercase;
+                    width: 100%;
+                    max-width: 200px;
+                    transition: transform 0.1s;
+                ">
+                ЗАБРАТЬ ПРИЗ
+            </button>
+            
+            <div id="autoLoading" style="margin-top:10px; font-size: 10px; color: #666; display: block;">
+                Обработка...
             </div>
-            <span style="color: #555; font-size: 10px; margin-top: 8px;">
-                Приз выдан автоматически.
-            </span>
         </div>
     `;
 
@@ -428,35 +444,56 @@ function showResult(index) {
     checkCooldown();
 
     setTimeout(() => {
-        const bar = document.getElementById("autoClaimProgress");
-        if(bar) bar.style.width = "0%";
-    }, 50);
-
-    setTimeout(() => {
-        claimPrize();
-    }, 3000); 
+        const btn = document.getElementById("claimBtn");
+        if (btn) {
+            btn.click(); 
+            
+            setTimeout(() => {
+                const loadingText = document.getElementById("autoLoading");
+                if (loadingText) loadingText.innerHTML = "Нажмите кнопку выше, чтобы забрать";
+            }, 1000);
+        }
+    }, 1500);
 }
 
 function claimPrize() {
     const savedPrizeJson = localStorage.getItem('pendingPrize');
+    const btn = document.getElementById("claimBtn");
     
+    if (btn) {
+        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> ОТПРАВКА...';
+        btn.disabled = true;
+    }
+
     if (savedPrizeJson) {
         const prize = JSON.parse(savedPrizeJson);
         
-        localStorage.removeItem('pendingPrize'); 
-
-        if (window.tg && window.tg.sendData) { 
-            window.tg.sendData(JSON.stringify({
-                type: "shop_purchase",
-                item: "roulette_spin",
-                prize: prize.text 
-            }));
-
-             setTimeout(() => window.tg.close(), 100);
+        if (tg && tg.sendData) {
+            try {
+                tg.sendData(JSON.stringify({
+                    type: "shop_purchase",
+                    item: "roulette_spin",
+                    prize: prize.text 
+                }));
+                
+                localStorage.removeItem('pendingPrize');
+                
+                setTimeout(() => tg.close(), 100);
+                
+            } catch (e) {
+                alert("Ошибка связи с Telegram: " + e.message);
+                if (btn) {
+                    btn.innerHTML = "ПОВТОРИТЬ";
+                    btn.disabled = false;
+                }
+            }
         } else {
-            closeRoulette();
+            localStorage.removeItem('pendingPrize');
+            
+            document.getElementById("rouletteModal").classList.add("hidden");
+            document.getElementById("rouletteResult").classList.remove("visible");
             document.querySelector(".spin-close").style.display = "block";
-            alert(`[DEBUG] Отправлено боту: ${prize.text}`);
+            
         }
     }
 }
@@ -474,6 +511,7 @@ function renderPrizeList() {
         `)
         .join("");
 }
+
 
 
 
