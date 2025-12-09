@@ -417,7 +417,7 @@ function showResult(index) {
                 <div id="autoClaimProgress" style="width: 100%; height: 100%; background: #4477ff; transition: width 3s linear;"></div>
             </div>
             <span style="color: #555; font-size: 10px; margin-top: 8px;">
-                Автоматическая выдача...
+                Приз выдан автоматически.
             </span>
         </div>
     `;
@@ -474,6 +474,7 @@ function renderPrizeList() {
         `)
         .join("");
 }
+
 
 
 
