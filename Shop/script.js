@@ -24,15 +24,15 @@ function showNotification(message, type = "error") {
   setTimeout(() => n.classList.add("hidden"), 3000);
 }
 
-// function adminReset() {
-//     localStorage.removeItem('nextSpinTime'); 
+function adminReset() {
+    localStorage.removeItem('nextSpinTime'); 
     
-//     if (timerInterval) clearInterval(timerInterval);
+    if (timerInterval) clearInterval(timerInterval);
     
-//     enableSpinButton();
+    enableSpinButton();
     
-//     alert("Таймер сброшен");
-// }
+    alert("Таймер сброшен");
+}
 
 function buyItem(item, cost) {
   showLoading();
@@ -474,6 +474,7 @@ function renderPrizeList() {
         `)
         .join("");
 }
+
 
 
 
